@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SENORPP | Fichas de material</title>
+  <title>SENORP | Fichas de material</title>
   <style>
     :root {
       color-scheme: light;
@@ -59,6 +59,11 @@
       min-height: 100vh;
       display: grid;
       grid-template-columns: 270px minmax(0, 1fr);
+      transition: grid-template-columns .22s ease;
+    }
+
+    .app.sidebar-collapsed {
+      grid-template-columns: 78px minmax(0, 1fr);
     }
 
     .sidebar {
@@ -68,6 +73,15 @@
       display: flex;
       flex-direction: column;
       gap: 18px;
+      min-width: 0;
+      overflow: hidden;
+      transition: padding .22s ease, opacity .18s ease;
+    }
+
+    .app.sidebar-collapsed .sidebar {
+      padding: 14px 10px;
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .brand {
@@ -79,12 +93,51 @@
       border-bottom: 1px solid var(--line);
     }
 
+    .sidebar-collapse {
+      justify-self: end;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--muted);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .sidebar-collapse:hover {
+      color: var(--ink);
+      border-color: var(--hover-line);
+    }
+
+    .sidebar-collapse svg,
+    .sidebar-restore svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .brand img {
-      width: 168px;
-      height: 112px;
+      width: 220px;
+      height: 146px;
       object-fit: contain;
       filter: none;
       transition: filter .2s ease, transform .2s ease;
+      cursor: pointer;
+    }
+
+    .brand-mini {
+      display: none;
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: 10px;
     }
 
     [data-theme="dark"] .brand img {
@@ -99,6 +152,45 @@
       line-height: 1.25;
       text-transform: uppercase;
       letter-spacing: .04em;
+    }
+
+    .app.sidebar-collapsed .brand {
+      justify-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+    }
+
+    .app.sidebar-collapsed .brand > img:not(.brand-mini),
+    .app.sidebar-collapsed .brand div {
+      display: none;
+    }
+
+    .app.sidebar-collapsed .brand-mini {
+      display: block;
+      width: 34px;
+      height: 34px;
+    }
+
+    .app.home-active .brand > img,
+    .app.home-active .brand div {
+      display: none;
+    }
+
+    .app.home-active .brand {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .app.home-active .sidebar-collapse {
+      cursor: default;
+      opacity: .45;
+    }
+
+    .app.sidebar-collapsed .sidebar-collapse {
+      justify-self: center;
+      transform: rotate(180deg);
+      width: 34px;
+      height: 34px;
     }
 
     .nav {
@@ -124,6 +216,10 @@
       transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
     }
 
+    .nav-label {
+      min-width: 0;
+    }
+
     .nav svg {
       width: 20px;
       height: 20px;
@@ -133,6 +229,38 @@
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+
+    .app.sidebar-collapsed .nav button {
+      justify-content: center;
+      min-height: 48px;
+      padding: 8px;
+      text-align: center;
+      transform: none;
+      position: relative;
+    }
+
+    .app.sidebar-collapsed .nav-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .app.sidebar-collapsed .nav svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .app.sidebar-collapsed .badge {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      min-width: 18px;
+      padding: 1px 5px;
+      font-size: 10px;
     }
 
     .nav button:hover {
@@ -307,6 +435,47 @@
     .main {
       min-width: 0;
       padding: 26px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-restore {
+      position: fixed;
+      left: 14px;
+      top: 14px;
+      z-index: 20;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      display: none;
+      place-items: center;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .app.sidebar-collapsed + .sidebar-restore {
+      display: none;
+    }
+
+    .app.sidebar-collapsed .sidebar-tools {
+      grid-template-columns: 1fr;
+    }
+
+    .app.sidebar-collapsed .settings-button {
+      width: 52px;
+      height: 52px;
+      justify-self: center;
+    }
+
+    .app.sidebar-collapsed .watermark {
+      font-size: 9px;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      justify-self: center;
     }
 
     .topbar {
@@ -403,6 +572,125 @@
 
     .page { display: none; }
     .page.active { display: block; }
+
+    .home-hero {
+      flex: 1;
+      min-height: calc(100vh - 118px);
+      display: grid;
+      align-content: center;
+      gap: 28px;
+    }
+
+    .home-heading {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+      text-align: center;
+      max-width: 760px;
+      margin-inline: auto;
+    }
+
+    .home-heading img {
+      width: min(360px, 72vw);
+      height: auto;
+      object-fit: contain;
+    }
+
+    [data-theme="dark"] .home-heading img {
+      filter: invert(1) hue-rotate(180deg) contrast(1.08) saturate(1.15);
+    }
+
+    .home-heading h1 {
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: .98;
+    }
+
+    .home-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      max-width: 920px;
+      width: 100%;
+      margin-inline: auto;
+    }
+
+    .home-card {
+      aspect-ratio: 1 / 1;
+      min-height: 0;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      cursor: pointer;
+      text-align: left;
+      display: grid;
+      align-content: space-between;
+      gap: 20px;
+      min-width: 0;
+      touch-action: manipulation;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .home-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(224, 0, 27, .34);
+      background: color-mix(in srgb, var(--paper) 84%, var(--soft-red));
+    }
+
+    .home-card-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--soft-red);
+      color: var(--red);
+    }
+
+    .home-card-icon svg {
+      width: 38px;
+      height: 38px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .home-card strong {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .home-card span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .home-card-meta {
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .watermark {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      opacity: .62;
+      white-space: nowrap;
+      align-self: center;
+    }
 
     .panel {
       background: var(--paper);
@@ -674,7 +962,7 @@
 
     .inventory-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 16px;
     }
 
@@ -698,6 +986,47 @@
 
     .inventory-tabs.active {
       display: grid;
+    }
+
+    .inventory-toolbar {
+      display: grid;
+      grid-template-columns: minmax(260px, 520px) minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .search-field {
+      position: relative;
+      min-width: 0;
+    }
+
+    .search-field svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      transform: translateY(-50%);
+      stroke: var(--muted);
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .search-field input {
+      padding-left: 40px;
+      min-height: 48px;
+      font-weight: 700;
+    }
+
+    .inventory-result-count {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-align: right;
     }
 
     .inventory-tabs button {
@@ -1041,7 +1370,8 @@
     .print-preview { display: none; }
 
     @media (max-width: 900px) {
-      .app { grid-template-columns: 1fr; }
+      .app,
+      .app.sidebar-collapsed { grid-template-columns: 1fr; }
       .sidebar {
         position: sticky;
         top: 0;
@@ -1051,20 +1381,47 @@
         padding: 10px;
         gap: 10px;
       }
+      .app.sidebar-collapsed .sidebar {
+        display: flex;
+        padding: 10px;
+      }
       .brand {
         display: grid;
-        grid-template-columns: 92px 1fr;
+        grid-template-columns: minmax(0, 1fr) 42px;
         justify-items: start;
         text-align: left;
         padding-bottom: 10px;
       }
-      .brand img { width: 92px; height: 62px; }
+      .brand img { width: min(240px, 72vw); height: 92px; justify-self: center; }
+      .brand-mini { width: 44px; height: 44px; justify-self: center; }
+      .brand div { grid-column: 1 / -1; }
+      .sidebar-collapse { grid-column: 2; grid-row: 1; align-self: start; }
+      .app.sidebar-collapsed .brand {
+        grid-template-columns: 1fr;
+        justify-items: end;
+        border-bottom: 0;
+        padding-bottom: 0;
+        gap: 4px;
+      }
+      .app.sidebar-collapsed .brand-mini { display: none; }
+      .app.sidebar-collapsed .sidebar-collapse {
+        grid-column: auto;
+        grid-row: auto;
+        justify-self: end;
+      }
       .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .nav button {
         justify-content: center;
         text-align: center;
         padding: 8px 6px;
         transform: none;
+      }
+      .nav button {
+        flex-direction: column;
+        gap: 5px;
+      }
+      .app.sidebar-collapsed .nav button {
+        min-height: 54px;
       }
       .nav button.active { transform: none; }
       .theme-toggle {
@@ -1089,7 +1446,10 @@
       .main { padding: 16px; }
       .topbar, .ficha { grid-template-columns: 1fr; display: grid; }
       .actions { justify-content: flex-start; }
-      .form-grid, .inventory-grid, .settings-grid { grid-template-columns: 1fr; }
+      .form-grid, .inventory-grid, .settings-grid, .inventory-toolbar, .home-actions { grid-template-columns: 1fr; }
+      .home-hero { min-height: auto; align-content: start; }
+      .home-card { aspect-ratio: auto; min-height: 180px; }
+      .inventory-result-count { text-align: left; }
       .tabs { grid-template-columns: 1fr; }
       .tabs button { border-right: 0; border-bottom: 1px solid var(--line); }
       .tabs button:last-child { border-bottom: 0; }
@@ -1140,8 +1500,7 @@
       td:nth-child(1)::before { content: "Material"; }
       td:nth-child(2)::before { content: "Modelo"; }
       td:nth-child(3)::before { content: "Cantidad"; }
-      td:nth-child(4)::before { content: "Estado"; }
-      td:nth-child(5)::before { content: "Notas"; }
+      td:nth-child(4)::before { content: "Notas"; }
       td:nth-child(6)::before { content: ""; }
       .inventory-grid td:nth-child(2)::before { content: "Modelo"; }
       .inventory-grid td:nth-child(3)::before { content: "Stock"; }
@@ -1295,36 +1654,37 @@
     </div>
   </div>
 
-  <div class="app">
+  <div class="app home-active">
     <aside class="sidebar">
       <div class="brand">
-        <img src="logo-transparent.png" alt="SENORPP">
+        <button class="sidebar-collapse" type="button" onclick="toggleSidebar()" aria-label="Ocultar barra lateral" title="Ocultar barra lateral">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+        <img src="logo-transparent.png" alt="SENORP" onclick="showPage('home')" title="Inicio">
+        <img class="brand-mini" src="logo-mini.png" alt="SENORP" onclick="showPage('home')" title="Inicio">
         <div>
           <span>Fichas de salida de material</span>
         </div>
       </div>
 
       <nav class="nav" aria-label="Principal">
-        <button class="active" id="nav-nueva" onclick="showPage('nueva')">Nuevo bolo</button>
-        <button id="nav-fichas" onclick="showPage('fichas')">Bolos guardados <span class="badge" id="fichas-count">0</span></button>
-        <button id="nav-inventario" onclick="showPage('inventario')">Inventario</button>
+        <button id="nav-nueva" onclick="showPage('nueva')" aria-label="Nuevo bolo" title="Nuevo bolo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 18v-6"></path><path d="M9 15h6"></path></svg>
+          <span class="nav-label">NUEVO BOLO</span>
+        </button>
+        <button id="nav-fichas" onclick="showPage('fichas')" aria-label="Bolos guardados" title="Bolos guardados">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18"></path><path d="M5 7v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7"></path><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M9 13h6"></path><path d="M9 17h4"></path></svg>
+          <span class="nav-label">BOLOS GUARDADOS</span>
+          <span class="badge" id="fichas-count">0</span>
+        </button>
+        <button id="nav-inventario" onclick="showPage('inventario')" aria-label="Inventario" title="Inventario">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+          <span class="nav-label">INVENTARIO</span>
+        </button>
       </nav>
 
       <div class="sidebar-tools">
-        <div class="theme-toggle" aria-label="Tema visual">
-          <button id="theme-light" type="button" onclick="setTheme('light')" aria-label="Modo claro">
-            <span class="theme-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
-            </span>
-            <span class="theme-label">Claro</span>
-          </button>
-          <button id="theme-dark" type="button" onclick="setTheme('dark')" aria-label="Modo oscuro">
-            <span class="theme-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M20.5 14.3A8.2 8.2 0 0 1 9.7 3.5 8.6 8.6 0 1 0 20.5 14.3Z"></path></svg>
-            </span>
-            <span class="theme-label">Oscuro</span>
-          </button>
-        </div>
+        <span class="watermark">© POKIDJ</span>
         <button class="settings-button" id="nav-configuracion" onclick="showPage('configuracion')" aria-label="Configuración" title="Configuración">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.38a1.7 1.7 0 0 0-1 .9 1.7 1.7 0 0 0-.2.8V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.59 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.62 15a1.7 1.7 0 0 0-.9-1 1.7 1.7 0 0 0-.8-.2H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.59-1.1A1.7 1.7 0 0 0 4.34 6.8l-.06-.06A2 2 0 1 1 7.1 3.93l.06.06A1.7 1.7 0 0 0 9 4.62h.02a1.7 1.7 0 0 0 1-.9 1.7 1.7 0 0 0 .2-.8V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.1 1.59 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.38 9c.05.16.11.31.2.46a1.7 1.7 0 0 0 .9 1 1.7 1.7 0 0 0 .8.2H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51.34Z"></path></svg>
         </button>
@@ -1332,12 +1692,54 @@
     </aside>
 
     <main class="main">
-      <section class="page active" id="page-nueva">
+      <section class="page active" id="page-home">
+        <div class="home-hero">
+          <div class="home-heading">
+            <img src="logo-transparent.png" alt="SENORP">
+          </div>
+
+          <div class="home-actions">
+            <button class="home-card" type="button" onclick="showPage('nueva')">
+              <span class="home-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 18v-6"></path><path d="M9 15h6"></path></svg>
+              </span>
+              <span>
+                <strong>Nuevo bolo</strong>
+                <span>Crear una ficha de salida y preparar la carga de material.</span>
+              </span>
+              <span class="home-card-meta">Crear ficha</span>
+            </button>
+
+            <button class="home-card" type="button" onclick="showPage('fichas')">
+              <span class="home-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M3 7h18"></path><path d="M5 7v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7"></path><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M9 13h6"></path><path d="M9 17h4"></path></svg>
+              </span>
+              <span>
+                <strong>Bolos guardados</strong>
+                <span>Consultar, imprimir o eliminar fichas ya preparadas.</span>
+              </span>
+              <span class="home-card-meta" id="home-fichas-meta">0 bolos</span>
+            </button>
+
+            <button class="home-card" type="button" onclick="showPage('inventario')">
+              <span class="home-card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+              </span>
+              <span>
+                <strong>Inventario</strong>
+                <span>Revisar stock, modelos y estado del material disponible.</span>
+              </span>
+              <span class="home-card-meta" id="home-inventory-meta">0 modelos</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-nueva">
         <div class="topbar">
           <div>
             <div class="eyebrow">Nuevo bolo</div>
             <h1>Salida técnica del bolo</h1>
-            <div class="subtitle">Prepara sonido, iluminación e infraestructura y genera una hoja de carga imprimible.</div>
           </div>
           <div class="actions save-actions">
             <button class="btn" onclick="printCurrentBolo()">
@@ -1390,7 +1792,6 @@
           <div>
             <div class="eyebrow">Histórico</div>
             <h1>Bolos guardados</h1>
-            <div class="subtitle">Desde aquí puedes imprimir o eliminar salidas técnicas ya preparadas.</div>
           </div>
         </div>
         <div id="fichas-list"></div>
@@ -1400,8 +1801,7 @@
         <div class="topbar">
           <div>
             <div class="eyebrow">Base de datos</div>
-            <h1>Inventario base</h1>
-            <div class="subtitle">Consulta material, modelos y stock por categoría.</div>
+            <h1>Inventario</h1>
           </div>
           <div class="actions">
             <button class="btn" id="inventory-save-btn" onclick="saveInventoryChanges()" style="display:none">Guardar cambios</button>
@@ -1409,6 +1809,13 @@
           </div>
         </div>
 
+        <div class="inventory-toolbar">
+          <div class="search-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            <input id="inventory-search" type="search" placeholder="Buscar material, modelo, stock o estado..." oninput="setInventorySearch(this.value)">
+          </div>
+          <div class="inventory-result-count" id="inventory-result-count"></div>
+        </div>
         <div class="inventory-tabs" id="inventoryTabs"></div>
         <div class="inventory-grid" id="inventoryGrid"></div>
       </section>
@@ -1425,6 +1832,29 @@
         <div class="settings-grid">
           <div class="panel">
             <div class="panel-head">
+              <div class="panel-title">Apariencia</div>
+            </div>
+            <div class="panel-body sheet-help">
+              <div class="theme-toggle" aria-label="Tema visual">
+                <button id="theme-light" type="button" onclick="setTheme('light')" aria-label="Modo claro">
+                  <span class="theme-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                  </span>
+                  <span>Claro</span>
+                </button>
+                <button id="theme-dark" type="button" onclick="setTheme('dark')" aria-label="Modo oscuro">
+                  <span class="theme-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M20.5 14.3A8.2 8.2 0 0 1 9.7 3.5 8.6 8.6 0 1 0 20.5 14.3Z"></path></svg>
+                  </span>
+                  <span>Oscuro</span>
+                </button>
+              </div>
+              <p>El tema se guarda en este navegador.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
               <div class="panel-title">Google Sheets</div>
             </div>
             <div class="panel-body sheet-help">
@@ -1436,25 +1866,29 @@
                     <span id="cloud-status-note">Leyendo configuracion externa.</span>
                   </div>
                 </div>
-                <div class="cloud-source" id="cloud-source">Archivo: senorpp_config.js</div>
+                <div class="cloud-source" id="cloud-source">Archivo: senorp_config.js</div>
               </div>
               <div class="actions" style="justify-content:flex-start">
                 <button class="btn btn-primary" onclick="syncFromCloud()">Forzar carga de datos</button>
                 <button class="btn" onclick="forceSaveCloudData()">Guardar inventario ahora</button>
               </div>
-              <p>La conexion se define en <strong>senorpp_config.js</strong>. El HTML solo muestra el estado y permite forzar lectura o guardado.</p>
+              <p>La conexion se define en <strong>senorp_config.js</strong>. El HTML solo muestra el estado y permite forzar lectura o guardado.</p>
             </div>
           </div>
         </div>
       </section>
     </main>
   </div>
+  <button class="sidebar-restore" type="button" onclick="toggleSidebar()" aria-label="Mostrar barra lateral" title="Mostrar barra lateral">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+  </button>
 
-  <script src="senorpp_config.js"></script>
+  <script src="senorp_config.js"></script>
   <script>
-    const STORAGE_KEY = "senorpp_fichas_v2";
-    const THEME_KEY = "senorpp_theme";
-    const INVENTORY_KEY = "senorpp_inventory_v1";
+    const STORAGE_KEY = "senorp_fichas_v2";
+    const THEME_KEY = "senorp_theme";
+    const INVENTORY_KEY = "senorp_inventory_v1";
+    const SIDEBAR_KEY = "senorp_sidebar_collapsed";
 
     const categories = [
       { id: "sonido", label: "Sonido", addLabel: "Añadir sonido" },
@@ -1495,11 +1929,12 @@
 
     let fichas = [];
     let rowCounters = {};
-    let currentPage = "nueva";
+    let currentPage = "home";
     let lastSavedBoloSignature = "";
     let inventoryEditMode = false;
     let inventoryEditSnapshot = null;
     let activeInventoryCategory = "sonido";
+    let inventorySearch = "";
     let currentBulkType = "sonido";
     let cloudUrl = "";
     let inventorySyncTimer = null;
@@ -1507,6 +1942,7 @@
 
     async function init() {
       applyTheme(localStorage.getItem(THEME_KEY) || "light");
+      applySidebarState(true);
       categories.forEach(c => rowCounters[c.id] = 0);
       DB = normalizeInventory(readJson(INVENTORY_KEY, DB));
       fichas = readLocalDrafts();
@@ -1519,8 +1955,20 @@
       if (cloudUrl) await syncFromCloud({ silent: true });
     }
 
+    function toggleSidebar() {
+      if (currentPage === "home") return;
+      const collapsed = !document.querySelector(".app").classList.contains("sidebar-collapsed");
+      localStorage.setItem(SIDEBAR_KEY, String(collapsed));
+      applySidebarState(collapsed);
+    }
+
+    function applySidebarState(collapsed) {
+      const app = document.querySelector(".app");
+      app?.classList.toggle("sidebar-collapsed", collapsed);
+    }
+
     function getBuiltInCloudUrl() {
-      return String(window.SENORPP_CONFIG?.googleAppsScriptUrl || "").trim();
+      return String(window.SENORP_CONFIG?.googleAppsScriptUrl || "").trim();
     }
 
     function getConfiguredCloudUrl() {
@@ -1539,8 +1987,8 @@
       title.textContent = builtInUrl ? "Google Sheets conectado" : "Google Sheets sin configurar";
       note.textContent = builtInUrl
         ? "La app leera y guardara datos usando la URL definida fuera del HTML."
-        : "Falta poner la URL /exec en senorpp_config.js y subir ese archivo junto al HTML.";
-      source.textContent = "Archivo: senorpp_config.js";
+        : "Falta poner la URL /exec en senorp_config.js y subir ese archivo junto al HTML.";
+      source.textContent = "Archivo: senorp_config.js";
     }
 
     function cloneDb(db) {
@@ -1625,6 +2073,17 @@
 
     function updateCount() {
       document.getElementById("fichas-count").textContent = fichas.length;
+      renderHomeStats();
+    }
+
+    function renderHomeStats() {
+      const fichasMeta = document.getElementById("home-fichas-meta");
+      const inventoryMeta = document.getElementById("home-inventory-meta");
+      if (fichasMeta) fichasMeta.textContent = `${fichas.length} bolo${fichas.length === 1 ? "" : "s"}`;
+      if (inventoryMeta) {
+        const models = categories.reduce((total, cat) => total + (DB[cat.id] || []).reduce((sum, item) => sum + (item.modelos || []).length, 0), 0);
+        inventoryMeta.textContent = `${models} modelo${models === 1 ? "" : "s"}`;
+      }
     }
 
     async function showPage(page) {
@@ -1650,9 +2109,12 @@
       }
       document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
       document.querySelectorAll(".nav button, .settings-button").forEach(el => el.classList.remove("active"));
-      document.getElementById("page-" + page).classList.add("active");
-      document.getElementById("nav-" + page).classList.add("active");
+      document.getElementById("page-" + page)?.classList.add("active");
+      document.getElementById("nav-" + page)?.classList.add("active");
+      document.querySelector(".app")?.classList.toggle("home-active", page === "home");
+      applySidebarState(page === "home" ? true : localStorage.getItem(SIDEBAR_KEY) === "true");
       currentPage = page;
+      if (page === "home") renderHomeStats();
       if (page === "fichas") renderFichas();
       if (page === "inventario") renderInventory();
     }
@@ -1689,7 +2151,6 @@
                     <th>Material</th>
                     <th>Modelo</th>
                     <th>Cantidad</th>
-                    <th>Estado</th>
                     <th>Notas</th>
                     <th></th>
                   </tr>
@@ -1729,12 +2190,11 @@
             <span class="bulk-model-name">${escapeHtml(modelo.nombre)}</span>
             <div class="bulk-model-meta">
               <span class="mini-chip">Stock ${escapeHtml(modelo.stock)}</span>
-              <span class="mini-chip ${escapeAttr(modelo.estado)}">${estadoLabel(modelo.estado)}</span>
             </div>
           </div>
           <div class="number-stepper">
             <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
-            <input id="bulk-model-${index}" type="number" min="0" max="${escapeAttr(modelo.stock)}" inputmode="numeric" value="0" data-bulk-model="${escapeAttr(modelo.nombre)}" data-bulk-estado="${escapeAttr(modelo.estado)}" aria-label="Cantidad ${escapeAttr(modelo.nombre)}" ${index === 0 ? "autofocus" : ""}>
+            <input id="bulk-model-${index}" type="number" min="0" max="${escapeAttr(modelo.stock)}" inputmode="numeric" value="0" data-bulk-model="${escapeAttr(modelo.nombre)}" aria-label="Cantidad ${escapeAttr(modelo.nombre)}" ${index === 0 ? "autofocus" : ""}>
             <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
           </div>
           <button class="max-btn" type="button" onclick="setInputMax('bulk-model-${index}')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg> Todo</button>
@@ -1752,7 +2212,6 @@
       const selected = Array.from(document.querySelectorAll("[data-bulk-model]"))
         .map(input => ({
           modelo: input.dataset.bulkModel,
-          estado: input.dataset.bulkEstado || "ok",
           cantidad: Math.min(Number(input.max) || Infinity, Math.max(0, Number(input.value) || 0))
         }))
         .filter(row => row.cantidad > 0);
@@ -1766,7 +2225,6 @@
         nombre: material,
         modelo: row.modelo,
         cantidad: row.cantidad,
-        estado: row.estado,
         notas
       }));
       closeBulkDialog();
@@ -1787,10 +2245,6 @@
         .flatMap(item => item.modelos || []);
     }
 
-    function getModelState(tipo, nombre, modelo) {
-      return getModelEntries(tipo, nombre).find(m => m.nombre === modelo)?.estado || "ok";
-    }
-
     function estadoLabel(estado) {
       return estado === "revision" ? "Revisión" : estado === "baja" ? "Baja" : "OK";
     }
@@ -1807,26 +2261,18 @@
       const modelo = data.modelo || "";
       const cantidad = data.cantidad || 1;
       const selectedModelo = modelo || getModelEntries(tipo, nombre)[0]?.nombre || "";
-      const estado = data.estado || getModelState(tipo, nombre, selectedModelo);
       const notas = data.notas || "";
       const tr = document.createElement("tr");
       tr.id = `row-${tipo}-${id}`;
       tr.innerHTML = `
         <td><select onchange="updateModelos('${tipo}', ${id}, this.value)">${materialOptions(tipo, nombre)}</select></td>
-        <td><select id="modelo-${tipo}-${id}" onchange="updateEstadoFromModelo('${tipo}', ${id})">${modelOptions(tipo, nombre, selectedModelo)}</select></td>
+        <td><select id="modelo-${tipo}-${id}">${modelOptions(tipo, nombre, selectedModelo)}</select></td>
         <td>
           <div class="number-stepper">
             <button class="stepper-btn" type="button" onclick="stepInput('qty-${tipo}-${id}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
             <input class="qty" id="qty-${tipo}-${id}" type="number" min="1" inputmode="numeric" value="${escapeAttr(cantidad)}">
             <button class="stepper-btn" type="button" onclick="stepInput('qty-${tipo}-${id}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
           </div>
-        </td>
-        <td>
-          <select id="estado-${tipo}-${id}">
-            <option value="ok" ${estado === "ok" ? "selected" : ""}>OK</option>
-            <option value="revision" ${estado === "revision" ? "selected" : ""}>Revisión</option>
-            <option value="baja" ${estado === "baja" ? "selected" : ""}>Baja</option>
-          </select>
         </td>
         <td><input class="notes" id="notas-${tipo}-${id}" type="text" value="${escapeAttr(notas)}" placeholder="Notas..."></td>
         <td><button class="row-delete" onclick="deleteRow('${tipo}', ${id})" title="Eliminar línea">x</button></td>
@@ -1838,16 +2284,7 @@
       const select = document.getElementById(`modelo-${tipo}-${id}`);
       if (select) {
         select.innerHTML = modelOptions(tipo, nombre, "");
-        updateEstadoFromModelo(tipo, id);
       }
-    }
-
-    function updateEstadoFromModelo(tipo, id) {
-      const row = document.getElementById(`row-${tipo}-${id}`);
-      const material = row?.querySelector("td select")?.value;
-      const modelo = document.getElementById(`modelo-${tipo}-${id}`)?.value;
-      const estado = document.getElementById(`estado-${tipo}-${id}`);
-      if (estado && material && modelo) estado.value = getModelState(tipo, material, modelo);
     }
 
     function deleteRow(tipo, id) {
@@ -1889,7 +2326,6 @@
           nombre: selects[0].value,
           modelo: selects[1].value,
           cantidad: inputs[0].value,
-          estado: selects[2].value,
           notas: inputs[1].value
         };
       });
@@ -1953,7 +2389,7 @@
       if (action === "confirm") {
         cloudUrl = getConfiguredCloudUrl();
         if (!cloudUrl) {
-          notify("Configura Google Sheets", "Para guardar e imprimir necesitas poner la URL de Apps Script en senorpp_config.js.", "warning");
+          notify("Configura Google Sheets", "Para guardar e imprimir necesitas poner la URL de Apps Script en senorp_config.js.", "warning");
           return;
         }
         try {
@@ -2035,7 +2471,7 @@
     function renderPrintArea(ficha) {
       document.getElementById("printArea").innerHTML = `
         <div class="print-header">
-          <img src="logo-transparent.png" alt="SENORPP">
+          <img src="logo-transparent.png" alt="SENORP">
           <div class="print-title">
             <h1>Ficha de carga del bolo</h1>
             <div><b>Bolo:</b> ${escapeHtml(ficha.nombre)}</div>
@@ -2046,19 +2482,19 @@
         </div>
         ${ficha.notas ? `<div class="print-notes"><b>Notas:</b> ${escapeHtml(ficha.notas)}</div>` : ""}
         ${categories.map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("")}
-        <div class="print-footer">Generado por SENORPP · ${new Date().toLocaleDateString("es-ES")}</div>
+        <div class="print-footer">Generado por SENORP · ${new Date().toLocaleDateString("es-ES")}</div>
       `;
     }
 
     function printSection(cat, rows) {
       const body = rows.length
-        ? rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td>${escapeHtml(r.estado)}</td><td>${escapeHtml(r.notas)}</td></tr>`).join("")
-        : `<tr><td colspan="5">Sin material</td></tr>`;
+        ? rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td>${escapeHtml(r.notas)}</td></tr>`).join("")
+        : `<tr><td colspan="4">Sin material</td></tr>`;
       return `
         <section class="print-section">
           <h2>${cat.label}</h2>
           <table class="print-table">
-            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Estado</th><th>Notas</th></tr></thead>
+            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Notas</th></tr></thead>
             <tbody>${body}</tbody>
           </table>
         </section>
@@ -2068,6 +2504,8 @@
     function renderInventory() {
       const grid = document.getElementById("inventoryGrid");
       const tabs = document.getElementById("inventoryTabs");
+      const searchInput = document.getElementById("inventory-search");
+      const resultCount = document.getElementById("inventory-result-count");
       const editButton = document.getElementById("inventory-edit-btn");
       const saveButton = document.getElementById("inventory-save-btn");
       if (editButton) {
@@ -2076,12 +2514,14 @@
       }
       if (saveButton) saveButton.style.display = inventoryEditMode ? "inline-flex" : "none";
       if (!categories.some(cat => cat.id === activeInventoryCategory)) activeInventoryCategory = "sonido";
-      tabs.classList.toggle("active", inventoryEditMode);
+      if (searchInput && searchInput.value !== inventorySearch) searchInput.value = inventorySearch;
+      tabs.classList.add("active");
       tabs.innerHTML = categories.map(cat => `
         <button class="${cat.id === activeInventoryCategory ? "active" : ""}" onclick="showInventoryCategory('${cat.id}')">${cat.label}</button>
       `).join("");
       grid.classList.toggle("editing", inventoryEditMode);
-      const visibleCategories = inventoryEditMode ? categories.filter(cat => cat.id === activeInventoryCategory) : categories;
+      const visibleCategories = categories.filter(cat => cat.id === activeInventoryCategory);
+      if (resultCount) resultCount.textContent = getInventoryRows(activeInventoryCategory).length + " modelos visibles";
       grid.innerHTML = visibleCategories.map(cat => `
         <div class="panel">
           <div class="panel-head">
@@ -2096,33 +2536,51 @@
       `).join("");
     }
 
+    function setInventorySearch(value) {
+      inventorySearch = value.trim().toLowerCase();
+      renderInventory();
+    }
+
     function showInventoryCategory(tipo) {
       activeInventoryCategory = tipo;
       renderInventory();
     }
 
+    function getInventoryRows(tipo) {
+      const query = inventorySearch;
+      return (DB[tipo] || []).flatMap((item, itemIndex) => (item.modelos || []).map((modelo, modelIndex) => ({
+        item,
+        modelo,
+        itemIndex,
+        modelIndex,
+        searchable: `${item.nombre} ${modelo.nombre} ${modelo.stock} ${estadoLabel(modelo.estado)} ${modelo.estado}`.toLowerCase()
+      }))).filter(row => !query || row.searchable.includes(query));
+    }
+
     function renderInventoryReadTable(tipo) {
+      const rows = getInventoryRows(tipo);
       return `
         <div class="table-wrap">
           <table class="inventory-table">
             <thead><tr><th>Material</th><th>Modelo</th><th>Stock</th><th>Estado</th></tr></thead>
-            <tbody>${DB[tipo].map(item => item.modelos.map(modelo => `
+            <tbody>${rows.length ? rows.map(({ item, modelo }) => `
               <tr>
                 <td>${escapeHtml(item.nombre)}</td>
                 <td>${escapeHtml(modelo.nombre)}</td>
                 <td>${escapeHtml(modelo.stock)}</td>
                 <td>${estadoLabel(modelo.estado)}</td>
               </tr>
-            `).join("")).join("")}</tbody>
+            `).join("") : `<tr><td colspan="4">Sin resultados</td></tr>`}</tbody>
           </table>
         </div>
       `;
     }
 
     function renderInventoryEditList(tipo) {
+      const rows = getInventoryRows(tipo);
       return `
         <div class="inventory-edit-list">
-          ${DB[tipo].map((item, itemIndex) => item.modelos.map((modelo, modelIndex) => `
+          ${rows.length ? rows.map(({ item, modelo, itemIndex, modelIndex }) => `
             <div class="inventory-edit-card">
               <div class="field">
                 <label>Material</label>
@@ -2152,7 +2610,7 @@
                 <button class="btn btn-danger" onclick="deleteInventoryItem('${tipo}', ${itemIndex}, ${modelIndex})">Eliminar modelo</button>
               </div>
             </div>
-          `).join("")).join("")}
+          `).join("") : `<div class="empty">No hay modelos que coincidan con la busqueda.</div>`}
         </div>
       `;
     }
@@ -2300,7 +2758,7 @@
     async function saveInventoryToCloud(options = {}) {
       cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) {
-        if (!options.silent) notify("Sin conexion", "Configura la URL en senorpp_config.js antes de guardar en Google Sheets.", "warning");
+        if (!options.silent) notify("Sin conexion", "Configura la URL en senorp_config.js antes de guardar en Google Sheets.", "warning");
         return;
       }
       try {
