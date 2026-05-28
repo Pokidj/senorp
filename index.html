@@ -464,6 +464,19 @@
       font-size: 16px;
     }
 
+    input:disabled {
+      opacity: 1;
+      background: var(--soft);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .field small {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
     textarea { resize: vertical; }
     input:focus, select:focus, textarea:focus {
       outline: 2px solid rgba(224, 0, 27, .18);
@@ -760,6 +773,59 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
+    }
+
+    .cloud-status-card {
+      display: grid;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      padding: 14px;
+    }
+
+    .cloud-status-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .cloud-status-main strong,
+    .cloud-status-main span {
+      display: block;
+    }
+
+    .cloud-status-main strong {
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .cloud-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--warn);
+      box-shadow: 0 0 0 5px rgba(155, 101, 0, .14);
+      flex: 0 0 auto;
+    }
+
+    .cloud-dot.connected {
+      background: var(--ok);
+      box-shadow: 0 0 0 5px rgba(19, 122, 67, .14);
+    }
+
+    .cloud-dot.disconnected {
+      background: var(--bad);
+      box-shadow: 0 0 0 5px rgba(179, 38, 30, .14);
+    }
+
+    .cloud-source {
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      color: var(--muted);
+      font-weight: 800;
+      word-break: break-word;
     }
 
     .settings-grid {
@@ -1362,16 +1428,21 @@
               <div class="panel-title">Google Sheets</div>
             </div>
             <div class="panel-body sheet-help">
-              <div class="field">
-                <label for="sheet-url">URL de la app de Google Apps Script</label>
-                <input id="sheet-url" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+              <div class="cloud-status-card">
+                <div class="cloud-status-main">
+                  <span class="cloud-dot" id="cloud-status-dot"></span>
+                  <div>
+                    <strong id="cloud-status-title">Comprobando conexion</strong>
+                    <span id="cloud-status-note">Leyendo configuracion externa.</span>
+                  </div>
+                </div>
+                <div class="cloud-source" id="cloud-source">Archivo: senorpp_config.js</div>
               </div>
               <div class="actions" style="justify-content:flex-start">
-                <button class="btn btn-primary" onclick="saveCloudConnection()">Guardar conexión</button>
-                <button class="btn" onclick="syncFromCloud()">Recargar datos</button>
-                <button class="btn" onclick="clearSheetUrl()">Usar datos locales</button>
+                <button class="btn btn-primary" onclick="syncFromCloud()">Forzar carga de datos</button>
+                <button class="btn" onclick="forceSaveCloudData()">Guardar inventario ahora</button>
               </div>
-              <p>Google Sheets guardará inventario y bolos finalizados. Los borradores se quedan solo en este navegador.</p>
+              <p>La conexion se define en <strong>senorpp_config.js</strong>. El HTML solo muestra el estado y permite forzar lectura o guardado.</p>
             </div>
           </div>
         </div>
@@ -1379,12 +1450,11 @@
     </main>
   </div>
 
+  <script src="senorpp_config.js"></script>
   <script>
     const STORAGE_KEY = "senorpp_fichas_v2";
-    const SHEET_KEY = "senorpp_sheet_url";
     const THEME_KEY = "senorpp_theme";
     const INVENTORY_KEY = "senorpp_inventory_v1";
-    const API_URL_KEY = "senorpp_apps_script_url";
 
     const categories = [
       { id: "sonido", label: "Sonido", addLabel: "Añadir sonido" },
@@ -1440,13 +1510,37 @@
       categories.forEach(c => rowCounters[c.id] = 0);
       DB = normalizeInventory(readJson(INVENTORY_KEY, DB));
       fichas = readLocalDrafts();
-      cloudUrl = localStorage.getItem(API_URL_KEY) || localStorage.getItem(SHEET_KEY) || "";
-      document.getElementById("sheet-url").value = cloudUrl;
+      cloudUrl = getConfiguredCloudUrl();
+      renderCloudConfig();
       renderCategoryUi();
       lastSavedBoloSignature = getBoloSignature();
       renderInventory();
       updateCount();
       if (cloudUrl) await syncFromCloud({ silent: true });
+    }
+
+    function getBuiltInCloudUrl() {
+      return String(window.SENORPP_CONFIG?.googleAppsScriptUrl || "").trim();
+    }
+
+    function getConfiguredCloudUrl() {
+      return getBuiltInCloudUrl();
+    }
+
+    function renderCloudConfig() {
+      const dot = document.getElementById("cloud-status-dot");
+      const title = document.getElementById("cloud-status-title");
+      const note = document.getElementById("cloud-status-note");
+      const source = document.getElementById("cloud-source");
+      const builtInUrl = getBuiltInCloudUrl();
+      cloudUrl = getConfiguredCloudUrl();
+      dot.classList.toggle("connected", Boolean(builtInUrl));
+      dot.classList.toggle("disconnected", !builtInUrl);
+      title.textContent = builtInUrl ? "Google Sheets conectado" : "Google Sheets sin configurar";
+      note.textContent = builtInUrl
+        ? "La app leera y guardara datos usando la URL definida fuera del HTML."
+        : "Falta poner la URL /exec en senorpp_config.js y subir ese archivo junto al HTML.";
+      source.textContent = "Archivo: senorpp_config.js";
     }
 
     function cloneDb(db) {
@@ -1665,7 +1759,7 @@
 
       if (selected.length === 0) {
         notify("Sin cantidades", "Indica al menos una cantidad para añadir material.", "warning");
-        return;
+        return false;
       }
 
       selected.forEach(row => addRow(currentBulkType, {
@@ -1819,9 +1913,10 @@
 
     async function saveFicha(status, options = {}) {
       const ficha = buildCurrentFicha(status);
+      cloudUrl = getConfiguredCloudUrl();
       if (status === "guardada" && !cloudUrl) {
         notify("Configura Google Sheets", "Los bolos finalizados se guardan en Google Sheets. Añade la URL de Apps Script en configuración.", "warning");
-        return;
+        return false;
       }
       fichas.unshift(ficha);
       lastSavedBoloSignature = getBoloSignature();
@@ -1856,8 +1951,9 @@
       if (action === "cancel") return;
 
       if (action === "confirm") {
+        cloudUrl = getConfiguredCloudUrl();
         if (!cloudUrl) {
-          notify("Configura Google Sheets", "Para guardar e imprimir necesitas configurar la URL de Apps Script.", "warning");
+          notify("Configura Google Sheets", "Para guardar e imprimir necesitas poner la URL de Apps Script en senorpp_config.js.", "warning");
           return;
         }
         try {
@@ -2176,23 +2272,13 @@
       inventorySyncTimer = window.setTimeout(() => saveInventoryToCloud(), 700);
     }
 
-    async function saveCloudConnection() {
-      const url = document.getElementById("sheet-url").value.trim();
-      if (!url) {
-        notify("Falta la URL", "Pega primero la URL de la app de Google Apps Script.", "warning");
-        return;
-      }
-      cloudUrl = url;
-      localStorage.setItem(API_URL_KEY, cloudUrl);
-      localStorage.removeItem(SHEET_KEY);
-      await syncFromCloud();
-    }
-
     async function syncFromCloud(options = {}) {
+      cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) {
         notify("Sin conexión", "Guarda primero la URL de Apps Script en configuración.", "warning");
         return;
       }
+      renderCloudConfig();
       try {
         const response = await fetch(cloudUrl);
         if (!response.ok) throw new Error("No se pudo leer la hoja.");
@@ -2212,17 +2298,28 @@
     }
 
     async function saveInventoryToCloud(options = {}) {
-      if (!cloudUrl) return;
+      cloudUrl = getConfiguredCloudUrl();
+      if (!cloudUrl) {
+        if (!options.silent) notify("Sin conexion", "Configura la URL en senorpp_config.js antes de guardar en Google Sheets.", "warning");
+        return;
+      }
       try {
         DB = normalizeInventory(DB);
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(DB));
         await cloudPost({ action: "saveInventory", inventory: DB });
+        return true;
       } catch (error) {
         if (!options.silent) notify("Inventario no sincronizado", "Se guardó en este navegador, pero no se pudo enviar a Google Sheets.", "error");
       }
     }
 
+    async function forceSaveCloudData() {
+      await saveInventoryToCloud();
+      if (cloudUrl) notify("Guardado solicitado", "La app ha enviado el inventario actual a Google Sheets.", "success");
+    }
+
     async function saveBoloToCloud(ficha) {
+      cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) {
         throw new Error("Sin Google Sheets");
       }
@@ -2235,6 +2332,7 @@
     }
 
     async function deleteBoloFromCloud(id) {
+      cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) return;
       try {
         await cloudPost({ action: "deleteBolo", id });
@@ -2253,22 +2351,6 @@
       const data = await response.json();
       if (data && data.ok === false) throw new Error(data.error || "Error en Google Sheets");
       return data;
-    }
-
-    function clearSheetUrl() {
-      cloudUrl = "";
-      window.clearTimeout(inventorySyncTimer);
-      localStorage.removeItem(API_URL_KEY);
-      localStorage.removeItem(SHEET_KEY);
-      localStorage.removeItem(INVENTORY_KEY);
-      document.getElementById("sheet-url").value = "";
-      DB = cloneDb(DEFAULT_DB);
-      fichas = readLocalDrafts();
-      resetForm();
-      renderCategoryUi();
-      renderInventory();
-      updateCount();
-      notify("Inventario local recuperado", "La URL se ha borrado y se ha restaurado el inventario inicial.", "success");
     }
 
     function buildDbFromJson(rows) {
