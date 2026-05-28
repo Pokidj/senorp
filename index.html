@@ -112,8 +112,7 @@
       border-color: var(--hover-line);
     }
 
-    .sidebar-collapse svg,
-    .sidebar-restore svg {
+    .sidebar-collapse svg {
       width: 20px;
       height: 20px;
       stroke: currentColor;
@@ -439,28 +438,6 @@
       flex-direction: column;
     }
 
-    .sidebar-restore {
-      position: fixed;
-      left: 14px;
-      top: 14px;
-      z-index: 20;
-      width: 44px;
-      height: 44px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--paper);
-      color: var(--ink);
-      box-shadow: var(--shadow);
-      display: none;
-      place-items: center;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
-
-    .app.sidebar-collapsed + .sidebar-restore {
-      display: none;
-    }
-
     .app.sidebar-collapsed .sidebar-tools {
       grid-template-columns: 1fr;
     }
@@ -537,9 +514,11 @@
       align-items: center;
       justify-content: center;
       touch-action: manipulation;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease, color .16s ease, box-shadow .16s ease;
     }
 
     .btn:hover { border-color: var(--hover-line); }
+    .btn:active { transform: scale(.98); }
     .btn-primary {
       background: var(--red);
       border-color: var(--red);
@@ -937,6 +916,13 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       margin-bottom: 10px;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .ficha:hover {
+      transform: translateY(-1px);
+      border-color: rgba(224, 0, 27, .25);
+      box-shadow: var(--shadow);
     }
 
     .ficha strong { display: block; }
@@ -1879,10 +1865,6 @@
       </section>
     </main>
   </div>
-  <button class="sidebar-restore" type="button" onclick="toggleSidebar()" aria-label="Mostrar barra lateral" title="Mostrar barra lateral">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
-  </button>
-
   <script src="senorp_config.js"></script>
   <script>
     const STORAGE_KEY = "senorp_fichas_v2";
@@ -1936,23 +1918,28 @@
     let activeInventoryCategory = "sonido";
     let inventorySearch = "";
     let currentBulkType = "sonido";
+    let editingBoloId = null;
     let cloudUrl = "";
     let inventorySyncTimer = null;
-    const DEFAULT_DB = normalizeInventory(cloneDb(DB));
 
     async function init() {
       applyTheme(localStorage.getItem(THEME_KEY) || "light");
       applySidebarState(true);
       categories.forEach(c => rowCounters[c.id] = 0);
-      DB = normalizeInventory(readJson(INVENTORY_KEY, DB));
       fichas = readLocalDrafts();
       cloudUrl = getConfiguredCloudUrl();
+      DB = emptyInventory();
       renderCloudConfig();
       renderCategoryUi();
       lastSavedBoloSignature = getBoloSignature();
       renderInventory();
       updateCount();
-      if (cloudUrl) await syncFromCloud({ silent: true });
+      if (cloudUrl) {
+        await syncFromCloud({ startup: true });
+      } else {
+        localStorage.removeItem(INVENTORY_KEY);
+        notify("Google Sheets sin configurar", "No se ha encontrado el enlace en senorp_config.js. El inventario queda vacío hasta conectar la hoja.", "warning", 6500);
+      }
     }
 
     function toggleSidebar() {
@@ -1993,6 +1980,10 @@
 
     function cloneDb(db) {
       return JSON.parse(JSON.stringify(db));
+    }
+
+    function emptyInventory() {
+      return Object.fromEntries(categories.map(cat => [cat.id, []]));
     }
 
     function normalizeInventory(db) {
@@ -2093,16 +2084,22 @@
       }
       if (currentPage === "nueva" && page !== "nueva" && hasUnsavedBolo()) {
         const leaveAction = await confirmDialog({
-          title: "Bolo sin guardar",
-          message: "Hay cambios en el nuevo bolo. Puedes guardarlo como borrador antes de salir.",
-          confirmText: "Guardar borrador",
+          title: editingBoloId ? "Cambios sin guardar" : "Bolo sin guardar",
+          message: editingBoloId
+            ? "Hay cambios en este bolo. Puedes guardarlos antes de salir."
+            : "Hay cambios en el nuevo bolo. Puedes guardarlo como borrador antes de salir.",
+          confirmText: editingBoloId ? "Guardar cambios" : "Guardar borrador",
           discardText: "Salir sin guardar",
           cancelText: "Seguir editando"
         });
         if (leaveAction === "cancel") return;
         if (leaveAction === "confirm") {
-          await saveFicha("borrador", { silent: true, reset: true });
-          notify("Borrador guardado", "El bolo se ha guardado antes de salir.", "success");
+          if (editingBoloId) {
+            await saveFicha("guardada", { silent: true, reset: true });
+          } else {
+            await saveFicha("borrador", { silent: true, reset: true });
+            notify("Borrador guardado", "El bolo se ha guardado antes de salir.", "success");
+          }
         } else {
           resetForm();
         }
@@ -2174,8 +2171,13 @@
       currentBulkType = tipo;
       const cat = categories.find(c => c.id === tipo);
       const select = document.getElementById("bulk-material");
+      const materials = uniqueMaterialNames(tipo);
+      if (materials.length === 0) {
+        notify("Inventario vacío", "Conecta Google Sheets y carga los datos antes de añadir material al bolo.", "warning");
+        return;
+      }
       document.getElementById("bulkTitle").textContent = cat ? cat.addLabel : "Añadir material";
-      select.innerHTML = uniqueMaterialNames(tipo).map(nombre => `<option value="${escapeAttr(nombre)}">${escapeHtml(nombre)}</option>`).join("");
+      select.innerHTML = materials.map(nombre => `<option value="${escapeAttr(nombre)}">${escapeHtml(nombre)}</option>`).join("");
       document.getElementById("bulk-notas").value = "";
       renderBulkModels();
       document.getElementById("bulkBackdrop").classList.add("active");
@@ -2232,7 +2234,9 @@
     }
 
     function materialOptions(tipo, selected) {
-      return uniqueMaterialNames(tipo).map(nombre => `<option value="${escapeAttr(nombre)}" ${nombre === selected ? "selected" : ""}>${escapeHtml(nombre)}</option>`).join("");
+      const names = uniqueMaterialNames(tipo);
+      if (selected && !names.includes(selected)) names.unshift(selected);
+      return names.map(nombre => `<option value="${escapeAttr(nombre)}" ${nombre === selected ? "selected" : ""}>${escapeHtml(nombre)}</option>`).join("");
     }
 
     function uniqueMaterialNames(tipo) {
@@ -2251,13 +2255,15 @@
 
     function modelOptions(tipo, nombre, selected) {
       const modelos = getModelEntries(tipo, nombre);
-      return modelos.map(modelo => `<option value="${escapeAttr(modelo.nombre)}" ${modelo.nombre === selected ? "selected" : ""}>${escapeHtml(modelo.nombre)}</option>`).join("");
+      const names = modelos.map(modelo => modelo.nombre);
+      if (selected && !names.includes(selected)) names.unshift(selected);
+      return names.map(modelo => `<option value="${escapeAttr(modelo)}" ${modelo === selected ? "selected" : ""}>${escapeHtml(modelo)}</option>`).join("");
     }
 
     function addRow(tipo, data = {}) {
-      if (!DB[tipo] || DB[tipo].length === 0) return;
+      if ((!DB[tipo] || DB[tipo].length === 0) && !data.nombre) return;
       const id = ++rowCounters[tipo];
-      const nombre = data.nombre || DB[tipo][0].nombre;
+      const nombre = data.nombre || DB[tipo]?.[0]?.nombre || "";
       const modelo = data.modelo || "";
       const cantidad = data.cantidad || 1;
       const selectedModelo = modelo || getModelEntries(tipo, nombre)[0]?.nombre || "";
@@ -2333,7 +2339,7 @@
 
     function buildCurrentFicha(status = "guardada") {
       const ficha = {
-        id: Date.now(),
+        id: editingBoloId || Date.now(),
         status,
         nombre: document.getElementById("evento-nombre").value.trim() || "Sin nombre",
         fecha: document.getElementById("evento-fecha").value,
@@ -2351,9 +2357,11 @@
       const ficha = buildCurrentFicha(status);
       cloudUrl = getConfiguredCloudUrl();
       if (status === "guardada" && !cloudUrl) {
-        notify("Configura Google Sheets", "Los bolos finalizados se guardan en Google Sheets. Añade la URL de Apps Script en configuración.", "warning");
+        notify("Configura Google Sheets", "Los bolos finalizados se guardan en Google Sheets. Añade la URL en senorp_config.js.", "warning");
         return false;
       }
+      const wasEditing = Boolean(editingBoloId);
+      if (wasEditing) fichas = fichas.filter(f => f.id !== editingBoloId);
       fichas.unshift(ficha);
       lastSavedBoloSignature = getBoloSignature();
 
@@ -2365,9 +2373,10 @@
           return;
         }
         persistFichas();
+        editingBoloId = null;
         resetForm();
         showPage("fichas");
-        notify("Bolo guardado", ficha.nombre, "success");
+        notify(wasEditing ? "Bolo actualizado" : "Bolo guardado", ficha.nombre, "success");
       } else {
         persistFichas();
         if (options.reset) resetForm();
@@ -2394,8 +2403,10 @@
         }
         try {
           await saveBoloToCloud(ficha);
+          if (editingBoloId) fichas = fichas.filter(f => f.id !== editingBoloId);
           fichas.unshift(ficha);
           persistFichas();
+          editingBoloId = null;
           lastSavedBoloSignature = getBoloSignature();
           notify("Bolo guardado", ficha.nombre, "success");
         } catch {
@@ -2418,7 +2429,24 @@
         document.getElementById("tbody-" + cat.id).innerHTML = "";
         rowCounters[cat.id] = 0;
       });
+      editingBoloId = null;
       lastSavedBoloSignature = getBoloSignature();
+    }
+
+    function loadFichaIntoForm(ficha, options = {}) {
+      ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
+      document.getElementById("evento-nombre").value = options.duplicate ? `Copia de ${ficha.nombre || "Sin nombre"}` : ficha.nombre || "";
+      document.getElementById("evento-fecha").value = ficha.fecha || "";
+      document.getElementById("evento-lugar").value = ficha.lugar || "";
+      document.getElementById("evento-resp").value = ficha.resp || "";
+      document.getElementById("evento-notas").value = ficha.notas || "";
+      categories.forEach(cat => {
+        document.getElementById("tbody-" + cat.id).innerHTML = "";
+        rowCounters[cat.id] = 0;
+        (ficha.material?.[cat.id] || []).forEach(row => addRow(cat.id, row));
+      });
+      editingBoloId = options.edit ? ficha.id : null;
+      lastSavedBoloSignature = options.edit ? getBoloSignature() : "";
     }
 
     function renderFichas() {
@@ -2437,12 +2465,30 @@
             </div>
             <div class="actions">
               <span class="pill ${f.status === "guardada" ? "saved" : "draft"}">${f.status === "guardada" ? "Guardada" : "Borrador"}</span>
+              <button class="btn" onclick="editFicha(${f.id})">Editar</button>
+              <button class="btn" onclick="duplicateFicha(${f.id})">Duplicar</button>
               <button class="btn" onclick="printFicha(${f.id})">Imprimir</button>
               <button class="btn btn-danger" onclick="deleteFicha(${f.id})">Eliminar</button>
             </div>
           </article>
         `;
       }).join("");
+    }
+
+    async function editFicha(id) {
+      const ficha = fichas.find(f => f.id === id);
+      if (!ficha) return;
+      loadFichaIntoForm(ficha, { edit: true });
+      await showPage("nueva");
+      notify("Bolo abierto para edición", "Al guardar se actualizará el bolo original.", "success");
+    }
+
+    async function duplicateFicha(id) {
+      const ficha = fichas.find(f => f.id === id);
+      if (!ficha) return;
+      loadFichaIntoForm(ficha, { duplicate: true });
+      await showPage("nueva");
+      notify("Bolo duplicado", "Revisa los datos y guárdalo como un bolo nuevo.", "success");
     }
 
     async function deleteFicha(id) {
@@ -2559,6 +2605,7 @@
 
     function renderInventoryReadTable(tipo) {
       const rows = getInventoryRows(tipo);
+      const emptyText = cloudUrl ? "Sin resultados" : "Sin inventario cargado. Configura Google Sheets.";
       return `
         <div class="table-wrap">
           <table class="inventory-table">
@@ -2570,7 +2617,7 @@
                 <td>${escapeHtml(modelo.stock)}</td>
                 <td>${estadoLabel(modelo.estado)}</td>
               </tr>
-            `).join("") : `<tr><td colspan="4">Sin resultados</td></tr>`}</tbody>
+            `).join("") : `<tr><td colspan="4">${emptyText}</td></tr>`}</tbody>
           </table>
         </div>
       `;
@@ -2733,15 +2780,20 @@
     async function syncFromCloud(options = {}) {
       cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) {
-        notify("Sin conexión", "Guarda primero la URL de Apps Script en configuración.", "warning");
-        return;
+        DB = emptyInventory();
+        localStorage.removeItem(INVENTORY_KEY);
+        renderCategoryUi();
+        renderInventory();
+        updateCount();
+        if (!options.silent || options.startup) notify("Google Sheets sin configurar", "No se ha encontrado el enlace en senorp_config.js. El inventario queda vacío.", "warning", 6500);
+        return false;
       }
       renderCloudConfig();
       try {
         const response = await fetch(cloudUrl);
         if (!response.ok) throw new Error("No se pudo leer la hoja.");
         const data = await response.json();
-        DB = normalizeInventory(data.inventory || DB);
+        DB = normalizeInventory(data.inventory || emptyInventory());
         const drafts = readLocalDrafts();
         fichas = [...(Array.isArray(data.bolos) ? data.bolos : []), ...drafts];
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(DB));
@@ -2750,8 +2802,15 @@
         renderInventory();
         updateCount();
         if (!options.silent) notify("Datos sincronizados", "Inventario y bolos guardados se han recargado desde Google Sheets.", "success");
+        return true;
       } catch (error) {
-        if (!options.silent) notify("No se pudo sincronizar", "Revisa la URL de Apps Script y que esté desplegada con acceso público.", "error");
+        DB = emptyInventory();
+        localStorage.removeItem(INVENTORY_KEY);
+        renderCategoryUi();
+        renderInventory();
+        updateCount();
+        if (!options.silent || options.startup) notify("No se pudo sincronizar", "Revisa la URL de Apps Script y que esté desplegada con acceso público. El inventario queda vacío.", "error", 7500);
+        return false;
       }
     }
 
@@ -2889,7 +2948,7 @@
       return rows;
     }
 
-    function notify(title, message = "", type = "success") {
+    function notify(title, message = "", type = "success", duration = 3200) {
       const stack = document.getElementById("toastStack");
       const toast = document.createElement("div");
       toast.className = `toast ${type}`;
@@ -2900,7 +2959,7 @@
         toast.style.transform = "translateY(8px)";
         toast.style.transition = "opacity .2s ease, transform .2s ease";
         window.setTimeout(() => toast.remove(), 220);
-      }, 3200);
+      }, duration);
     }
 
     function confirmDialog({ title, message, confirmText = "Aceptar", cancelText = "Cancelar", discardText = "", danger = false }) {
