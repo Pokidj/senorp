@@ -1,0 +1,2427 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SENORPP | Fichas de material</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --red: #e0001b;
+      --red-dark: #a90017;
+      --ink: #171717;
+      --muted: #626262;
+      --line: #dedede;
+      --paper: #ffffff;
+      --field: #ffffff;
+      --body-bg: #ededed;
+      --soft: #f5f5f5;
+      --soft-red: #fff1f3;
+      --hover-line: #b8b8b8;
+      --ok: #137a43;
+      --warn: #9b6500;
+      --bad: #b3261e;
+      --radius: 8px;
+      --shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #f4f4f4;
+      --muted: #b8b8b8;
+      --line: #343434;
+      --paper: #191919;
+      --field: #101010;
+      --body-bg: #0d0d0d;
+      --soft: #232323;
+      --soft-red: #2b1115;
+      --hover-line: #666;
+      --ok: #60d394;
+      --warn: #ffd166;
+      --bad: #ff6b6b;
+      --shadow: 0 12px 28px rgba(0, 0, 0, .42);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--body-bg);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      background: var(--paper);
+      border-right: 1px solid var(--line);
+      padding: 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .brand {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      text-align: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand img {
+      width: 168px;
+      height: 112px;
+      object-fit: contain;
+      filter: none;
+      transition: filter .2s ease, transform .2s ease;
+    }
+
+    [data-theme="dark"] .brand img {
+      filter: invert(1) hue-rotate(180deg) contrast(1.08) saturate(1.15);
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.25;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav button {
+      width: 100%;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      background: var(--soft);
+      color: var(--muted);
+      padding: 10px 12px;
+      cursor: pointer;
+      text-align: left;
+      touch-action: manipulation;
+      font-weight: 800;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+
+    .nav svg {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav button:hover {
+      background: var(--soft-red);
+      color: var(--ink);
+      border-color: rgba(224, 0, 27, .26);
+    }
+
+    .nav button.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(224, 0, 27, .22);
+      transform: translateX(2px);
+    }
+
+    .badge {
+      margin-left: auto;
+      min-width: 24px;
+      text-align: center;
+      border-radius: 999px;
+      background: var(--red);
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 8px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .18);
+    }
+
+    .nav button.active .badge {
+      background: #fff;
+      color: var(--red);
+      box-shadow: none;
+    }
+
+    .theme-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+    }
+
+    .theme-toggle button {
+      min-height: 44px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 800;
+      touch-action: manipulation;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 12px;
+      transition: background .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+
+    .theme-toggle button.active {
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+    }
+
+    .theme-toggle button:active {
+      transform: scale(.98);
+    }
+
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .theme-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    #theme-light.active .theme-icon {
+      background: #fff1b8;
+      color: #9b6500;
+    }
+
+    #theme-dark.active .theme-icon {
+      background: #1e2b4a;
+      color: #dce7ff;
+    }
+
+    .sidebar-tools {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 48px;
+      gap: 8px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+
+    .sidebar-tools .theme-toggle {
+      width: auto;
+      gap: 4px;
+      padding: 4px;
+      background: color-mix(in srgb, var(--paper) 86%, transparent);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-tools .theme-toggle button {
+      min-height: 36px;
+      min-width: 42px;
+      padding: 6px 9px;
+      gap: 0;
+    }
+
+    .theme-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .sidebar-tools .theme-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .settings-button {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--muted);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .settings-button:hover,
+    .settings-button.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(224, 0, 27, .22);
+    }
+
+    .settings-button svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 26px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      color: var(--red);
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .save-actions {
+      align-items: stretch;
+      background: color-mix(in srgb, var(--paper) 82%, transparent);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: var(--shadow);
+    }
+
+    .btn {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 700;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      touch-action: manipulation;
+    }
+
+    .btn:hover { border-color: var(--hover-line); }
+    .btn-primary {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+    .btn-danger { color: var(--bad); }
+
+    .dialog-actions .btn-danger {
+      background: var(--bad);
+      border-color: var(--bad);
+      color: #fff;
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .save-actions .btn {
+      min-height: 46px;
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .panel-head {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .material-head {
+      justify-content: flex-start;
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+    label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--field);
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: 9px 10px;
+      min-height: 44px;
+      font-size: 16px;
+    }
+
+    textarea { resize: vertical; }
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid rgba(224, 0, 27, .18);
+      border-color: var(--red);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .tabs button {
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: var(--paper);
+      padding: 12px;
+      cursor: pointer;
+      color: var(--muted);
+      font-weight: 800;
+      min-height: 48px;
+      touch-action: manipulation;
+    }
+
+    .tabs button:last-child { border-right: 0; }
+    .tabs button.active {
+      color: var(--ink);
+      background: var(--soft-red);
+      box-shadow: inset 0 -3px 0 var(--red);
+    }
+
+    .category-section { display: none; }
+    .category-section.active { display: block; }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: 8px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 8px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    td input, td select {
+      min-width: 120px;
+      padding: 7px 8px;
+      min-height: 42px;
+    }
+
+    .qty { max-width: 76px; min-width: 76px; }
+    .notes { min-width: 170px; }
+
+    .number-stepper {
+      display: grid;
+      grid-template-columns: 42px minmax(62px, 1fr) 42px;
+      gap: 4px;
+      align-items: center;
+      width: min(170px, 100%);
+      min-width: 0;
+    }
+
+    .number-stepper input {
+      min-width: 0;
+      width: 100%;
+      text-align: center;
+      font-weight: 800;
+      padding-left: 6px;
+      padding-right: 6px;
+      appearance: textfield;
+    }
+
+    .number-stepper input::-webkit-outer-spin-button,
+    .number-stepper input::-webkit-inner-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+
+    .stepper-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 900;
+      line-height: 1;
+      touch-action: manipulation;
+      display: inline-grid;
+      place-items: center;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .stepper-btn:hover {
+      background: var(--paper);
+      border-color: var(--hover-line);
+    }
+
+    .stepper-btn svg,
+    .max-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .stepper-btn:active {
+      transform: scale(.96);
+    }
+
+    .bulk-model-row .number-stepper {
+      justify-self: end;
+    }
+    .row-delete {
+      width: 34px;
+      min-width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+      color: var(--bad);
+      cursor: pointer;
+      font-weight: 900;
+      touch-action: manipulation;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 42px 20px;
+      background: var(--paper);
+      border: 1px dashed #c7c7c7;
+      border-radius: var(--radius);
+    }
+
+    .ficha {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+    }
+
+    .ficha strong { display: block; }
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--soft);
+      white-space: nowrap;
+    }
+
+    .pill.saved { background: rgba(19, 122, 67, .14); color: var(--ok); }
+    .pill.draft { background: rgba(155, 101, 0, .16); color: var(--warn); }
+
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .inventory-grid.editing {
+      grid-template-columns: 1fr;
+    }
+
+    .inventory-grid.editing .panel {
+      box-shadow: none;
+    }
+
+    .inventory-tabs {
+      display: none;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .inventory-tabs.active {
+      display: grid;
+    }
+
+    .inventory-tabs button {
+      min-height: 48px;
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 900;
+      touch-action: manipulation;
+    }
+
+    .inventory-tabs button:last-child {
+      border-right: 0;
+    }
+
+    .inventory-tabs button.active {
+      background: var(--soft-red);
+      color: var(--ink);
+      box-shadow: inset 0 -3px 0 var(--red);
+    }
+
+    .inventory-actions {
+      padding: 12px 16px 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .inventory-edit-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 16px;
+    }
+
+    .inventory-edit-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--paper) 72%, var(--soft));
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(180px, 1.2fr) minmax(180px, 1.2fr) minmax(154px, 180px) minmax(150px, 180px) auto;
+      gap: 12px;
+      align-items: end;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .inventory-edit-card .field {
+      min-width: 0;
+    }
+
+    .inventory-edit-card input,
+    .inventory-edit-card select {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .inventory-edit-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 2px;
+    }
+
+    .inventory-edit-footer .btn {
+      min-height: 44px;
+      white-space: nowrap;
+    }
+
+    .sheet-help {
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+      max-width: 860px;
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      display: grid;
+      gap: 10px;
+      width: min(360px, calc(100vw - 32px));
+    }
+
+    .toast {
+      background: var(--paper);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--red);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 13px 14px;
+      display: grid;
+      gap: 3px;
+      animation: toast-in .22s ease-out;
+    }
+
+    .toast strong {
+      font-size: 14px;
+    }
+
+    .toast span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .toast.success { border-left-color: var(--ok); }
+    .toast.warning { border-left-color: var(--warn); }
+    .toast.error { border-left-color: var(--bad); }
+
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dialog-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 25;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, .46);
+      backdrop-filter: blur(6px);
+      overflow-y: auto;
+    }
+
+    .dialog-backdrop.active {
+      display: flex;
+    }
+
+    .dialog {
+      width: min(460px, 100%);
+      background: var(--paper);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .35);
+      overflow: hidden;
+      animation: dialog-in .18s ease-out;
+      margin: auto 0;
+    }
+
+    .bulk-dialog {
+      width: min(680px, 100%);
+    }
+
+    .dialog-head {
+      padding: 18px 18px 10px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .dialog-head strong {
+      font-size: 18px;
+    }
+
+    .dialog-head span {
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 14px 18px 18px;
+      border-top: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .bulk-form {
+      padding: 0 18px 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .bulk-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .bulk-models {
+      display: grid;
+      gap: 8px;
+    }
+
+    .bulk-model-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(154px, 170px) 64px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      min-width: 0;
+    }
+
+    .bulk-model-name {
+      font-weight: 800;
+      line-height: 1.25;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .bulk-model-info {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .bulk-model-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .mini-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mini-chip.ok { color: var(--ok); }
+    .mini-chip.revision { color: var(--warn); }
+    .mini-chip.baja { color: var(--bad); }
+
+    .bulk-model-row input {
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .max-btn {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 900;
+      touch-action: manipulation;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 0 10px;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .max-btn:hover {
+      background: var(--soft-red);
+      border-color: rgba(224, 0, 27, .28);
+    }
+
+    .max-btn:active {
+      transform: scale(.96);
+    }
+
+    @keyframes dialog-in {
+      from { opacity: 0; transform: translateY(8px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .print-preview { display: none; }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 10px;
+        gap: 10px;
+      }
+      .brand {
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        justify-items: start;
+        text-align: left;
+        padding-bottom: 10px;
+      }
+      .brand img { width: 92px; height: 62px; }
+      .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .nav button {
+        justify-content: center;
+        text-align: center;
+        padding: 8px 6px;
+        transform: none;
+      }
+      .nav button.active { transform: none; }
+      .theme-toggle {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .dialog-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .bulk-model-row {
+        grid-template-columns: 1fr;
+      }
+      .max-btn {
+        width: 100%;
+        min-height: 48px;
+      }
+      .sidebar-tools {
+        margin-top: 0;
+        border-top: 0;
+        padding-top: 0;
+      }
+      .main { padding: 16px; }
+      .topbar, .ficha { grid-template-columns: 1fr; display: grid; }
+      .actions { justify-content: flex-start; }
+      .form-grid, .inventory-grid, .settings-grid { grid-template-columns: 1fr; }
+      .tabs { grid-template-columns: 1fr; }
+      .tabs button { border-right: 0; border-bottom: 1px solid var(--line); }
+      .tabs button:last-child { border-bottom: 0; }
+      .inventory-tabs {
+        grid-template-columns: 1fr;
+      }
+      .inventory-tabs button {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .inventory-tabs button:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    @media (max-width: 680px) {
+      h1 { font-size: 24px; }
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+      }
+      .save-actions {
+        padding: 8px;
+      }
+      .btn { min-height: 48px; }
+      table, thead, tbody, tr, th, td {
+        display: block;
+      }
+      thead { display: none; }
+      tr {
+        border-bottom: 1px solid var(--line);
+        padding: 10px;
+      }
+      td {
+        border-bottom: 0;
+        padding: 6px 0;
+      }
+      td::before {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        margin-bottom: 4px;
+      }
+      td:nth-child(1)::before { content: "Material"; }
+      td:nth-child(2)::before { content: "Modelo"; }
+      td:nth-child(3)::before { content: "Cantidad"; }
+      td:nth-child(4)::before { content: "Estado"; }
+      td:nth-child(5)::before { content: "Notas"; }
+      td:nth-child(6)::before { content: ""; }
+      .inventory-grid td:nth-child(2)::before { content: "Modelo"; }
+      .inventory-grid td:nth-child(3)::before { content: "Stock"; }
+      .inventory-grid td:nth-child(4)::before { content: "Estado"; }
+      .inventory-grid td:nth-child(5)::before { content: ""; }
+      td input, td select, .qty, .notes {
+        min-width: 100%;
+        max-width: 100%;
+      }
+      .number-stepper {
+        width: 100%;
+        grid-template-columns: 48px minmax(0, 1fr) 48px;
+      }
+      .stepper-btn {
+        width: 48px;
+        height: 48px;
+      }
+      .bulk-model-row .number-stepper {
+        justify-self: stretch;
+      }
+      .inventory-grid.editing {
+        grid-template-columns: 1fr;
+      }
+      .inventory-edit-list {
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+      .inventory-edit-card {
+        grid-template-columns: 1fr;
+      }
+      .inventory-edit-footer .btn,
+      .inventory-edit-footer .row-delete {
+        width: 100%;
+        min-height: 44px;
+      }
+      .row-delete {
+        width: 100%;
+        height: 44px;
+      }
+      .ficha .actions {
+        grid-template-columns: 1fr 1fr;
+      }
+      .ficha .pill {
+        justify-content: center;
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .app { display: none; }
+      .print-preview {
+        display: block !important;
+        color: #000;
+        font-family: Arial, sans-serif;
+        padding: 18px;
+      }
+      .print-header {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 18px;
+        align-items: start;
+        border-bottom: 3px solid #000;
+        padding-bottom: 10px;
+        margin-bottom: 14px;
+      }
+      .print-header img {
+        width: 150px;
+        height: auto;
+      }
+      .print-title {
+        text-align: right;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .print-title h1 {
+        font-size: 22px;
+        margin-bottom: 6px;
+      }
+      .print-notes {
+        border: 1px solid #999;
+        padding: 8px;
+        margin-bottom: 12px;
+        font-size: 12px;
+      }
+      .print-section {
+        break-inside: avoid;
+        margin-bottom: 16px;
+      }
+      .print-section h2 {
+        font-size: 14px;
+        margin: 0 0 6px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #999;
+      }
+      .print-table th,
+      .print-table td {
+        border: 1px solid #aaa;
+        padding: 5px 7px;
+        font-size: 11px;
+      }
+      .print-table th { background: #efefef; }
+      .print-footer {
+        margin-top: 18px;
+        border-top: 1px solid #999;
+        padding-top: 8px;
+        font-size: 10px;
+        color: #555;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-preview" id="printArea"></div>
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+  <div class="dialog-backdrop" id="dialogBackdrop" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+    <div class="dialog">
+      <div class="dialog-head">
+        <strong id="dialogTitle"></strong>
+        <span id="dialogMessage"></span>
+      </div>
+      <div class="dialog-actions" id="dialogActions"></div>
+    </div>
+  </div>
+  <div class="dialog-backdrop" id="bulkBackdrop" role="dialog" aria-modal="true" aria-labelledby="bulkTitle">
+    <div class="dialog bulk-dialog">
+      <div class="dialog-head">
+        <strong id="bulkTitle">Añadir material</strong>
+        <span>Elige un material y marca cantidades por modelo para crear varias líneas de una vez.</span>
+      </div>
+      <div class="bulk-form">
+        <div class="field">
+          <label for="bulk-material">Material</label>
+          <select id="bulk-material" onchange="renderBulkModels()"></select>
+        </div>
+        <div class="bulk-toolbar">
+          <button class="btn" type="button" onclick="selectAllBulkModels()">Seleccionar todo el material</button>
+        </div>
+        <div class="bulk-models" id="bulk-models"></div>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="bulk-notas">Notas comunes</label>
+            <input id="bulk-notas" type="text" placeholder="Opcional">
+          </div>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn" type="button" onclick="closeBulkDialog()">Cancelar</button>
+        <button class="btn btn-primary" type="button" onclick="addBulkRows()">Añadir seleccionados</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="logo-transparent.png" alt="SENORPP">
+        <div>
+          <span>Fichas de salida de material</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Principal">
+        <button class="active" id="nav-nueva" onclick="showPage('nueva')">Nuevo bolo</button>
+        <button id="nav-fichas" onclick="showPage('fichas')">Bolos guardados <span class="badge" id="fichas-count">0</span></button>
+        <button id="nav-inventario" onclick="showPage('inventario')">Inventario</button>
+      </nav>
+
+      <div class="sidebar-tools">
+        <div class="theme-toggle" aria-label="Tema visual">
+          <button id="theme-light" type="button" onclick="setTheme('light')" aria-label="Modo claro">
+            <span class="theme-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+            </span>
+            <span class="theme-label">Claro</span>
+          </button>
+          <button id="theme-dark" type="button" onclick="setTheme('dark')" aria-label="Modo oscuro">
+            <span class="theme-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M20.5 14.3A8.2 8.2 0 0 1 9.7 3.5 8.6 8.6 0 1 0 20.5 14.3Z"></path></svg>
+            </span>
+            <span class="theme-label">Oscuro</span>
+          </button>
+        </div>
+        <button class="settings-button" id="nav-configuracion" onclick="showPage('configuracion')" aria-label="Configuración" title="Configuración">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.38a1.7 1.7 0 0 0-1 .9 1.7 1.7 0 0 0-.2.8V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.59 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.62 15a1.7 1.7 0 0 0-.9-1 1.7 1.7 0 0 0-.8-.2H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.59-1.1A1.7 1.7 0 0 0 4.34 6.8l-.06-.06A2 2 0 1 1 7.1 3.93l.06.06A1.7 1.7 0 0 0 9 4.62h.02a1.7 1.7 0 0 0 1-.9 1.7 1.7 0 0 0 .2-.8V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.1 1.59 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.38 9c.05.16.11.31.2.46a1.7 1.7 0 0 0 .9 1 1.7 1.7 0 0 0 .8.2H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51.34Z"></path></svg>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="page active" id="page-nueva">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Nuevo bolo</div>
+            <h1>Salida técnica del bolo</h1>
+            <div class="subtitle">Prepara sonido, iluminación e infraestructura y genera una hoja de carga imprimible.</div>
+          </div>
+          <div class="actions save-actions">
+            <button class="btn" onclick="printCurrentBolo()">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>
+              Imprimir
+            </button>
+            <button class="btn btn-primary" onclick="saveFicha('guardada')">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+              Guardar bolo
+            </button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">Datos del bolo</div>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="field">
+                <label for="evento-nombre">Nombre del bolo</label>
+                <input id="evento-nombre" type="text" placeholder="Festival de verano">
+              </div>
+              <div class="field">
+                <label for="evento-fecha">Fecha</label>
+                <input id="evento-fecha" type="date">
+              </div>
+              <div class="field">
+                <label for="evento-lugar">Lugar / recinto</label>
+                <input id="evento-lugar" type="text" placeholder="Polideportivo municipal">
+              </div>
+              <div class="field">
+                <label for="evento-resp">Responsable de carga</label>
+                <input id="evento-resp" type="text" placeholder="Nombre del técnico">
+              </div>
+              <div class="field full">
+                <label for="evento-notas">Notas generales</label>
+                <textarea id="evento-notas" rows="3" placeholder="Horarios, accesos, necesidades especiales..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs" id="categoryTabs"></div>
+        <div id="categorySections"></div>
+      </section>
+
+      <section class="page" id="page-fichas">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Histórico</div>
+            <h1>Bolos guardados</h1>
+            <div class="subtitle">Desde aquí puedes imprimir o eliminar salidas técnicas ya preparadas.</div>
+          </div>
+        </div>
+        <div id="fichas-list"></div>
+      </section>
+
+      <section class="page" id="page-inventario">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Base de datos</div>
+            <h1>Inventario base</h1>
+            <div class="subtitle">Consulta material, modelos y stock por categoría.</div>
+          </div>
+          <div class="actions">
+            <button class="btn" id="inventory-save-btn" onclick="saveInventoryChanges()" style="display:none">Guardar cambios</button>
+            <button class="btn btn-primary" id="inventory-edit-btn" onclick="toggleInventoryEdit()">Editar inventario</button>
+          </div>
+        </div>
+
+        <div class="inventory-tabs" id="inventoryTabs"></div>
+        <div class="inventory-grid" id="inventoryGrid"></div>
+      </section>
+
+      <section class="page" id="page-configuracion">
+        <div class="topbar">
+          <div>
+            <div class="eyebrow">Ajustes</div>
+            <h1>Configuración</h1>
+            <div class="subtitle">Gestiona la conexión de inventario y otras opciones técnicas.</div>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">Google Sheets</div>
+            </div>
+            <div class="panel-body sheet-help">
+              <div class="field">
+                <label for="sheet-url">URL de la app de Google Apps Script</label>
+                <input id="sheet-url" type="url" placeholder="https://script.google.com/macros/s/.../exec">
+              </div>
+              <div class="actions" style="justify-content:flex-start">
+                <button class="btn btn-primary" onclick="saveCloudConnection()">Guardar conexión</button>
+                <button class="btn" onclick="syncFromCloud()">Recargar datos</button>
+                <button class="btn" onclick="clearSheetUrl()">Usar datos locales</button>
+              </div>
+              <p>Google Sheets guardará inventario y bolos finalizados. Los borradores se quedan solo en este navegador.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "senorpp_fichas_v2";
+    const SHEET_KEY = "senorpp_sheet_url";
+    const THEME_KEY = "senorpp_theme";
+    const INVENTORY_KEY = "senorpp_inventory_v1";
+    const API_URL_KEY = "senorpp_apps_script_url";
+
+    const categories = [
+      { id: "sonido", label: "Sonido", addLabel: "Añadir sonido" },
+      { id: "iluminacion", label: "Iluminación", addLabel: "Añadir iluminación" },
+      { id: "otros", label: "Infraestructura / otros", addLabel: "Añadir material" }
+    ];
+
+    let DB = {
+      sonido: [
+        { nombre: "Monitor", modelos: ["d&b E12", "RCF NX12-SMA", "JBL EON715"], stock: 8 },
+        { nombre: "Equipo de sonido", modelos: ["d&b J-Series", "L-Acoustics K2", "RCF TTL55-A"], stock: 4 },
+        { nombre: "Mesa de sonido", modelos: ["Soundcraft Vi3000", "Yamaha CL5", "Allen & Heath dLive"], stock: 2 },
+        { nombre: "Micrófonos", modelos: ["Shure SM58", "Shure SM57", "Sennheiser e935"], stock: 20 },
+        { nombre: "DI Box", modelos: ["BSS AR-133", "Radial J48", "Palmer PAN 01"], stock: 10 },
+        { nombre: "Snake / Multipín", modelos: ["30m x 32ch", "20m x 24ch"], stock: 5 },
+        { nombre: "Pie de micro", modelos: ["König & Meyer", "On Stage MS7701B"], stock: 15 },
+        { nombre: "Trípodes", modelos: ["Trípode speaker bajo", "Trípode speaker alto"], stock: 8 }
+      ],
+      iluminacion: [
+        { nombre: "Beam 7R", modelos: ["Robe Robin 600E", "Showtec Phantom 75"], stock: 6 },
+        { nombre: "PARLED", modelos: ["Cameo PAR 64 Can", "Chauvet SlimPAR Pro"], stock: 20 },
+        { nombre: "Wash", modelos: ["Martin MAC Aura", "Chauvet Maverick MK2 Wash"], stock: 8 },
+        { nombre: "Cegadora", modelos: ["Chauvet Gigabar 2", "Eurolite LED Bar"], stock: 4 },
+        { nombre: "Máquina de humo", modelos: ["Martin Jem ZR33", "Antari Z-1500II"], stock: 2 },
+        { nombre: "Mesa iluminación", modelos: ["GrandMA3 light", "Chamsys MagicQ MQ70"], stock: 1 },
+        { nombre: "Splitter DMX", modelos: ["Elation EDMX2", "Swisson XSP-5E"], stock: 4 }
+      ],
+      otros: [
+        { nombre: "Truss", modelos: ["Truss 2m", "Truss 3m", "Truss 4m"], stock: 20 },
+        { nombre: "Tarimas", modelos: ["1x1m", "1x2m", "2x2m"], stock: 12 },
+        { nombre: "Torre telescópica", modelos: ["Duratruss TS-5000", "Global Truss ST-180"], stock: 2 },
+        { nombre: "Pasacables", modelos: ["Genérico"], stock: 30 },
+        { nombre: "Distribuidor de corriente", modelos: ["PDU 19\" 16A", "Regleta industrial"], stock: 4 },
+        { nombre: "Acometida", modelos: ["50A trifásica", "63A trifásica"], stock: 2 },
+        { nombre: "Accesorios carga", modelos: ["Ganchos", "Grilletes", "Cinchas", "Flight case vacío"], stock: 99 }
+      ]
+    };
+
+    let fichas = [];
+    let rowCounters = {};
+    let currentPage = "nueva";
+    let lastSavedBoloSignature = "";
+    let inventoryEditMode = false;
+    let inventoryEditSnapshot = null;
+    let activeInventoryCategory = "sonido";
+    let currentBulkType = "sonido";
+    let cloudUrl = "";
+    let inventorySyncTimer = null;
+    const DEFAULT_DB = normalizeInventory(cloneDb(DB));
+
+    async function init() {
+      applyTheme(localStorage.getItem(THEME_KEY) || "light");
+      categories.forEach(c => rowCounters[c.id] = 0);
+      DB = normalizeInventory(readJson(INVENTORY_KEY, DB));
+      fichas = readLocalDrafts();
+      cloudUrl = localStorage.getItem(API_URL_KEY) || localStorage.getItem(SHEET_KEY) || "";
+      document.getElementById("sheet-url").value = cloudUrl;
+      renderCategoryUi();
+      lastSavedBoloSignature = getBoloSignature();
+      renderInventory();
+      updateCount();
+      if (cloudUrl) await syncFromCloud({ silent: true });
+    }
+
+    function cloneDb(db) {
+      return JSON.parse(JSON.stringify(db));
+    }
+
+    function normalizeInventory(db) {
+      const normalized = { sonido: [], iluminacion: [], otros: [] };
+      categories.forEach(cat => {
+        const items = Array.isArray(db?.[cat.id]) ? db[cat.id] : [];
+        items.forEach(item => {
+          const modelos = Array.isArray(item.modelos) ? item.modelos : [];
+          const materialName = cleanName(item.nombre, "Nuevo material");
+          const modelList = modelos.length ? modelos : [{ nombre: "Sin modelo", stock: item.stock, estado: item.estado }];
+          modelList.forEach(modelo => {
+            const modelData = typeof modelo === "string"
+              ? { nombre: modelo, stock: item.stock, estado: item.estado }
+              : modelo;
+            upsertInventoryModel(normalized, cat.id, materialName, {
+              nombre: cleanName(modelData.nombre || modelData.modelo, "Sin modelo"),
+              stock: Number(modelData.stock ?? item.stock ?? 0) || 0,
+              estado: normalizeEstado(modelData.estado || item.estado)
+            });
+          });
+        });
+      });
+      return normalized;
+    }
+
+    function cleanName(value, fallback) {
+      return String(value || "").trim() || fallback;
+    }
+
+    function upsertInventoryModel(target, categoria, materialName, modelo) {
+      const materialKey = materialName.trim().toLowerCase();
+      const modelKey = modelo.nombre.trim().toLowerCase();
+      let item = target[categoria].find(entry => entry.nombre.trim().toLowerCase() === materialKey);
+      if (!item) {
+        item = { nombre: materialName, modelos: [] };
+        target[categoria].push(item);
+      } else {
+        item.nombre = materialName;
+      }
+      let modelItem = item.modelos.find(entry => entry.nombre.trim().toLowerCase() === modelKey);
+      if (!modelItem) {
+        item.modelos.push({ nombre: modelo.nombre, stock: modelo.stock, estado: modelo.estado });
+      } else {
+        modelItem.nombre = modelo.nombre;
+        modelItem.stock = modelo.stock;
+        modelItem.estado = modelo.estado;
+      }
+    }
+
+    function setTheme(theme) {
+      localStorage.setItem(THEME_KEY, theme);
+      applyTheme(theme);
+    }
+
+    function applyTheme(theme) {
+      const selected = theme === "dark" ? "dark" : "light";
+      document.documentElement.dataset.theme = selected;
+      document.getElementById("theme-light")?.classList.toggle("active", selected === "light");
+      document.getElementById("theme-dark")?.classList.toggle("active", selected === "dark");
+    }
+
+    function readJson(key, fallback) {
+      try {
+        return JSON.parse(localStorage.getItem(key)) || fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function readLocalDrafts() {
+      return readJson(STORAGE_KEY, []).filter(ficha => ficha.status !== "guardada");
+    }
+
+    function persistFichas() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas.filter(ficha => ficha.status !== "guardada")));
+      updateCount();
+    }
+
+    function updateCount() {
+      document.getElementById("fichas-count").textContent = fichas.length;
+    }
+
+    async function showPage(page) {
+      if (currentPage === "inventario" && page !== "inventario" && inventoryEditMode) {
+        const canLeave = await handleInventoryEditExit();
+        if (!canLeave) return;
+      }
+      if (currentPage === "nueva" && page !== "nueva" && hasUnsavedBolo()) {
+        const leaveAction = await confirmDialog({
+          title: "Bolo sin guardar",
+          message: "Hay cambios en el nuevo bolo. Puedes guardarlo como borrador antes de salir.",
+          confirmText: "Guardar borrador",
+          discardText: "Salir sin guardar",
+          cancelText: "Seguir editando"
+        });
+        if (leaveAction === "cancel") return;
+        if (leaveAction === "confirm") {
+          await saveFicha("borrador", { silent: true, reset: true });
+          notify("Borrador guardado", "El bolo se ha guardado antes de salir.", "success");
+        } else {
+          resetForm();
+        }
+      }
+      document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
+      document.querySelectorAll(".nav button, .settings-button").forEach(el => el.classList.remove("active"));
+      document.getElementById("page-" + page).classList.add("active");
+      document.getElementById("nav-" + page).classList.add("active");
+      currentPage = page;
+      if (page === "fichas") renderFichas();
+      if (page === "inventario") renderInventory();
+    }
+
+    function hasUnsavedBolo() {
+      return getBoloSignature() !== lastSavedBoloSignature;
+    }
+
+    function getBoloSignature() {
+      const fieldIds = ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"];
+      return JSON.stringify({
+        fields: Object.fromEntries(fieldIds.map(id => [id, document.getElementById(id).value.trim()])),
+        material: Object.fromEntries(categories.map(cat => [cat.id, getRows(cat.id)]))
+      });
+    }
+
+    function renderCategoryUi() {
+      const tabs = document.getElementById("categoryTabs");
+      tabs.innerHTML = categories.map((cat, index) => (
+        `<button class="${index === 0 ? "active" : ""}" onclick="showSection('${cat.id}', this)">${cat.label}</button>`
+      )).join("");
+
+      const sections = document.getElementById("categorySections");
+      sections.innerHTML = categories.map((cat, index) => `
+        <section class="category-section ${index === 0 ? "active" : ""}" id="section-${cat.id}">
+          <div class="panel">
+            <div class="panel-head material-head">
+              <button class="btn" onclick="openAddMaterial('${cat.id}')">${cat.addLabel}</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Modelo</th>
+                    <th>Cantidad</th>
+                    <th>Estado</th>
+                    <th>Notas</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-${cat.id}"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      `).join("");
+    }
+
+    function showSection(section, tab) {
+      document.querySelectorAll(".category-section").forEach(el => el.classList.remove("active"));
+      document.querySelectorAll(".tabs button").forEach(el => el.classList.remove("active"));
+      document.getElementById("section-" + section).classList.add("active");
+      tab.classList.add("active");
+    }
+
+    function openAddMaterial(tipo) {
+      currentBulkType = tipo;
+      const cat = categories.find(c => c.id === tipo);
+      const select = document.getElementById("bulk-material");
+      document.getElementById("bulkTitle").textContent = cat ? cat.addLabel : "Añadir material";
+      select.innerHTML = uniqueMaterialNames(tipo).map(nombre => `<option value="${escapeAttr(nombre)}">${escapeHtml(nombre)}</option>`).join("");
+      document.getElementById("bulk-notas").value = "";
+      renderBulkModels();
+      document.getElementById("bulkBackdrop").classList.add("active");
+    }
+
+    function renderBulkModels() {
+      const material = document.getElementById("bulk-material").value;
+      const models = getModelEntries(currentBulkType, material);
+      document.getElementById("bulk-models").innerHTML = models.map((modelo, index) => `
+        <div class="bulk-model-row">
+          <div class="bulk-model-info">
+            <span class="bulk-model-name">${escapeHtml(modelo.nombre)}</span>
+            <div class="bulk-model-meta">
+              <span class="mini-chip">Stock ${escapeHtml(modelo.stock)}</span>
+              <span class="mini-chip ${escapeAttr(modelo.estado)}">${estadoLabel(modelo.estado)}</span>
+            </div>
+          </div>
+          <div class="number-stepper">
+            <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+            <input id="bulk-model-${index}" type="number" min="0" max="${escapeAttr(modelo.stock)}" inputmode="numeric" value="0" data-bulk-model="${escapeAttr(modelo.nombre)}" data-bulk-estado="${escapeAttr(modelo.estado)}" aria-label="Cantidad ${escapeAttr(modelo.nombre)}" ${index === 0 ? "autofocus" : ""}>
+            <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
+          </div>
+          <button class="max-btn" type="button" onclick="setInputMax('bulk-model-${index}')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg> Todo</button>
+        </div>
+      `).join("");
+    }
+
+    function closeBulkDialog() {
+      document.getElementById("bulkBackdrop").classList.remove("active");
+    }
+
+    function addBulkRows() {
+      const material = document.getElementById("bulk-material").value;
+      const notas = document.getElementById("bulk-notas").value.trim();
+      const selected = Array.from(document.querySelectorAll("[data-bulk-model]"))
+        .map(input => ({
+          modelo: input.dataset.bulkModel,
+          estado: input.dataset.bulkEstado || "ok",
+          cantidad: Math.min(Number(input.max) || Infinity, Math.max(0, Number(input.value) || 0))
+        }))
+        .filter(row => row.cantidad > 0);
+
+      if (selected.length === 0) {
+        notify("Sin cantidades", "Indica al menos una cantidad para añadir material.", "warning");
+        return;
+      }
+
+      selected.forEach(row => addRow(currentBulkType, {
+        nombre: material,
+        modelo: row.modelo,
+        cantidad: row.cantidad,
+        estado: row.estado,
+        notas
+      }));
+      closeBulkDialog();
+      notify("Material añadido", `${selected.length} línea${selected.length === 1 ? "" : "s"} añadida${selected.length === 1 ? "" : "s"} al bolo.`, "success");
+    }
+
+    function materialOptions(tipo, selected) {
+      return uniqueMaterialNames(tipo).map(nombre => `<option value="${escapeAttr(nombre)}" ${nombre === selected ? "selected" : ""}>${escapeHtml(nombre)}</option>`).join("");
+    }
+
+    function uniqueMaterialNames(tipo) {
+      return [...new Set((DB[tipo] || []).map(item => item.nombre).filter(Boolean))];
+    }
+
+    function getModelEntries(tipo, nombre) {
+      return (DB[tipo] || [])
+        .filter(item => item.nombre === nombre)
+        .flatMap(item => item.modelos || []);
+    }
+
+    function getModelState(tipo, nombre, modelo) {
+      return getModelEntries(tipo, nombre).find(m => m.nombre === modelo)?.estado || "ok";
+    }
+
+    function estadoLabel(estado) {
+      return estado === "revision" ? "Revisión" : estado === "baja" ? "Baja" : "OK";
+    }
+
+    function modelOptions(tipo, nombre, selected) {
+      const modelos = getModelEntries(tipo, nombre);
+      return modelos.map(modelo => `<option value="${escapeAttr(modelo.nombre)}" ${modelo.nombre === selected ? "selected" : ""}>${escapeHtml(modelo.nombre)}</option>`).join("");
+    }
+
+    function addRow(tipo, data = {}) {
+      if (!DB[tipo] || DB[tipo].length === 0) return;
+      const id = ++rowCounters[tipo];
+      const nombre = data.nombre || DB[tipo][0].nombre;
+      const modelo = data.modelo || "";
+      const cantidad = data.cantidad || 1;
+      const selectedModelo = modelo || getModelEntries(tipo, nombre)[0]?.nombre || "";
+      const estado = data.estado || getModelState(tipo, nombre, selectedModelo);
+      const notas = data.notas || "";
+      const tr = document.createElement("tr");
+      tr.id = `row-${tipo}-${id}`;
+      tr.innerHTML = `
+        <td><select onchange="updateModelos('${tipo}', ${id}, this.value)">${materialOptions(tipo, nombre)}</select></td>
+        <td><select id="modelo-${tipo}-${id}" onchange="updateEstadoFromModelo('${tipo}', ${id})">${modelOptions(tipo, nombre, selectedModelo)}</select></td>
+        <td>
+          <div class="number-stepper">
+            <button class="stepper-btn" type="button" onclick="stepInput('qty-${tipo}-${id}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+            <input class="qty" id="qty-${tipo}-${id}" type="number" min="1" inputmode="numeric" value="${escapeAttr(cantidad)}">
+            <button class="stepper-btn" type="button" onclick="stepInput('qty-${tipo}-${id}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
+          </div>
+        </td>
+        <td>
+          <select id="estado-${tipo}-${id}">
+            <option value="ok" ${estado === "ok" ? "selected" : ""}>OK</option>
+            <option value="revision" ${estado === "revision" ? "selected" : ""}>Revisión</option>
+            <option value="baja" ${estado === "baja" ? "selected" : ""}>Baja</option>
+          </select>
+        </td>
+        <td><input class="notes" id="notas-${tipo}-${id}" type="text" value="${escapeAttr(notas)}" placeholder="Notas..."></td>
+        <td><button class="row-delete" onclick="deleteRow('${tipo}', ${id})" title="Eliminar línea">x</button></td>
+      `;
+      document.getElementById("tbody-" + tipo).appendChild(tr);
+    }
+
+    function updateModelos(tipo, id, nombre) {
+      const select = document.getElementById(`modelo-${tipo}-${id}`);
+      if (select) {
+        select.innerHTML = modelOptions(tipo, nombre, "");
+        updateEstadoFromModelo(tipo, id);
+      }
+    }
+
+    function updateEstadoFromModelo(tipo, id) {
+      const row = document.getElementById(`row-${tipo}-${id}`);
+      const material = row?.querySelector("td select")?.value;
+      const modelo = document.getElementById(`modelo-${tipo}-${id}`)?.value;
+      const estado = document.getElementById(`estado-${tipo}-${id}`);
+      if (estado && material && modelo) estado.value = getModelState(tipo, material, modelo);
+    }
+
+    function deleteRow(tipo, id) {
+      const row = document.getElementById(`row-${tipo}-${id}`);
+      if (row) row.remove();
+    }
+
+    function stepInput(id, delta) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      const min = input.min === "" ? -Infinity : Number(input.min);
+      const max = input.max === "" ? Infinity : Number(input.max);
+      const current = Number(input.value) || 0;
+      const next = Math.min(max, Math.max(min, current + delta));
+      input.value = next;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function setInputMax(id) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      input.value = input.max === "" ? input.value : input.max;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function selectAllBulkModels() {
+      document.querySelectorAll("#bulk-models input[data-bulk-model]").forEach(input => {
+        if (input.max !== "") input.value = input.max;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+      notify("Material completo seleccionado", "Se han marcado todas las unidades disponibles.", "success");
+    }
+
+    function getRows(tipo) {
+      return Array.from(document.querySelectorAll(`#tbody-${tipo} tr`)).map(tr => {
+        const selects = tr.querySelectorAll("select");
+        const inputs = tr.querySelectorAll("input");
+        return {
+          nombre: selects[0].value,
+          modelo: selects[1].value,
+          cantidad: inputs[0].value,
+          estado: selects[2].value,
+          notas: inputs[1].value
+        };
+      });
+    }
+
+    function buildCurrentFicha(status = "guardada") {
+      const ficha = {
+        id: Date.now(),
+        status,
+        nombre: document.getElementById("evento-nombre").value.trim() || "Sin nombre",
+        fecha: document.getElementById("evento-fecha").value,
+        lugar: document.getElementById("evento-lugar").value.trim(),
+        resp: document.getElementById("evento-resp").value.trim(),
+        notas: document.getElementById("evento-notas").value.trim(),
+        material: {}
+      };
+
+      categories.forEach(cat => ficha.material[cat.id] = getRows(cat.id));
+      return ficha;
+    }
+
+    async function saveFicha(status, options = {}) {
+      const ficha = buildCurrentFicha(status);
+      if (status === "guardada" && !cloudUrl) {
+        notify("Configura Google Sheets", "Los bolos finalizados se guardan en Google Sheets. Añade la URL de Apps Script en configuración.", "warning");
+        return;
+      }
+      fichas.unshift(ficha);
+      lastSavedBoloSignature = getBoloSignature();
+
+      if (status === "guardada") {
+        try {
+          await saveBoloToCloud(ficha);
+        } catch {
+          fichas = fichas.filter(f => f.id !== ficha.id);
+          return;
+        }
+        persistFichas();
+        resetForm();
+        showPage("fichas");
+        notify("Bolo guardado", ficha.nombre, "success");
+      } else {
+        persistFichas();
+        if (options.reset) resetForm();
+        if (!options.silent) notify("Borrador guardado", ficha.nombre, "success");
+      }
+    }
+
+    async function printCurrentBolo() {
+      const ficha = buildCurrentFicha("guardada");
+      const action = await confirmDialog({
+        title: "Imprimir bolo",
+        message: "Puedes guardar el bolo antes de imprimirlo o imprimir solo esta hoja sin guardarla.",
+        confirmText: "Guardar e imprimir",
+        discardText: "Solo imprimir",
+        cancelText: "Cancelar"
+      });
+      if (action === "cancel") return;
+
+      if (action === "confirm") {
+        if (!cloudUrl) {
+          notify("Configura Google Sheets", "Para guardar e imprimir necesitas configurar la URL de Apps Script.", "warning");
+          return;
+        }
+        try {
+          await saveBoloToCloud(ficha);
+          fichas.unshift(ficha);
+          persistFichas();
+          lastSavedBoloSignature = getBoloSignature();
+          notify("Bolo guardado", ficha.nombre, "success");
+        } catch {
+          return;
+        }
+      }
+
+      renderPrintArea(ficha);
+      window.print();
+
+      if (action === "confirm") {
+        resetForm();
+        showPage("fichas");
+      }
+    }
+
+    function resetForm() {
+      ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
+      categories.forEach(cat => {
+        document.getElementById("tbody-" + cat.id).innerHTML = "";
+        rowCounters[cat.id] = 0;
+      });
+      lastSavedBoloSignature = getBoloSignature();
+    }
+
+    function renderFichas() {
+      const box = document.getElementById("fichas-list");
+      if (fichas.length === 0) {
+        box.innerHTML = `<div class="empty">No hay bolos guardados todavía.</div>`;
+        return;
+      }
+      box.innerHTML = fichas.map(f => {
+        const counts = categories.map(cat => `${(f.material?.[cat.id] || []).length} ${cat.label.toLowerCase()}`).join(" · ");
+        return `
+          <article class="ficha">
+            <div>
+              <strong>${escapeHtml(f.nombre)}</strong>
+              <div class="meta">${escapeHtml(f.fecha || "Sin fecha")} · ${escapeHtml(f.lugar || "Sin lugar")} · ${counts}</div>
+            </div>
+            <div class="actions">
+              <span class="pill ${f.status === "guardada" ? "saved" : "draft"}">${f.status === "guardada" ? "Guardada" : "Borrador"}</span>
+              <button class="btn" onclick="printFicha(${f.id})">Imprimir</button>
+              <button class="btn btn-danger" onclick="deleteFicha(${f.id})">Eliminar</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function deleteFicha(id) {
+      const ok = await confirmDialog({
+        title: "Eliminar bolo",
+        message: "Esta salida técnica se eliminará de los bolos guardados.",
+        confirmText: "Eliminar",
+        cancelText: "Conservar",
+        danger: true
+      });
+      if (!ok) return;
+      fichas = fichas.filter(f => f.id !== id);
+      await deleteBoloFromCloud(id);
+      persistFichas();
+      renderFichas();
+      notify("Bolo eliminado", "La ficha se ha eliminado correctamente.", "success");
+    }
+
+    function printFicha(id) {
+      const ficha = fichas.find(f => f.id === id);
+      if (!ficha) return;
+      renderPrintArea(ficha);
+      window.print();
+    }
+
+    function renderPrintArea(ficha) {
+      document.getElementById("printArea").innerHTML = `
+        <div class="print-header">
+          <img src="logo-transparent.png" alt="SENORPP">
+          <div class="print-title">
+            <h1>Ficha de carga del bolo</h1>
+            <div><b>Bolo:</b> ${escapeHtml(ficha.nombre)}</div>
+            <div><b>Fecha:</b> ${escapeHtml(ficha.fecha || "")}</div>
+            <div><b>Lugar:</b> ${escapeHtml(ficha.lugar || "")}</div>
+            <div><b>Responsable:</b> ${escapeHtml(ficha.resp || "")}</div>
+          </div>
+        </div>
+        ${ficha.notas ? `<div class="print-notes"><b>Notas:</b> ${escapeHtml(ficha.notas)}</div>` : ""}
+        ${categories.map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("")}
+        <div class="print-footer">Generado por SENORPP · ${new Date().toLocaleDateString("es-ES")}</div>
+      `;
+    }
+
+    function printSection(cat, rows) {
+      const body = rows.length
+        ? rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td>${escapeHtml(r.estado)}</td><td>${escapeHtml(r.notas)}</td></tr>`).join("")
+        : `<tr><td colspan="5">Sin material</td></tr>`;
+      return `
+        <section class="print-section">
+          <h2>${cat.label}</h2>
+          <table class="print-table">
+            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Estado</th><th>Notas</th></tr></thead>
+            <tbody>${body}</tbody>
+          </table>
+        </section>
+      `;
+    }
+
+    function renderInventory() {
+      const grid = document.getElementById("inventoryGrid");
+      const tabs = document.getElementById("inventoryTabs");
+      const editButton = document.getElementById("inventory-edit-btn");
+      const saveButton = document.getElementById("inventory-save-btn");
+      if (editButton) {
+        editButton.textContent = inventoryEditMode ? "Salir de edición" : "Editar inventario";
+        editButton.classList.toggle("btn-primary", !inventoryEditMode);
+      }
+      if (saveButton) saveButton.style.display = inventoryEditMode ? "inline-flex" : "none";
+      if (!categories.some(cat => cat.id === activeInventoryCategory)) activeInventoryCategory = "sonido";
+      tabs.classList.toggle("active", inventoryEditMode);
+      tabs.innerHTML = categories.map(cat => `
+        <button class="${cat.id === activeInventoryCategory ? "active" : ""}" onclick="showInventoryCategory('${cat.id}')">${cat.label}</button>
+      `).join("");
+      grid.classList.toggle("editing", inventoryEditMode);
+      const visibleCategories = inventoryEditMode ? categories.filter(cat => cat.id === activeInventoryCategory) : categories;
+      grid.innerHTML = visibleCategories.map(cat => `
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">${cat.label}</div>
+            ${inventoryEditMode ? `<button class="btn" onclick="addInventoryItem('${cat.id}')">Añadir</button>` : ""}
+          </div>
+          ${inventoryEditMode ? renderInventoryEditList(cat.id) : renderInventoryReadTable(cat.id)}
+          ${inventoryEditMode ? `<div class="inventory-actions">
+            <button class="btn" onclick="addInventoryItem('${cat.id}')">Añadir material</button>
+          </div>` : ""}
+        </div>
+      `).join("");
+    }
+
+    function showInventoryCategory(tipo) {
+      activeInventoryCategory = tipo;
+      renderInventory();
+    }
+
+    function renderInventoryReadTable(tipo) {
+      return `
+        <div class="table-wrap">
+          <table class="inventory-table">
+            <thead><tr><th>Material</th><th>Modelo</th><th>Stock</th><th>Estado</th></tr></thead>
+            <tbody>${DB[tipo].map(item => item.modelos.map(modelo => `
+              <tr>
+                <td>${escapeHtml(item.nombre)}</td>
+                <td>${escapeHtml(modelo.nombre)}</td>
+                <td>${escapeHtml(modelo.stock)}</td>
+                <td>${estadoLabel(modelo.estado)}</td>
+              </tr>
+            `).join("")).join("")}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderInventoryEditList(tipo) {
+      return `
+        <div class="inventory-edit-list">
+          ${DB[tipo].map((item, itemIndex) => item.modelos.map((modelo, modelIndex) => `
+            <div class="inventory-edit-card">
+              <div class="field">
+                <label>Material</label>
+                <input value="${escapeAttr(item.nombre)}" oninput="updateInventoryItem('${tipo}', ${itemIndex}, ${modelIndex}, 'nombre', this.value)" placeholder="Material">
+              </div>
+              <div class="field">
+                <label>Modelo</label>
+                <input value="${escapeAttr(modelo.nombre)}" oninput="updateInventoryItem('${tipo}', ${itemIndex}, ${modelIndex}, 'modelo', this.value)" placeholder="Modelo">
+              </div>
+              <div class="field">
+                <label>Stock</label>
+                <div class="number-stepper">
+                  <button class="stepper-btn" type="button" onclick="stepInput('stock-${tipo}-${itemIndex}-${modelIndex}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+                  <input id="stock-${tipo}-${itemIndex}-${modelIndex}" type="number" min="0" inputmode="numeric" value="${escapeAttr(modelo.stock)}" oninput="updateInventoryItem('${tipo}', ${itemIndex}, ${modelIndex}, 'stock', this.value)">
+                  <button class="stepper-btn" type="button" onclick="stepInput('stock-${tipo}-${itemIndex}-${modelIndex}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
+                </div>
+              </div>
+              <div class="field">
+                <label>Estado</label>
+                <select onchange="updateInventoryItem('${tipo}', ${itemIndex}, ${modelIndex}, 'estado', this.value)">
+                  <option value="ok" ${modelo.estado === "ok" ? "selected" : ""}>OK</option>
+                  <option value="revision" ${modelo.estado === "revision" ? "selected" : ""}>Revisión</option>
+                  <option value="baja" ${modelo.estado === "baja" ? "selected" : ""}>Baja</option>
+                </select>
+              </div>
+              <div class="inventory-edit-footer">
+                <button class="btn btn-danger" onclick="deleteInventoryItem('${tipo}', ${itemIndex}, ${modelIndex})">Eliminar modelo</button>
+              </div>
+            </div>
+          `).join("")).join("")}
+        </div>
+      `;
+    }
+
+    async function toggleInventoryEdit() {
+      if (inventoryEditMode) {
+        await handleInventoryEditExit();
+        return;
+      }
+      inventoryEditSnapshot = cloneDb(DB);
+      inventoryEditMode = true;
+      renderInventory();
+      renderCategoryUi();
+      notify(
+        "Edición activada",
+        "Los cambios no se guardan hasta que pulses Guardar cambios.",
+        "success"
+      );
+    }
+
+    async function handleInventoryEditExit() {
+      const action = await confirmDialog({
+        title: "Salir de edición",
+        message: "Tienes cambios de inventario en edición. ¿Quieres guardarlos antes de salir?",
+        confirmText: "Guardar cambios",
+        discardText: "Descartar cambios",
+        cancelText: "Seguir editando"
+      });
+      if (action === "cancel") return false;
+      if (action === "confirm") {
+        await saveInventoryChanges({ silent: true });
+      } else {
+        discardInventoryChanges();
+      }
+      return true;
+    }
+
+    async function saveInventoryChanges(options = {}) {
+      const ok = options.silent ? true : await confirmDialog({
+        title: "Guardar inventario",
+        message: "Se guardarán los cambios del inventario y se sincronizarán con Google Sheets.",
+        confirmText: "Guardar",
+        cancelText: "Cancelar"
+      });
+      if (!ok) return false;
+      DB = normalizeInventory(DB);
+      persistInventory({ sync: false });
+      await saveInventoryToCloud({ silent: true });
+      inventoryEditSnapshot = cloneDb(DB);
+      inventoryEditMode = false;
+      renderInventory();
+      renderCategoryUi();
+      if (!options.silent) notify("Inventario guardado", "Los cambios se han guardado correctamente.", "success");
+      return true;
+    }
+
+    function discardInventoryChanges() {
+      if (inventoryEditSnapshot) DB = cloneDb(inventoryEditSnapshot);
+      inventoryEditMode = false;
+      inventoryEditSnapshot = null;
+      renderInventory();
+      renderCategoryUi();
+      notify("Cambios descartados", "El inventario vuelve al estado anterior.", "warning");
+    }
+
+    function updateInventoryItem(tipo, itemIndex, modelIndex, field, value) {
+      const item = DB[tipo]?.[itemIndex];
+      const modelo = item?.modelos?.[modelIndex];
+      if (!item || !modelo) return;
+      if (field === "nombre") {
+        item.nombre = value.trim();
+      } else if (field === "modelo") {
+        modelo.nombre = value.trim();
+      } else if (field === "stock") {
+        modelo.stock = Math.max(0, Number(value) || 0);
+      } else if (field === "estado") {
+        modelo.estado = value;
+      }
+      renderCategoryUi();
+    }
+
+    function addInventoryItem(tipo) {
+      DB[tipo].push({ nombre: "Nuevo material", modelos: [{ nombre: "Sin modelo", stock: 1, estado: "ok" }] });
+      renderInventory();
+      renderCategoryUi();
+    }
+
+    async function deleteInventoryItem(tipo, itemIndex, modelIndex) {
+      const ok = await confirmDialog({
+        title: "Eliminar modelo",
+        message: "Este modelo dejará de aparecer en el inventario y en los desplegables del nuevo bolo.",
+        confirmText: "Eliminar",
+        cancelText: "Conservar",
+        danger: true
+      });
+      if (!ok) return;
+      const item = DB[tipo]?.[itemIndex];
+      if (!item) return;
+      item.modelos.splice(modelIndex, 1);
+      if (item.modelos.length === 0) DB[tipo].splice(itemIndex, 1);
+      if (DB[tipo].length === 0) {
+        DB[tipo].push({ nombre: "Nuevo material", modelos: [{ nombre: "Sin modelo", stock: 1, estado: "ok" }] });
+      }
+      renderInventory();
+      renderCategoryUi();
+      notify("Modelo eliminado", "El inventario se ha actualizado.", "success");
+    }
+
+    function persistInventory(options = {}) {
+      localStorage.setItem(INVENTORY_KEY, JSON.stringify(normalizeInventory(DB)));
+      if (options.sync !== false && !inventoryEditMode) scheduleInventorySync();
+    }
+
+    function scheduleInventorySync() {
+      if (!cloudUrl) return;
+      window.clearTimeout(inventorySyncTimer);
+      inventorySyncTimer = window.setTimeout(() => saveInventoryToCloud(), 700);
+    }
+
+    async function saveCloudConnection() {
+      const url = document.getElementById("sheet-url").value.trim();
+      if (!url) {
+        notify("Falta la URL", "Pega primero la URL de la app de Google Apps Script.", "warning");
+        return;
+      }
+      cloudUrl = url;
+      localStorage.setItem(API_URL_KEY, cloudUrl);
+      localStorage.removeItem(SHEET_KEY);
+      await syncFromCloud();
+    }
+
+    async function syncFromCloud(options = {}) {
+      if (!cloudUrl) {
+        notify("Sin conexión", "Guarda primero la URL de Apps Script en configuración.", "warning");
+        return;
+      }
+      try {
+        const response = await fetch(cloudUrl);
+        if (!response.ok) throw new Error("No se pudo leer la hoja.");
+        const data = await response.json();
+        DB = normalizeInventory(data.inventory || DB);
+        const drafts = readLocalDrafts();
+        fichas = [...(Array.isArray(data.bolos) ? data.bolos : []), ...drafts];
+        localStorage.setItem(INVENTORY_KEY, JSON.stringify(DB));
+        resetForm();
+        renderCategoryUi();
+        renderInventory();
+        updateCount();
+        if (!options.silent) notify("Datos sincronizados", "Inventario y bolos guardados se han recargado desde Google Sheets.", "success");
+      } catch (error) {
+        if (!options.silent) notify("No se pudo sincronizar", "Revisa la URL de Apps Script y que esté desplegada con acceso público.", "error");
+      }
+    }
+
+    async function saveInventoryToCloud(options = {}) {
+      if (!cloudUrl) return;
+      try {
+        DB = normalizeInventory(DB);
+        localStorage.setItem(INVENTORY_KEY, JSON.stringify(DB));
+        await cloudPost({ action: "saveInventory", inventory: DB });
+      } catch (error) {
+        if (!options.silent) notify("Inventario no sincronizado", "Se guardó en este navegador, pero no se pudo enviar a Google Sheets.", "error");
+      }
+    }
+
+    async function saveBoloToCloud(ficha) {
+      if (!cloudUrl) {
+        throw new Error("Sin Google Sheets");
+      }
+      try {
+        await cloudPost({ action: "saveBolo", bolo: ficha });
+      } catch (error) {
+        notify("Bolo no sincronizado", "No se pudo guardar el bolo en Google Sheets.", "error");
+        throw error;
+      }
+    }
+
+    async function deleteBoloFromCloud(id) {
+      if (!cloudUrl) return;
+      try {
+        await cloudPost({ action: "deleteBolo", id });
+      } catch (error) {
+        notify("Borrado no sincronizado", "No se pudo eliminar el bolo en Google Sheets.", "error");
+      }
+    }
+
+    async function cloudPost(payload) {
+      const response = await fetch(cloudUrl, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) throw new Error("Error en Google Sheets");
+      const data = await response.json();
+      if (data && data.ok === false) throw new Error(data.error || "Error en Google Sheets");
+      return data;
+    }
+
+    function clearSheetUrl() {
+      cloudUrl = "";
+      window.clearTimeout(inventorySyncTimer);
+      localStorage.removeItem(API_URL_KEY);
+      localStorage.removeItem(SHEET_KEY);
+      localStorage.removeItem(INVENTORY_KEY);
+      document.getElementById("sheet-url").value = "";
+      DB = cloneDb(DEFAULT_DB);
+      fichas = readLocalDrafts();
+      resetForm();
+      renderCategoryUi();
+      renderInventory();
+      updateCount();
+      notify("Inventario local recuperado", "La URL se ha borrado y se ha restaurado el inventario inicial.", "success");
+    }
+
+    function buildDbFromJson(rows) {
+      return groupInventory(Array.isArray(rows) ? rows : rows.data || []);
+    }
+
+    function buildDbFromCsv(csv) {
+      const lines = parseCsv(csv);
+      const headers = lines.shift().map(h => h.trim().toLowerCase());
+      const rows = lines.map(cols => Object.fromEntries(headers.map((h, i) => [h, cols[i] || ""])));
+      return groupInventory(rows);
+    }
+
+    function groupInventory(rows) {
+      const next = { sonido: [], iluminacion: [], otros: [] };
+      rows.forEach(row => {
+        const categoria = normalizeCategory(row.categoria || row.category);
+        const nombre = cleanName(row.nombre || row.material, "");
+        const modelo = cleanName(row.modelo || row.model, "Sin modelo");
+        const stock = Number(row.stock || row.cantidad || 0);
+        const estado = normalizeEstado(row.estado || row.status);
+        if (!nombre) return;
+        upsertInventoryModel(next, categoria, nombre, {
+          nombre: modelo,
+          stock: Number.isFinite(stock) ? stock : 0,
+          estado
+        });
+      });
+      categories.forEach(cat => {
+        if (next[cat.id].length === 0) next[cat.id] = DB[cat.id];
+        next[cat.id].forEach(item => {
+          if (item.modelos.length === 0) item.modelos = [{ nombre: "Sin modelo", stock: 0, estado: "ok" }];
+        });
+      });
+      return next;
+    }
+
+    function normalizeCategory(value) {
+      const clean = String(value || "").trim().toLowerCase();
+      if (clean.startsWith("ilu")) return "iluminacion";
+      if (clean.startsWith("son")) return "sonido";
+      return "otros";
+    }
+
+    function normalizeEstado(value) {
+      const clean = String(value || "").trim().toLowerCase();
+      if (clean.startsWith("rev")) return "revision";
+      if (clean.startsWith("baj")) return "baja";
+      return "ok";
+    }
+
+    function parseCsv(text) {
+      const rows = [];
+      let row = [], cell = "", quoted = false;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+        if (char === '"' && quoted && next === '"') {
+          cell += '"';
+          i++;
+        } else if (char === '"') {
+          quoted = !quoted;
+        } else if (char === "," && !quoted) {
+          row.push(cell);
+          cell = "";
+        } else if ((char === "\n" || char === "\r") && !quoted) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(cell);
+          if (row.some(v => v.trim() !== "")) rows.push(row);
+          row = [];
+          cell = "";
+        } else {
+          cell += char;
+        }
+      }
+      row.push(cell);
+      if (row.some(v => v.trim() !== "")) rows.push(row);
+      return rows;
+    }
+
+    function notify(title, message = "", type = "success") {
+      const stack = document.getElementById("toastStack");
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `<strong>${escapeHtml(title)}</strong>${message ? `<span>${escapeHtml(message)}</span>` : ""}`;
+      stack.appendChild(toast);
+      window.setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(8px)";
+        toast.style.transition = "opacity .2s ease, transform .2s ease";
+        window.setTimeout(() => toast.remove(), 220);
+      }, 3200);
+    }
+
+    function confirmDialog({ title, message, confirmText = "Aceptar", cancelText = "Cancelar", discardText = "", danger = false }) {
+      return new Promise(resolve => {
+        const backdrop = document.getElementById("dialogBackdrop");
+        const titleEl = document.getElementById("dialogTitle");
+        const messageEl = document.getElementById("dialogMessage");
+        const actions = document.getElementById("dialogActions");
+        titleEl.textContent = title;
+        messageEl.textContent = message;
+        actions.innerHTML = `
+          <button class="btn" type="button" data-dialog-action="cancel">${escapeHtml(cancelText)}</button>
+          ${discardText ? `<button class="btn btn-danger" type="button" data-dialog-action="discard">${escapeHtml(discardText)}</button>` : ""}
+          <button class="btn ${danger ? "btn-danger" : "btn-primary"}" type="button" data-dialog-action="confirm">${escapeHtml(confirmText)}</button>
+        `;
+        backdrop.classList.add("active");
+
+        const close = value => {
+          backdrop.classList.remove("active");
+          actions.removeEventListener("click", onAction);
+          backdrop.removeEventListener("click", onBackdrop);
+          document.removeEventListener("keydown", onKey);
+          resolve(value);
+        };
+        const onAction = event => {
+          const button = event.target.closest("[data-dialog-action]");
+          if (!button) return;
+          if (discardText) {
+            close(button.dataset.dialogAction);
+          } else {
+            close(button.dataset.dialogAction === "confirm");
+          }
+        };
+        const onBackdrop = event => {
+          if (event.target === backdrop) close(discardText ? "cancel" : false);
+        };
+        const onKey = event => {
+          if (event.key === "Escape") close(discardText ? "cancel" : false);
+        };
+
+        actions.addEventListener("click", onAction);
+        backdrop.addEventListener("click", onBackdrop);
+        document.addEventListener("keydown", onKey);
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[ch]));
+    }
+
+    function escapeAttr(value) {
+      return escapeHtml(value);
+    }
+
+    init();
+  </script>
+</body>
+</html>
