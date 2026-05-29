@@ -26,6 +26,10 @@ function doPost(e) {
       return jsonResponse({ ok: true });
     }
 
+    if (payload.action === "uploadRider") {
+      return jsonResponse({ ok: true, rider: uploadRider(payload.rider, payload.boloId) });
+    }
+
     if (payload.action === "deleteBolo") {
       deleteBolo(payload.id);
       return jsonResponse({ ok: true });
@@ -160,6 +164,32 @@ function deleteBolo(id) {
     }
   }
   compactSheetRows(sheet);
+}
+
+function uploadRider(rider, boloId) {
+  if (!rider || !rider.dataUrl) throw new Error("Missing rider");
+  const match = String(rider.dataUrl).match(/^data:application\/pdf;base64,(.+)$/);
+  if (!match) throw new Error("Invalid rider PDF");
+  const bytes = Utilities.base64Decode(match[1]);
+  const safeName = String(rider.name || "rider-tecnico.pdf").replace(/[\\/:*?"<>|]/g, "-");
+  const fileName = `${boloId || Date.now()}-${safeName}`;
+  const folder = getOrCreateFolder("SENORP Riders");
+  const blob = Utilities.newBlob(bytes, "application/pdf", fileName);
+  const file = folder.createFile(blob);
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return {
+    name: safeName,
+    type: "application/pdf",
+    size: Number(rider.size) || bytes.length,
+    fileId: file.getId(),
+    url: file.getUrl(),
+    downloadUrl: `https://drive.google.com/uc?export=download&id=${file.getId()}`
+  };
+}
+
+function getOrCreateFolder(name) {
+  const folders = DriveApp.getFoldersByName(name);
+  return folders.hasNext() ? folders.next() : DriveApp.createFolder(name);
 }
 
 function safeJsonId(value) {

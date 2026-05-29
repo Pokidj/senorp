@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -21,6 +21,7 @@
       --ok: #137a43;
       --warn: #9b6500;
       --bad: #b3261e;
+      --action-fg: #111111;
       --radius: 8px;
       --shadow: 0 10px 24px rgba(0, 0, 0, .08);
     }
@@ -39,6 +40,7 @@
       --ok: #60d394;
       --warn: #ffd166;
       --bad: #ff6b6b;
+      --action-fg: #ffffff;
       --shadow: 0 12px 28px rgba(0, 0, 0, .42);
     }
 
@@ -181,8 +183,11 @@
     }
 
     .app.home-active .sidebar-collapse {
-      cursor: default;
-      opacity: .45;
+      display: none;
+    }
+
+    .app.home-active .sidebar-tools {
+      grid-template-columns: minmax(0, 1fr) 48px;
     }
 
     .app.sidebar-collapsed .sidebar-collapse {
@@ -363,7 +368,7 @@
     .sidebar-tools {
       margin-top: auto;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 48px;
+      grid-template-columns: minmax(0, 1fr) 48px 48px;
       gap: 8px;
       align-items: center;
       border-top: 1px solid var(--line);
@@ -492,11 +497,14 @@
     }
 
     .save-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 86px);
+      gap: 10px;
       align-items: stretch;
       background: color-mix(in srgb, var(--paper) 82%, transparent);
       border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 6px;
+      padding: 8px;
       box-shadow: var(--shadow);
     }
 
@@ -543,10 +551,10 @@
       stroke-linejoin: round;
     }
 
-    .save-actions .btn {
-      min-height: 46px;
-      padding: 10px 14px;
-      border-radius: 10px;
+    .save-actions .saved-action {
+      width: 86px;
+      min-height: 86px;
+      max-height: 96px;
     }
 
     .page { display: none; }
@@ -731,6 +739,11 @@
       font-size: 16px;
     }
 
+    input[type="file"] {
+      padding: 10px;
+      cursor: pointer;
+    }
+
     input:disabled {
       opacity: 1;
       background: var(--soft);
@@ -744,6 +757,52 @@
       line-height: 1.35;
     }
 
+    .rider-field {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .rider-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .rider-status {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .rider-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      border: 1px solid rgba(224, 0, 27, .32);
+      border-radius: var(--radius);
+      background: rgba(224, 0, 27, .1);
+      color: var(--ink);
+      padding: 9px 11px;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .rider-link svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     textarea { resize: vertical; }
     input:focus, select:focus, textarea:focus {
       outline: 2px solid rgba(224, 0, 27, .18);
@@ -753,30 +812,79 @@
     .tabs {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
+      gap: 10px;
       margin-bottom: 16px;
     }
 
     .tabs button {
-      border: 0;
-      border-right: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
       background: var(--paper);
-      padding: 12px;
+      padding: 10px 12px;
       cursor: pointer;
-      color: var(--muted);
-      font-weight: 800;
-      min-height: 48px;
+      color: var(--ink);
+      font-weight: 900;
+      min-height: 58px;
       touch-action: manipulation;
+      text-align: left;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
     }
 
-    .tabs button:last-child { border-right: 0; }
-    .tabs button.active {
+    .inventory-tabs button {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      padding: 10px 12px;
+      cursor: pointer;
       color: var(--ink);
+      font-weight: 900;
+      min-height: 58px;
+      touch-action: manipulation;
+      text-align: left;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .tabs button:hover,
+    .inventory-tabs button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(224, 0, 27, .3);
+    }
+
+    .tabs button.active,
+    .inventory-tabs button.active {
       background: var(--soft-red);
+      border-color: rgba(224, 0, 27, .45);
       box-shadow: inset 0 -3px 0 var(--red);
+    }
+
+    .tab-icon,
+    .add-card-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius);
+      display: inline-grid;
+      place-items: center;
+      background: rgba(224, 0, 27, .1);
+      color: var(--red);
+    }
+
+    .tab-icon svg,
+    .add-card-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .category-section { display: none; }
@@ -785,6 +893,98 @@
     .table-wrap {
       width: 100%;
       overflow-x: auto;
+    }
+
+    .material-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .material-toolbar-info {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .material-toolbar-info strong {
+      font-size: 15px;
+    }
+
+    .material-toolbar-info span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .add-material-card {
+      display: grid;
+      grid-template-columns: 38px auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 64px;
+      border: 1px solid rgba(224, 0, 27, .32);
+      border-radius: var(--radius);
+      background: rgba(224, 0, 27, .1);
+      color: var(--action-fg);
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 900;
+      touch-action: manipulation;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .add-material-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(224, 0, 27, .48);
+    }
+
+    .add-material-card span:last-child {
+      display: grid;
+      gap: 2px;
+      text-align: left;
+    }
+
+    .add-material-card small {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .main-material-toolbar {
+      grid-template-columns: minmax(230px, 330px);
+      justify-content: start;
+    }
+
+    .main-material-toolbar .add-material-card {
+      min-height: 82px;
+      border-color: rgba(224, 0, 27, .46);
+      background: linear-gradient(135deg, rgba(224, 0, 27, .22), rgba(224, 0, 27, .08));
+      box-shadow: 0 12px 30px rgba(224, 0, 27, .12);
+    }
+
+    .summary-toolbar {
+      grid-template-columns: minmax(0, 1fr) 42px;
+    }
+
+    .summary-title strong {
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+
+    .summary-table td {
+      font-weight: 800;
+    }
+
+    .summary-table .muted-cell {
+      color: var(--muted);
+      font-weight: 800;
     }
 
     table {
@@ -850,8 +1050,8 @@
       height: 42px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: var(--soft);
-      color: var(--ink);
+      background: var(--field);
+      color: var(--action-fg);
       cursor: pointer;
       font-weight: 900;
       line-height: 1;
@@ -862,7 +1062,6 @@
     }
 
     .stepper-btn:hover {
-      background: var(--paper);
       border-color: var(--hover-line);
     }
 
@@ -1093,7 +1292,7 @@
 
     .saved-actions {
       display: grid;
-      grid-template-columns: repeat(5, 80px);
+      grid-template-columns: repeat(3, 80px);
       gap: 10px;
       align-content: center;
       justify-content: end;
@@ -1113,34 +1312,45 @@
       border-radius: var(--radius);
       border: 1px solid var(--line);
       background: var(--field);
-      color: var(--ink);
+      color: var(--action-fg);
       cursor: pointer;
       touch-action: manipulation;
       transition: transform .15s ease, border-color .15s ease, background .15s ease;
     }
 
     .saved-action.edit {
-      color: #2563eb;
       background: rgba(37, 99, 235, .1);
       border-color: rgba(37, 99, 235, .32);
     }
 
     .saved-action.copy {
-      color: #7c3aed;
       background: rgba(124, 58, 237, .1);
       border-color: rgba(124, 58, 237, .32);
     }
 
     .saved-action.print {
-      color: #0f766e;
       background: rgba(15, 118, 110, .1);
       border-color: rgba(15, 118, 110, .32);
     }
 
     .saved-action.share {
-      color: #c2410c;
       background: rgba(194, 65, 12, .1);
       border-color: rgba(194, 65, 12, .32);
+    }
+
+    .saved-action.save {
+      background: rgba(19, 122, 67, .14);
+      border-color: rgba(19, 122, 67, .34);
+    }
+
+    .saved-action.cancel {
+      background: rgba(98, 98, 98, .12);
+      border-color: rgba(98, 98, 98, .32);
+    }
+
+    .saved-action.close {
+      background: rgba(98, 98, 98, .12);
+      border-color: rgba(98, 98, 98, .32);
     }
 
     .saved-action:hover {
@@ -1149,8 +1359,8 @@
     }
 
     .saved-action.danger {
-      color: var(--bad);
       background: rgba(179, 38, 30, .08);
+      border-color: rgba(179, 38, 30, .32);
     }
 
     .saved-action-label {
@@ -1179,6 +1389,27 @@
     }
 
     .pill.saved { background: rgba(19, 122, 67, .14); color: var(--ok); }
+
+    .category-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .category-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 0 10px;
+      background: rgba(224, 0, 27, .1);
+      color: var(--red);
+      border: 1px solid rgba(224, 0, 27, .22);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
     .inventory-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -1196,10 +1427,7 @@
     .inventory-tabs {
       display: none;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
+      gap: 10px;
       margin-bottom: 16px;
     }
 
@@ -1249,23 +1477,25 @@
     }
 
     .inventory-tabs button {
-      min-height: 48px;
-      border: 0;
-      border-right: 1px solid var(--line);
+      min-height: 58px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
       background: var(--paper);
-      color: var(--muted);
+      color: var(--ink);
       cursor: pointer;
       font-weight: 900;
       touch-action: manipulation;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
     }
 
-    .inventory-tabs button:last-child {
-      border-right: 0;
+    .inventory-tabs button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(224, 0, 27, .3);
     }
 
     .inventory-tabs button.active {
       background: var(--soft-red);
-      color: var(--ink);
+      border-color: rgba(224, 0, 27, .45);
       box-shadow: inset 0 -3px 0 var(--red);
     }
 
@@ -1456,7 +1686,11 @@
     }
 
     .bulk-dialog {
-      width: min(680px, 100%);
+      width: min(980px, 100%);
+    }
+
+    .detail-dialog {
+      width: min(980px, 100%);
     }
 
     .dialog-head {
@@ -1484,16 +1718,229 @@
       background: var(--soft);
     }
 
+    .detail-body {
+      padding: 0 20px 20px;
+      display: grid;
+      gap: 16px;
+      max-height: min(68vh, 680px);
+      overflow: auto;
+    }
+
+    .detail-print-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .detail-print-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      padding: 18px;
+      border-bottom: 2px solid var(--ink);
+      background: var(--soft);
+    }
+
+    .detail-print-header h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .detail-print-meta {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .detail-print-content {
+      display: grid;
+      gap: 18px;
+      padding: 18px;
+    }
+
+    .detail-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .detail-field {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      padding: 10px;
+      min-width: 0;
+    }
+
+    .detail-field span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 4px;
+    }
+
+    .detail-field strong {
+      display: block;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .detail-section {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--paper);
+    }
+
+    .detail-section h3 {
+      margin: 0;
+      padding: 12px 14px;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+      font-size: 16px;
+    }
+
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .detail-table th,
+    .detail-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .detail-table th {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .detail-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .detail-empty {
+      padding: 13px 14px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .detail-danger-actions {
+      display: flex;
+      gap: 8px;
+      margin-right: auto;
+    }
+
+    .detail-danger-actions .saved-action {
+      width: 86px;
+      min-height: 86px;
+      max-height: 96px;
+    }
+
     .bulk-form {
       padding: 0 18px 18px;
       display: grid;
       gap: 14px;
     }
 
+    .bulk-picker-grid {
+      display: grid;
+      grid-template-columns: minmax(210px, .8fr) minmax(0, 1.2fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .bulk-choice-block {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .bulk-choice-block > label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .bulk-choice-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+    }
+
+    .bulk-choice-grid.category {
+      grid-template-columns: 1fr;
+    }
+
+    .bulk-choice-btn {
+      min-height: 56px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+      color: var(--ink);
+      cursor: pointer;
+      display: grid;
+      gap: 4px;
+      align-content: center;
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 900;
+      touch-action: manipulation;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+
+    .bulk-choice-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(224, 0, 27, .36);
+    }
+
+    .bulk-choice-btn.active {
+      border-color: var(--red);
+      background: rgba(224, 0, 27, .16);
+      box-shadow: inset 0 -2px 0 var(--red);
+    }
+
+    .bulk-choice-btn.added {
+      border-color: rgba(19, 122, 67, .45);
+    }
+
+    .bulk-choice-btn small {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
     .bulk-toolbar {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
+      padding-right: 12px;
+    }
+
+    .bulk-toolbar .saved-action {
+      width: 64px;
+      min-height: 58px;
+      max-height: 58px;
+      margin-left: auto;
+    }
+
+    .bulk-toolbar .saved-action-label {
+      display: none;
     }
 
     .bulk-models {
@@ -1503,13 +1950,13 @@
 
     .bulk-model-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(154px, 170px) 64px;
-      gap: 10px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
       align-items: center;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: var(--soft);
+      background: var(--paper);
       min-width: 0;
     }
 
@@ -1549,32 +1996,85 @@
     .mini-chip.ok { color: var(--ok); }
     .mini-chip.revision { color: var(--warn); }
     .mini-chip.baja { color: var(--bad); }
+    .mini-chip.added {
+      color: var(--ok);
+      border-color: rgba(19, 122, 67, .42);
+      background: rgba(19, 122, 67, .12);
+    }
+
+    .bulk-model-row.added {
+      border-color: rgba(19, 122, 67, .46);
+      background: linear-gradient(135deg, rgba(19, 122, 67, .12), var(--paper));
+    }
 
     .bulk-model-row input {
       text-align: center;
       font-weight: 800;
+      appearance: textfield;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .bulk-model-row input::-webkit-outer-spin-button,
+    .bulk-model-row input::-webkit-inner-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+
+    .bulk-model-controls {
+      display: grid;
+      grid-template-columns: repeat(4, 64px);
+      gap: 8px;
+      justify-self: end;
+      width: max-content;
+      max-width: 100%;
+    }
+
+    .bulk-model-row .stepper-btn,
+    .bulk-model-controls input,
+    .bulk-model-row .max-btn {
+      min-height: 58px;
+      height: 58px;
+      width: 64px;
+      min-width: 64px;
+      max-width: 64px;
+    }
+
+    .bulk-model-controls input {
+      line-height: 58px;
+    }
+
+    .bulk-model-row .stepper-btn {
+      width: 64px;
     }
 
     .max-btn {
-      min-height: 42px;
+      width: 64px;
+      min-height: 58px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: var(--paper);
-      color: var(--ink);
+      background: rgba(19, 122, 67, .14);
+      color: var(--action-fg);
       cursor: pointer;
       font-weight: 900;
       touch-action: manipulation;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      padding: 0 10px;
+      display: inline-grid;
+      place-items: center;
+      padding: 8px;
       transition: background .18s ease, border-color .18s ease, transform .18s ease;
     }
 
+    .max-btn span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
     .max-btn:hover {
-      background: var(--soft-red);
-      border-color: rgba(224, 0, 27, .28);
+      border-color: rgba(19, 122, 67, .38);
     }
 
     .max-btn:active {
@@ -1641,9 +2141,10 @@
 
     .pdf-export .print-section h2 {
       font-size: 14px;
-      margin: 0 0 6px;
-      padding-bottom: 4px;
-      border-bottom: 1px solid #999;
+      margin: 0 0 12px;
+      padding: 8px;
+      border: 1px solid #b9b9b9;
+      background: #f5f5f5;
     }
 
     .pdf-export .print-table {
@@ -1697,7 +2198,6 @@
       .brand img { width: min(240px, 72vw); height: 92px; justify-self: center; }
       .brand-mini { width: 44px; height: 44px; justify-self: center; }
       .brand div { grid-column: 1 / -1; }
-      .sidebar-collapse { grid-column: 2; grid-row: 1; align-self: start; }
       .app.sidebar-collapsed .brand {
         grid-template-columns: 1fr;
         justify-items: end;
@@ -1707,8 +2207,6 @@
       }
       .app.sidebar-collapsed .brand-mini { display: none; }
       .app.sidebar-collapsed .sidebar-collapse {
-        grid-column: auto;
-        grid-row: auto;
         justify-self: end;
       }
       .nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1733,17 +2231,32 @@
         display: grid;
         grid-template-columns: 1fr;
       }
+      .detail-summary {
+        grid-template-columns: 1fr 1fr;
+      }
+      .detail-print-header {
+        grid-template-columns: 1fr;
+      }
+      .detail-print-meta {
+        text-align: left;
+      }
       .bulk-model-row {
         grid-template-columns: 1fr;
       }
+      .bulk-model-controls {
+        justify-self: stretch;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        width: 100%;
+      }
       .max-btn {
         width: 100%;
-        min-height: 48px;
+        min-height: 54px;
       }
       .sidebar-tools {
         margin-top: 0;
         border-top: 0;
         padding-top: 0;
+        grid-template-columns: minmax(0, 1fr) 48px 48px;
       }
       .main { padding: 16px; }
       .topbar, .ficha { grid-template-columns: 1fr; display: grid; }
@@ -1751,7 +2264,7 @@
         grid-template-columns: 1fr;
       }
       .saved-actions {
-        grid-template-columns: repeat(5, minmax(70px, 1fr));
+        grid-template-columns: repeat(3, minmax(70px, 1fr));
         justify-content: stretch;
       }
       .saved-action {
@@ -1764,17 +2277,16 @@
       .home-card { aspect-ratio: auto; min-height: 180px; }
       .inventory-result-count { text-align: left; }
       .tabs { grid-template-columns: 1fr; }
-      .tabs button { border-right: 0; border-bottom: 1px solid var(--line); }
-      .tabs button:last-child { border-bottom: 0; }
-      .inventory-tabs {
+      .material-toolbar,
+      .main-material-toolbar,
+      .bulk-picker-grid {
         grid-template-columns: 1fr;
       }
-      .inventory-tabs button {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
+      .add-material-card {
+        width: 100%;
       }
-      .inventory-tabs button:last-child {
-        border-bottom: 0;
+      .inventory-tabs {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1786,7 +2298,11 @@
         width: 100%;
       }
       .save-actions {
-        padding: 8px;
+        width: 100%;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .save-actions .saved-action {
+        width: 100%;
       }
       .btn { min-height: 48px; }
       table, thead, tbody, tr, th, td {
@@ -1834,6 +2350,21 @@
       .bulk-model-row .number-stepper {
         justify-self: stretch;
       }
+      .bulk-model-row .stepper-btn,
+      .bulk-model-controls input,
+      .bulk-model-row .max-btn {
+        min-height: 54px;
+        height: 54px;
+        min-width: 0;
+        max-width: none;
+        width: 100%;
+      }
+      .bulk-model-row .stepper-btn {
+        width: 100%;
+      }
+      .bulk-model-controls input {
+        line-height: 54px;
+      }
       .inventory-grid.editing {
         grid-template-columns: 1fr;
       }
@@ -1858,6 +2389,9 @@
       }
       .saved-action {
         min-height: 82px;
+      }
+      .detail-summary {
+        grid-template-columns: 1fr;
       }
       .ficha-date {
         min-height: 76px;
@@ -1907,9 +2441,10 @@
       }
       .print-section h2 {
         font-size: 14px;
-        margin: 0 0 6px;
-        padding-bottom: 4px;
-        border-bottom: 1px solid #999;
+        margin: 0 0 12px;
+        padding: 8px;
+        border: 1px solid #b9b9b9;
+        background: #f5f5f5;
       }
       .print-table th,
       .print-table td {
@@ -1947,6 +2482,31 @@
       <div class="dialog-actions" id="dialogActions"></div>
     </div>
   </div>
+  <div class="dialog-backdrop" id="fichaDetailBackdrop" role="dialog" aria-modal="true" aria-labelledby="fichaDetailTitle" onclick="if (event.target === this) closeFichaDetail()">
+    <div class="dialog detail-dialog">
+      <div class="dialog-head">
+        <strong id="fichaDetailTitle"></strong>
+        <span id="fichaDetailMeta"></span>
+      </div>
+      <div class="detail-body" id="fichaDetailBody"></div>
+      <div class="dialog-actions">
+        <div class="detail-danger-actions">
+          <button class="saved-action edit" type="button" id="fichaDetailEditBtn" aria-label="Editar bolo" title="Editar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="m16.5 3.5 4 4L7 21H3v-4Z"></path></svg>
+            <span class="saved-action-label">Editar</span>
+          </button>
+          <button class="saved-action danger" type="button" id="fichaDetailDeleteBtn" aria-label="Eliminar bolo" title="Eliminar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="m19 6-1 14H6L5 6"></path><path d="M10 11v5"></path><path d="M14 11v5"></path></svg>
+            <span class="saved-action-label">Eliminar</span>
+          </button>
+        </div>
+        <button class="saved-action close" type="button" onclick="closeFichaDetail()" aria-label="Cerrar vista" title="Cerrar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+          <span class="saved-action-label">Cerrar</span>
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="dialog-backdrop" id="bulkBackdrop" role="dialog" aria-modal="true" aria-labelledby="bulkTitle">
     <div class="dialog bulk-dialog">
       <div class="dialog-head">
@@ -1954,14 +2514,23 @@
         <span>Elige un material y marca cantidades por modelo para crear varias líneas de una vez.</span>
       </div>
       <div class="bulk-form">
-        <div class="field">
-          <label for="bulk-material">Material</label>
-          <select id="bulk-material" onchange="renderBulkModels()"></select>
-        </div>
-        <div class="bulk-toolbar">
-          <button class="btn" type="button" onclick="selectAllBulkModels()">Seleccionar todo el material</button>
+        <div class="bulk-picker-grid">
+          <div class="bulk-choice-block">
+            <label>Categoría</label>
+            <div class="bulk-choice-grid category" id="bulk-category-buttons"></div>
+          </div>
+          <div class="bulk-choice-block">
+            <label>Material</label>
+            <div class="bulk-choice-grid" id="bulk-material-buttons"></div>
+          </div>
         </div>
         <div class="bulk-models" id="bulk-models"></div>
+        <div class="bulk-toolbar">
+          <button class="saved-action copy" type="button" onclick="selectAllBulkModels()" aria-label="Seleccionar todo" title="Todo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10"></path><path d="M4 12h10"></path><path d="M4 18h7"></path><path d="m15 17 2 2 4-5"></path></svg>
+            <span class="saved-action-label">Todo</span>
+          </button>
+        </div>
         <div class="form-grid">
           <div class="field full">
             <label for="bulk-notas">Notas comunes</label>
@@ -1970,8 +2539,14 @@
         </div>
       </div>
       <div class="dialog-actions">
-        <button class="btn" type="button" onclick="closeBulkDialog()">Cancelar</button>
-        <button class="btn btn-primary" type="button" onclick="addBulkRows()">Añadir seleccionados</button>
+        <button class="saved-action close" type="button" onclick="closeBulkDialog()" aria-label="Terminar" title="Terminar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+          <span class="saved-action-label">Terminar</span>
+        </button>
+        <button class="saved-action save" type="button" onclick="addBulkRows()" aria-label="Añadir seleccionados" title="Añadir">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+          <span class="saved-action-label">Añadir</span>
+        </button>
       </div>
     </div>
   </div>
@@ -1979,9 +2554,6 @@
   <div class="app home-active">
     <aside class="sidebar">
       <div class="brand">
-        <button class="sidebar-collapse" type="button" onclick="toggleSidebar()" aria-label="Ocultar barra lateral" title="Ocultar barra lateral">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
-        </button>
         <img src="logo-transparent.png" alt="SENORP" onclick="showPage('home')" title="Inicio">
         <img class="brand-mini" src="logo-mini.png" alt="SENORP" onclick="showPage('home')" title="Inicio">
         <div>
@@ -2009,6 +2581,9 @@
         <span class="watermark">© POKIDJ</span>
         <button class="settings-button" id="nav-configuracion" onclick="showPage('configuracion')" aria-label="Configuración" title="Configuración">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.38a1.7 1.7 0 0 0-1 .9 1.7 1.7 0 0 0-.2.8V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.59 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.62 15a1.7 1.7 0 0 0-.9-1 1.7 1.7 0 0 0-.8-.2H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.59-1.1A1.7 1.7 0 0 0 4.34 6.8l-.06-.06A2 2 0 1 1 7.1 3.93l.06.06A1.7 1.7 0 0 0 9 4.62h.02a1.7 1.7 0 0 0 1-.9 1.7 1.7 0 0 0 .2-.8V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.1 1.59 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.38 9c.05.16.11.31.2.46a1.7 1.7 0 0 0 .9 1 1.7 1.7 0 0 0 .8.2H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51.34Z"></path></svg>
+        </button>
+        <button class="sidebar-collapse" type="button" onclick="toggleSidebar()" aria-label="Ocultar barra lateral" title="Ocultar barra lateral">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
         </button>
       </div>
     </aside>
@@ -2063,18 +2638,18 @@
             <div class="eyebrow">Nuevo bolo</div>
             <h1>Salida técnica del bolo</h1>
           </div>
-          <div class="actions save-actions">
-            <button class="btn" onclick="printCurrentBolo()">
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>
-              Imprimir
+          <div class="save-actions">
+            <button class="saved-action print" onclick="printCurrentBolo()" aria-label="Imprimir bolo" title="Imprimir">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>
+              <span class="saved-action-label">Imprimir</span>
             </button>
-            <button class="btn" onclick="shareCurrentBolo()">
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M16 6 12 2 8 6"></path><path d="M12 2v13"></path></svg>
-              Compartir
+            <button class="saved-action share" onclick="shareCurrentBolo()" aria-label="Compartir bolo" title="Compartir">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M16 6 12 2 8 6"></path><path d="M12 2v13"></path></svg>
+              <span class="saved-action-label">Compartir</span>
             </button>
-            <button class="btn btn-primary" onclick="saveFicha('guardada')">
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
-              Guardar bolo
+            <button class="saved-action save" onclick="saveFicha('guardada')" aria-label="Guardar bolo" title="Guardar">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"></path><path d="M7 3v6h9"></path><path d="M7 21v-8h10v8"></path></svg>
+              <span class="saved-action-label">Guardar</span>
             </button>
           </div>
         </div>
@@ -2105,11 +2680,26 @@
                 <label for="evento-notas">Notas generales</label>
                 <textarea id="evento-notas" rows="3" placeholder="Horarios, accesos, necesidades especiales..."></textarea>
               </div>
+              <div class="field full">
+                <label for="evento-rider">Rider técnico PDF</label>
+                <div class="rider-field">
+                  <input id="evento-rider" type="file" accept="application/pdf,.pdf" onchange="handleRiderFile(this.files?.[0])">
+                  <div class="rider-actions" id="rider-actions"></div>
+                  <small>Se guardará con el bolo. Con Google Sheets configurado, la app lo sube a Google Drive y guarda el enlace.</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="tabs" id="categoryTabs"></div>
+        <div class="panel">
+          <div class="material-toolbar main-material-toolbar">
+            <button class="add-material-card" onclick="openAddMaterial()">
+              <span class="add-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
+              <span><strong>Añadir material</strong><small>Elegir y editar</small></span>
+            </button>
+          </div>
+        </div>
         <div id="categorySections"></div>
       </section>
 
@@ -2286,6 +2876,9 @@
     let fichasMonthFilter = "all";
     let fichasYearFilter = "all";
     let currentBulkType = "sonido";
+    let currentBulkMaterial = "";
+    let boloMaterial = {};
+    let currentRider = null;
     let editingBoloId = null;
     let cloudUrl = "";
     let inventorySyncTimer = null;
@@ -2294,6 +2887,7 @@
       applyTheme(localStorage.getItem(THEME_KEY) || "light");
       applySidebarState(true);
       categories.forEach(c => rowCounters[c.id] = 0);
+      boloMaterial = emptyBoloMaterial();
       fichas = readLocalFichas();
       cloudUrl = getConfiguredCloudUrl();
       DB = emptyInventory();
@@ -2487,32 +3081,30 @@
       const fieldIds = ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"];
       return JSON.stringify({
         fields: Object.fromEntries(fieldIds.map(id => [id, document.getElementById(id).value.trim()])),
-        material: Object.fromEntries(categories.map(cat => [cat.id, getRows(cat.id)]))
+        material: Object.fromEntries(categories.map(cat => [cat.id, getRows(cat.id)])),
+        rider: currentRider ? { name: currentRider.name, size: currentRider.size, url: currentRider.url || "" } : null
       });
     }
 
     function renderCategoryUi() {
-      const tabs = document.getElementById("categoryTabs");
-      tabs.innerHTML = categories.map((cat, index) => (
-        `<button class="${index === 0 ? "active" : ""}" onclick="showSection('${cat.id}', this)">${cat.label}</button>`
-      )).join("");
-
       const sections = document.getElementById("categorySections");
-      sections.innerHTML = categories.map((cat, index) => `
-        <section class="category-section ${index === 0 ? "active" : ""}" id="section-${cat.id}">
+      sections.innerHTML = categories.map(cat => `
+        <section class="category-section" id="section-${cat.id}">
           <div class="panel">
-            <div class="panel-head material-head">
-              <button class="btn" onclick="openAddMaterial('${cat.id}')">${cat.addLabel}</button>
+            <div class="material-toolbar summary-toolbar">
+              <div class="material-toolbar-info summary-title">
+                <strong>${cat.label}</strong>
+              </div>
+              <span class="add-card-icon">${categoryIcon(cat.id)}</span>
             </div>
             <div class="table-wrap">
-              <table>
+              <table class="summary-table">
                 <thead>
                   <tr>
                     <th>Material</th>
                     <th>Modelo</th>
                     <th>Cantidad</th>
                     <th>Notas</th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody id="tbody-${cat.id}"></tbody>
@@ -2521,50 +3113,112 @@
           </div>
         </section>
       `).join("");
+      renderBoloSummary();
     }
 
-    function showSection(section, tab) {
-      document.querySelectorAll(".category-section").forEach(el => el.classList.remove("active"));
-      document.querySelectorAll(".tabs button").forEach(el => el.classList.remove("active"));
-      document.getElementById("section-" + section).classList.add("active");
-      tab.classList.add("active");
+    function categoryIcon(id) {
+      const icons = {
+        sonido: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`,
+        iluminacion: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12.75V17h8v-2.25A7 7 0 0 0 12 2Z"></path></svg>`,
+        otros: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 21v-8h6v8"></path></svg>`
+      };
+      return icons[id] || icons.otros;
     }
 
-    function openAddMaterial(tipo) {
-      currentBulkType = tipo;
-      const cat = categories.find(c => c.id === tipo);
-      const select = document.getElementById("bulk-material");
-      const materials = uniqueMaterialNames(tipo);
-      if (materials.length === 0) {
-        notify("Inventario vacío", "Conecta Google Sheets y carga los datos antes de añadir material al bolo.", "warning");
-        return;
-      }
-      document.getElementById("bulkTitle").textContent = cat ? cat.addLabel : "Añadir material";
-      select.innerHTML = materials.map(nombre => `<option value="${escapeAttr(nombre)}">${escapeHtml(nombre)}</option>`).join("");
-      document.getElementById("bulk-notas").value = "";
+    function openAddMaterial() {
+      if (!categories.some(cat => cat.id === currentBulkType)) currentBulkType = categories[0].id;
+      renderBulkCategories();
+      renderBulkMaterials();
       renderBulkModels();
       document.getElementById("bulkBackdrop").classList.add("active");
     }
 
+    function renderBulkCategories() {
+      const box = document.getElementById("bulk-category-buttons");
+      if (!box) return;
+      box.innerHTML = categories.map(cat => {
+        const count = (boloMaterial[cat.id] || []).length;
+        return `
+          <button class="bulk-choice-btn ${cat.id === currentBulkType ? "active" : ""} ${count ? "added" : ""}" type="button" onclick="setBulkCategory('${cat.id}')">
+            <span>${escapeHtml(cat.label)}</span>
+            <small>${count ? `${count} añadido${count === 1 ? "" : "s"}` : "Sin añadir"}</small>
+          </button>
+        `;
+      }).join("");
+      const cat = categories.find(c => c.id === currentBulkType);
+      document.getElementById("bulkTitle").textContent = cat ? `Añadir ${cat.label.toLowerCase()}` : "Añadir material";
+    }
+
+    function setBulkCategory(tipo) {
+      currentBulkType = tipo;
+      currentBulkMaterial = "";
+      document.getElementById("bulk-notas").value = "";
+      renderBulkCategories();
+      renderBulkMaterials();
+      renderBulkModels();
+    }
+
+    function renderBulkMaterials() {
+      const box = document.getElementById("bulk-material-buttons");
+      if (!box) return;
+      const materials = uniqueMaterialNames(currentBulkType);
+      if (!materials.length) {
+        currentBulkMaterial = "";
+        box.innerHTML = `<div class="empty">No hay inventario cargado en esta categoría.</div>`;
+        return;
+      }
+      if (!currentBulkMaterial || !materials.includes(currentBulkMaterial)) currentBulkMaterial = materials[0];
+      box.innerHTML = materials.map(nombre => {
+        const count = (boloMaterial[currentBulkType] || []).filter(row => row.nombre === nombre).length;
+        return `
+          <button class="bulk-choice-btn ${nombre === currentBulkMaterial ? "active" : ""} ${count ? "added" : ""}" type="button" data-material="${escapeAttr(nombre)}" onclick="setBulkMaterial(this.dataset.material)">
+            <span>${escapeHtml(nombre)}</span>
+            <small>${count ? `${count} modelo${count === 1 ? "" : "s"}` : "Disponible"}</small>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function setBulkMaterial(nombre) {
+      currentBulkMaterial = nombre;
+      document.getElementById("bulk-notas").value = "";
+      renderBulkMaterials();
+      renderBulkModels();
+    }
+
     function renderBulkModels() {
-      const material = document.getElementById("bulk-material").value;
+      const material = currentBulkMaterial;
       const models = getModelEntries(currentBulkType, material);
-      document.getElementById("bulk-models").innerHTML = models.map((modelo, index) => `
-        <div class="bulk-model-row">
-          <div class="bulk-model-info">
-            <span class="bulk-model-name">${escapeHtml(modelo.nombre)}</span>
-            <div class="bulk-model-meta">
-              <span class="mini-chip">Stock ${escapeHtml(modelo.stock)}</span>
+      const box = document.getElementById("bulk-models");
+      if (!material) {
+        box.innerHTML = `<div class="empty">Elige una categoría con inventario.</div>`;
+        return;
+      }
+      if (!models.length) {
+        box.innerHTML = `<div class="empty">Este material no tiene modelos disponibles.</div>`;
+        return;
+      }
+      box.innerHTML = models.map((modelo, index) => {
+        const existing = getExistingBoloRow(currentBulkType, material, modelo.nombre);
+        const value = existing ? existing.cantidad : 0;
+        return `
+          <div class="bulk-model-row ${existing ? "added" : ""}">
+            <div class="bulk-model-info">
+              <span class="bulk-model-name">${escapeHtml(modelo.nombre)}</span>
+              <div class="bulk-model-meta">
+                <span class="mini-chip">Stock ${escapeHtml(modelo.stock)}</span>
+                ${existing ? `<span class="mini-chip added">Añadido ${escapeHtml(existing.cantidad)}</span>` : ""}
+              </div>
+            </div>
+            <div class="bulk-model-controls">
+              <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+              <input id="bulk-model-${index}" type="number" min="0" max="${escapeAttr(modelo.stock)}" inputmode="numeric" value="${escapeAttr(value)}" data-bulk-model="${escapeAttr(modelo.nombre)}" aria-label="Cantidad ${escapeAttr(modelo.nombre)}" ${index === 0 ? "autofocus" : ""}>
+              <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
+              <button class="max-btn" type="button" onclick="setInputMax('bulk-model-${index}')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10"></path><path d="M4 12h10"></path><path d="M4 18h7"></path><path d="m15 17 2 2 4-5"></path></svg><span>Todo</span></button>
             </div>
           </div>
-          <div class="number-stepper">
-            <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
-            <input id="bulk-model-${index}" type="number" min="0" max="${escapeAttr(modelo.stock)}" inputmode="numeric" value="0" data-bulk-model="${escapeAttr(modelo.nombre)}" aria-label="Cantidad ${escapeAttr(modelo.nombre)}" ${index === 0 ? "autofocus" : ""}>
-            <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
-          </div>
-          <button class="max-btn" type="button" onclick="setInputMax('bulk-model-${index}')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg> Todo</button>
-        </div>
-      `).join("");
+        `;
+      }).join("");
     }
 
     function closeBulkDialog() {
@@ -2572,35 +3226,34 @@
     }
 
     function addBulkRows() {
-      const material = document.getElementById("bulk-material").value;
+      const material = currentBulkMaterial;
       const notas = document.getElementById("bulk-notas").value.trim();
-      const selected = Array.from(document.querySelectorAll("[data-bulk-model]"))
+      if (!material) {
+        notify("Sin material", "Elige una categoría con inventario antes de añadir.", "warning");
+        return false;
+      }
+      const rows = Array.from(document.querySelectorAll("[data-bulk-model]"))
         .map(input => ({
+          nombre: material,
           modelo: input.dataset.bulkModel,
-          cantidad: Math.min(Number(input.max) || Infinity, Math.max(0, Number(input.value) || 0))
-        }))
-        .filter(row => row.cantidad > 0);
+          cantidad: Math.min(Number(input.max) || Infinity, Math.max(0, Number(input.value) || 0)),
+          notas
+        }));
+      const touched = rows.filter(row => row.cantidad > 0 || getExistingBoloRow(currentBulkType, material, row.modelo));
 
-      if (selected.length === 0) {
+      if (touched.length === 0) {
         notify("Sin cantidades", "Indica al menos una cantidad para añadir material.", "warning");
         return false;
       }
 
-      selected.forEach(row => addRow(currentBulkType, {
-        nombre: material,
-        modelo: row.modelo,
-        cantidad: row.cantidad,
-        notas
-      }));
-      closeBulkDialog();
-      notify("Material añadido", `${selected.length} línea${selected.length === 1 ? "" : "s"} añadida${selected.length === 1 ? "" : "s"} al bolo.`, "success");
+      touched.forEach(row => setBoloMaterialRow(currentBulkType, row));
+      renderBoloSummary();
+      renderBulkCategories();
+      renderBulkMaterials();
+      renderBulkModels();
+      notify("Material actualizado", `${touched.length} modelo${touched.length === 1 ? "" : "s"} revisado${touched.length === 1 ? "" : "s"} en el bolo.`, "success");
     }
 
-    function materialOptions(tipo, selected) {
-      const names = uniqueMaterialNames(tipo);
-      if (selected && !names.includes(selected)) names.unshift(selected);
-      return names.map(nombre => `<option value="${escapeAttr(nombre)}" ${nombre === selected ? "selected" : ""}>${escapeHtml(nombre)}</option>`).join("");
-    }
 
     function uniqueMaterialNames(tipo) {
       return [...new Set((DB[tipo] || []).map(item => item.nombre).filter(Boolean))];
@@ -2616,50 +3269,64 @@
       return estado === "revision" ? "Revisión" : estado === "baja" ? "Baja" : "OK";
     }
 
-    function modelOptions(tipo, nombre, selected) {
-      const modelos = getModelEntries(tipo, nombre);
-      const names = modelos.map(modelo => modelo.nombre);
-      if (selected && !names.includes(selected)) names.unshift(selected);
-      return names.map(modelo => `<option value="${escapeAttr(modelo)}" ${modelo === selected ? "selected" : ""}>${escapeHtml(modelo)}</option>`).join("");
+
+    function emptyBoloMaterial() {
+      return Object.fromEntries(categories.map(cat => [cat.id, []]));
+    }
+
+    function normalizeBoloRow(row = {}) {
+      return {
+        nombre: String(row.nombre || "").trim(),
+        modelo: String(row.modelo || "").trim(),
+        cantidad: String(Math.max(0, Number(row.cantidad) || 0)),
+        notas: String(row.notas || "").trim()
+      };
+    }
+
+    function getExistingBoloRow(tipo, nombre, modelo) {
+      return (boloMaterial[tipo] || []).find(row => row.nombre === nombre && row.modelo === modelo) || null;
+    }
+
+    function setBoloMaterialRow(tipo, data = {}) {
+      const row = normalizeBoloRow(data);
+      if (!row.nombre || !row.modelo) return;
+      if (!boloMaterial[tipo]) boloMaterial[tipo] = [];
+      const index = boloMaterial[tipo].findIndex(item => item.nombre === row.nombre && item.modelo === row.modelo);
+      if (Number(row.cantidad) <= 0) {
+        if (index >= 0) boloMaterial[tipo].splice(index, 1);
+        return;
+      }
+      if (index >= 0) boloMaterial[tipo][index] = row;
+      else boloMaterial[tipo].push(row);
     }
 
     function addRow(tipo, data = {}) {
-      if ((!DB[tipo] || DB[tipo].length === 0) && !data.nombre) return;
-      const id = ++rowCounters[tipo];
-      const nombre = data.nombre || DB[tipo]?.[0]?.nombre || "";
-      const modelo = data.modelo || "";
-      const cantidad = data.cantidad || 1;
-      const selectedModelo = modelo || getModelEntries(tipo, nombre)[0]?.nombre || "";
-      const notas = data.notas || "";
-      const tr = document.createElement("tr");
-      tr.id = `row-${tipo}-${id}`;
-      tr.innerHTML = `
-        <td><select onchange="updateModelos('${tipo}', ${id}, this.value)">${materialOptions(tipo, nombre)}</select></td>
-        <td><select id="modelo-${tipo}-${id}">${modelOptions(tipo, nombre, selectedModelo)}</select></td>
-        <td>
-          <div class="number-stepper">
-            <button class="stepper-btn" type="button" onclick="stepInput('qty-${tipo}-${id}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
-            <input class="qty" id="qty-${tipo}-${id}" type="number" min="1" inputmode="numeric" value="${escapeAttr(cantidad)}">
-            <button class="stepper-btn" type="button" onclick="stepInput('qty-${tipo}-${id}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
-          </div>
-        </td>
-        <td><input class="notes" id="notas-${tipo}-${id}" type="text" value="${escapeAttr(notas)}" placeholder="Notas..."></td>
-        <td><button class="row-delete" onclick="deleteRow('${tipo}', ${id})" title="Eliminar línea">x</button></td>
-      `;
-      document.getElementById("tbody-" + tipo).appendChild(tr);
+      setBoloMaterialRow(tipo, data);
+      renderBoloSummary();
     }
 
-    function updateModelos(tipo, id, nombre) {
-      const select = document.getElementById(`modelo-${tipo}-${id}`);
-      if (select) {
-        select.innerHTML = modelOptions(tipo, nombre, "");
-      }
+    function renderBoloSummary() {
+      categories.forEach(cat => {
+        const section = document.getElementById("section-" + cat.id);
+        const tbody = document.getElementById("tbody-" + cat.id);
+        if (!tbody) return;
+        const rows = boloMaterial[cat.id] || [];
+        if (section) section.classList.toggle("active", rows.length > 0);
+        if (!rows.length) {
+          tbody.innerHTML = "";
+          return;
+        }
+        tbody.innerHTML = rows.map(row => `
+          <tr>
+            <td>${escapeHtml(row.nombre)}</td>
+            <td>${escapeHtml(row.modelo)}</td>
+            <td><strong>${escapeHtml(row.cantidad)}</strong></td>
+            <td>${escapeHtml(row.notas || "")}</td>
+          </tr>
+        `).join("");
+      });
     }
 
-    function deleteRow(tipo, id) {
-      const row = document.getElementById(`row-${tipo}-${id}`);
-      if (row) row.remove();
-    }
 
     function stepInput(id, delta) {
       const input = document.getElementById(id);
@@ -2687,17 +3354,84 @@
       notify("Material completo seleccionado", "Se han marcado todas las unidades disponibles.", "success");
     }
 
-    function getRows(tipo) {
-      return Array.from(document.querySelectorAll(`#tbody-${tipo} tr`)).map(tr => {
-        const selects = tr.querySelectorAll("select");
-        const inputs = tr.querySelectorAll("input");
-        return {
-          nombre: selects[0].value,
-          modelo: selects[1].value,
-          cantidad: inputs[0].value,
-          notas: inputs[1].value
+    function handleRiderFile(file) {
+      if (!file) return;
+      if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+        notify("Archivo no válido", "Adjunta un PDF como rider técnico.", "warning");
+        document.getElementById("evento-rider").value = "";
+        return;
+      }
+      const maxSize = 12 * 1024 * 1024;
+      if (file.size > maxSize) {
+        notify("PDF demasiado grande", "Para guardar en Drive desde la app usa riders de hasta 12 MB.", "warning", 5200);
+        document.getElementById("evento-rider").value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        currentRider = {
+          name: file.name,
+          type: "application/pdf",
+          size: file.size,
+          dataUrl: reader.result
         };
-      });
+        renderRiderUi();
+        notify("Rider adjuntado", file.name, "success");
+      };
+      reader.onerror = () => notify("No se pudo leer el PDF", "Prueba a seleccionarlo de nuevo.", "error");
+      reader.readAsDataURL(file);
+    }
+
+    function renderRiderUi() {
+      const box = document.getElementById("rider-actions");
+      if (!box) return;
+      if (!currentRider) {
+        box.innerHTML = `<span class="rider-status">Sin rider adjunto.</span>`;
+        return;
+      }
+      const size = formatFileSize(currentRider.size);
+      box.innerHTML = `
+        <span class="rider-status">${escapeHtml(currentRider.name)}${size ? ` · ${size}` : ""}</span>
+        <button class="btn" type="button" onclick="downloadCurrentRider()">Descargar</button>
+        <button class="btn btn-danger" type="button" onclick="removeCurrentRider()">Quitar</button>
+      `;
+    }
+
+    function removeCurrentRider() {
+      currentRider = null;
+      const input = document.getElementById("evento-rider");
+      if (input) input.value = "";
+      renderRiderUi();
+    }
+
+    function downloadCurrentRider() {
+      downloadRider(currentRider);
+    }
+
+    function downloadRider(rider) {
+      if (!rider) return;
+      if (rider.downloadUrl || rider.url) {
+        window.open(rider.downloadUrl || rider.url, "_blank", "noopener");
+        return;
+      }
+      if (rider.dataUrl) {
+        const link = document.createElement("a");
+        link.href = rider.dataUrl;
+        link.download = rider.name || "rider-tecnico.pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+    }
+
+    function formatFileSize(bytes) {
+      if (!bytes) return "";
+      if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+      return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+    }
+
+    function getRows(tipo) {
+      return (boloMaterial[tipo] || []).map(row => ({ ...row }));
     }
 
     function buildCurrentFicha(status = "guardada") {
@@ -2709,6 +3443,7 @@
         lugar: document.getElementById("evento-lugar").value.trim(),
         resp: document.getElementById("evento-resp").value.trim(),
         notas: document.getElementById("evento-notas").value.trim(),
+        rider: currentRider ? { ...currentRider } : null,
         material: {}
       };
 
@@ -2797,16 +3532,21 @@
         cloudUrl = getConfiguredCloudUrl();
         if (editingBoloId) fichas = fichas.filter(f => f.id !== editingBoloId);
         fichas.unshift(ficha);
-        persistFichas();
         editingBoloId = null;
         lastSavedBoloSignature = getBoloSignature();
 
         try {
-          if (cloudUrl) await saveBoloToCloud(ficha, { silent: true });
+          if (cloudUrl) {
+            await saveBoloToCloud(ficha, { silent: true });
+          }
           cloudSaved = true;
         } catch (error) {
           notify("Bolo guardado en este navegador", "No se pudo sincronizar con Google Sheets, pero voy a generar el PDF igualmente.", "warning", 5200);
         }
+        if (ficha.rider?.dataUrl && !cloudSaved) {
+          ficha.rider = { name: ficha.rider.name, type: ficha.rider.type, size: ficha.rider.size };
+        }
+        persistFichas();
       }
 
       renderPrintArea(ficha);
@@ -2942,7 +3682,20 @@
         y += 58;
       }
 
-      categories.forEach(cat => {
+      const usedCategories = getUsedCategories(ficha);
+      if (!usedCategories.length) {
+        ensureSpace(44);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(15);
+        doc.setFillColor(245, 245, 245);
+        doc.setDrawColor(185);
+        doc.setLineWidth(.6);
+        doc.rect(margin, y, pageWidth - margin * 2, 28, "FD");
+        doc.text("Sin material", margin + 8, y + 19);
+        y += 44;
+      }
+
+      usedCategories.forEach(cat => {
         const rows = ficha.material?.[cat.id] || [];
         ensureSpace(86);
         if (y > 90) y += 10;
@@ -2978,14 +3731,6 @@
         doc.text("Cargado", col.cargado.x + 6, y + 15);
         doc.text("Notas", col.notas.x + 6, y + 15);
         y += 22;
-
-        if (!rows.length) {
-          doc.setFont("helvetica", "normal");
-          doc.text("Sin material", margin + 6, y + 14);
-          doc.rect(margin, y, pageWidth - margin * 2, 22);
-          y += 30;
-          return;
-        }
 
         rows.forEach(row => {
           ensureSpace(34);
@@ -3095,10 +3840,13 @@
 
     function resetForm() {
       ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
-      categories.forEach(cat => {
-        document.getElementById("tbody-" + cat.id).innerHTML = "";
-        rowCounters[cat.id] = 0;
-      });
+      currentRider = null;
+      const riderInput = document.getElementById("evento-rider");
+      if (riderInput) riderInput.value = "";
+      renderRiderUi();
+      boloMaterial = emptyBoloMaterial();
+      categories.forEach(cat => rowCounters[cat.id] = 0);
+      renderBoloSummary();
       editingBoloId = null;
       lastSavedBoloSignature = getBoloSignature();
     }
@@ -3112,11 +3860,16 @@
         document.getElementById("evento-resp").value = ficha.resp || "";
         document.getElementById("evento-notas").value = ficha.notas || "";
       }
+      currentRider = ficha.rider ? { ...ficha.rider } : null;
+      const riderInput = document.getElementById("evento-rider");
+      if (riderInput) riderInput.value = "";
+      renderRiderUi();
+      boloMaterial = emptyBoloMaterial();
       categories.forEach(cat => {
-        document.getElementById("tbody-" + cat.id).innerHTML = "";
         rowCounters[cat.id] = 0;
-        (ficha.material?.[cat.id] || []).forEach(row => addRow(cat.id, row));
+        (ficha.material?.[cat.id] || []).forEach(row => setBoloMaterialRow(cat.id, row));
       });
+      renderBoloSummary();
       editingBoloId = options.edit ? ficha.id : null;
       lastSavedBoloSignature = options.edit ? getBoloSignature() : "";
     }
@@ -3139,12 +3892,11 @@
       }
       box.className = "saved-list";
       box.innerHTML = filtered.map(f => {
-        const counts = categories.map(cat => `${(f.material?.[cat.id] || []).length} ${cat.label.toLowerCase()}`).join(" · ");
         const date = formatFichaDateParts(f.fecha);
-        const total = countFichaItems(f);
+        const tags = buildCategoryTags(f);
         const safeId = JSON.stringify(f.id);
         return `
-          <article class="ficha">
+          <article class="ficha" role="button" tabindex="0" onclick='openFichaDetail(${safeId})' onkeydown='handleFichaCardKey(event, ${safeId})'>
             <div class="ficha-date">
               <span class="ficha-date-day">${date.day}</span>
               <span class="ficha-date-month">${date.month}</span>
@@ -3159,13 +3911,9 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 <span>${escapeHtml(f.lugar || "Sin lugar")}</span>
               </div>
-              <div class="meta">${total} pieza${total === 1 ? "" : "s"} · ${counts}</div>
+              ${tags}
             </div>
-            <div class="saved-actions" aria-label="Acciones del bolo">
-              <button class="saved-action edit" onclick='editFicha(${safeId})' aria-label="Editar bolo" title="Editar">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="m16.5 3.5 4 4L7 21H3v-4Z"></path></svg>
-                <span class="saved-action-label">Editar</span>
-              </button>
+            <div class="saved-actions" aria-label="Acciones del bolo" onclick="event.stopPropagation()">
               <button class="saved-action copy" onclick='duplicateFicha(${safeId})' aria-label="Duplicar bolo" title="Duplicar">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M4 16V6a2 2 0 0 1 2-2h10"></path></svg>
                 <span class="saved-action-label">Copiar</span>
@@ -3177,10 +3925,6 @@
               <button class="saved-action share" onclick='shareFicha(${safeId})' aria-label="Compartir bolo" title="Compartir">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M16 6 12 2 8 6"></path><path d="M12 2v13"></path></svg>
                 <span class="saved-action-label">Compartir</span>
-              </button>
-              <button class="saved-action danger" onclick='deleteFicha(${safeId})' aria-label="Eliminar bolo" title="Eliminar">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="m19 6-1 14H6L5 6"></path><path d="M10 11v5"></path><path d="M14 11v5"></path></svg>
-                <span class="saved-action-label">Eliminar</span>
               </button>
             </div>
           </article>
@@ -3208,6 +3952,7 @@
           ficha.lugar,
           ficha.resp,
           ficha.notas,
+          ficha.rider?.name,
           categories.flatMap(cat => (ficha.material?.[cat.id] || []).flatMap(row => [row.nombre, row.modelo, row.notas])).join(" ")
         ].join(" ")).includes(query);
       });
@@ -3292,11 +4037,108 @@
       }, 0);
     }
 
+    function getUsedCategories(ficha) {
+      return categories.filter(cat => (ficha.material?.[cat.id] || []).length > 0);
+    }
+
+    function buildCategoryTags(ficha) {
+      const used = getUsedCategories(ficha);
+      const tags = used.map(cat => cat.label);
+      if (ficha.rider) tags.push("Rider");
+      if (!tags.length) return `<div class="category-tags"><span class="category-tag">Sin material</span></div>`;
+      return `<div class="category-tags">${tags.map(label => `<span class="category-tag">${escapeHtml(label)}</span>`).join("")}</div>`;
+    }
+
     function normalizeText(value) {
       return String(value || "")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase();
+    }
+
+    function handleFichaCardKey(event, id) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      openFichaDetail(id);
+    }
+
+    function openFichaDetail(id) {
+      const ficha = fichas.find(f => f.id === id);
+      if (!ficha) return;
+      const backdrop = document.getElementById("fichaDetailBackdrop");
+      document.getElementById("fichaDetailTitle").textContent = ficha.nombre || "Sin nombre";
+      document.getElementById("fichaDetailMeta").textContent = `${ficha.fecha || "Sin fecha"} · ${ficha.lugar || "Sin lugar"}`;
+      document.getElementById("fichaDetailBody").innerHTML = buildFichaDetailMarkup(ficha);
+      document.getElementById("fichaDetailEditBtn").onclick = () => {
+        closeFichaDetail();
+        editFicha(id);
+      };
+      document.getElementById("fichaDetailDeleteBtn").onclick = () => {
+        closeFichaDetail();
+        deleteFicha(id);
+      };
+      backdrop.classList.add("active");
+    }
+
+    function closeFichaDetail() {
+      document.getElementById("fichaDetailBackdrop")?.classList.remove("active");
+    }
+
+    function buildFichaDetailMarkup(ficha) {
+      return `
+        <div class="detail-print-card">
+          <div class="detail-print-header">
+            <div>
+              <h2>Ficha de carga del bolo</h2>
+              ${buildCategoryTags(ficha)}
+            </div>
+            <div class="detail-print-meta">
+              <span><strong>Bolo:</strong> ${escapeHtml(ficha.nombre || "Sin nombre")}</span>
+              <span><strong>Fecha:</strong> ${escapeHtml(ficha.fecha || "Sin fecha")}</span>
+              <span><strong>Lugar:</strong> ${escapeHtml(ficha.lugar || "Sin lugar")}</span>
+              <span><strong>Responsable:</strong> ${escapeHtml(ficha.resp || "Sin responsable")}</span>
+            </div>
+          </div>
+          <div class="detail-print-content">
+            ${ficha.notas ? `<div class="detail-field"><span>Notas generales</span><strong>${escapeHtml(ficha.notas)}</strong></div>` : ""}
+            ${buildRiderDetailLink(ficha.rider)}
+            ${getUsedCategories(ficha).length ? getUsedCategories(ficha).map(cat => buildFichaDetailSection(cat, ficha.material?.[cat.id] || [])).join("") : `<div class="detail-empty">Sin material asignado.</div>`}
+          </div>
+        </div>
+      `;
+    }
+
+    function buildRiderDetailLink(rider) {
+      if (!rider) return "";
+      const href = rider.downloadUrl || rider.url || rider.dataUrl || "";
+      if (!href) return "";
+      const download = rider.dataUrl ? ` download="${escapeAttr(rider.name || "rider-tecnico.pdf")}"` : ` target="_blank" rel="noopener"`;
+      return `
+        <a class="rider-link" href="${escapeAttr(href)}"${download}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 18v-6"></path><path d="m9 15 3 3 3-3"></path></svg>
+          Rider técnico: ${escapeHtml(rider.name || "PDF")}
+        </a>
+      `;
+    }
+
+    function buildFichaDetailSection(cat, rows) {
+      const body = rows.map(row => `
+          <tr>
+            <td>${escapeHtml(row.nombre)}</td>
+            <td>${escapeHtml(row.modelo)}</td>
+            <td><strong>${escapeHtml(row.cantidad)}</strong></td>
+            <td>${escapeHtml(row.notas)}</td>
+          </tr>
+        `).join("");
+      return `
+        <section class="detail-section">
+          <h3>${escapeHtml(cat.label)}</h3>
+          <table class="detail-table">
+            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Notas</th></tr></thead>
+            <tbody>${body}</tbody>
+          </table>
+        </section>
+      `;
     }
 
     async function editFicha(id) {
@@ -3362,15 +4204,14 @@
           </div>
         </div>
         ${ficha.notas ? `<div class="print-notes"><b>Notas:</b> ${escapeHtml(ficha.notas)}</div>` : ""}
-        ${categories.map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("")}
+        ${ficha.rider ? `<div class="print-notes"><b>Rider técnico:</b> ${escapeHtml(ficha.rider.name || "PDF adjunto")}</div>` : ""}
+        ${getUsedCategories(ficha).map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("") || `<section class="print-section"><h2>Sin material</h2></section>`}
         <div class="print-footer">Fecha de generacion: ${new Date().toLocaleDateString("es-ES")}</div>
       `;
     }
 
     function printSection(cat, rows) {
-      const body = rows.length
-        ? rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td><span class="print-check"></span></td><td>${escapeHtml(r.notas)}</td></tr>`).join("")
-        : `<tr><td colspan="5">Sin material</td></tr>`;
+      const body = rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td><span class="print-check"></span></td><td>${escapeHtml(r.notas)}</td></tr>`).join("");
       return `
         <section class="print-section">
           <h2>${cat.label}</h2>
@@ -3398,7 +4239,10 @@
       if (searchInput && searchInput.value !== inventorySearch) searchInput.value = inventorySearch;
       tabs.classList.add("active");
       tabs.innerHTML = categories.map(cat => `
-        <button class="${cat.id === activeInventoryCategory ? "active" : ""}" onclick="showInventoryCategory('${cat.id}')">${cat.label}</button>
+        <button class="${cat.id === activeInventoryCategory ? "active" : ""}" onclick="showInventoryCategory('${cat.id}')">
+          <span class="tab-icon">${categoryIcon(cat.id)}</span>
+          <span>${cat.label}</span>
+        </button>
       `).join("");
       grid.classList.toggle("editing", inventoryEditMode);
       const visibleCategories = categories.filter(cat => cat.id === activeInventoryCategory);
@@ -3676,11 +4520,27 @@
         throw new Error("Sin Google Sheets");
       }
       try {
+        await prepareRiderForCloud(ficha);
         await cloudPost({ action: "saveBolo", bolo: ficha });
       } catch (error) {
         if (!options.silent) notify("Bolo no sincronizado", "No se pudo guardar el bolo en Google Sheets.", "error");
         throw error;
       }
+    }
+
+    async function prepareRiderForCloud(ficha) {
+      if (!ficha?.rider?.dataUrl) return;
+      const data = await cloudPost({
+        action: "uploadRider",
+        boloId: ficha.id,
+        rider: ficha.rider
+      });
+      ficha.rider = data.rider || {
+        name: ficha.rider.name,
+        type: ficha.rider.type,
+        size: ficha.rider.size
+      };
+      currentRider = { ...ficha.rider };
     }
 
     async function deleteBoloFromCloud(id) {
@@ -3854,6 +4714,7 @@
     function escapeAttr(value) {
       return escapeHtml(value);
     }
+
 
     init();
   </script>
