@@ -906,16 +906,101 @@
       border-radius: var(--radius);
     }
 
+    .saved-toolbar {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr);
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 16px;
+    }
+
+    .saved-filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .saved-filter-btn {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+      color: var(--ink);
+      padding: 0 14px;
+      font-weight: 800;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: background .15s ease, border-color .15s ease, color .15s ease;
+    }
+
+    .saved-filter-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    .saved-date-selectors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .saved-select-filter {
+      display: inline-grid;
+      grid-template-columns: auto minmax(130px, 1fr);
+      align-items: stretch;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--field);
+    }
+
+    .saved-select-filter span {
+      display: inline-grid;
+      place-items: center;
+      padding: 0 12px;
+      background: var(--red);
+      color: #fff;
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .saved-select-filter select {
+      border: 0;
+      background: var(--field);
+      color: var(--ink);
+      padding: 0 12px;
+      font-weight: 800;
+      outline: 0;
+    }
+
+    .saved-count {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      margin: -6px 0 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .saved-list {
+      display: grid;
+      gap: 12px;
+    }
+
     .ficha {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: center;
-      padding: 14px 16px;
+      grid-template-columns: 124px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: stretch;
+      padding: 14px;
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      margin-bottom: 10px;
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
 
@@ -925,7 +1010,157 @@
       box-shadow: var(--shadow);
     }
 
-    .ficha strong { display: block; }
+    .ficha-date {
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 2px;
+      min-height: 92px;
+      border-radius: var(--radius);
+      background: var(--soft);
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .ficha-date-day {
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 900;
+      color: var(--red);
+    }
+
+    .ficha-date-month {
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .ficha-date-year {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .ficha-main {
+      min-width: 0;
+      display: grid;
+      align-content: center;
+      gap: 8px;
+    }
+
+    .ficha-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ficha-title strong {
+      font-size: 18px;
+      line-height: 1.15;
+    }
+
+    .ficha-place {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--ink);
+      font-weight: 900;
+      min-width: 0;
+    }
+
+    .ficha-place svg,
+    .saved-action svg {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 auto;
+    }
+
+    .ficha-place svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .saved-action svg {
+      width: clamp(24px, 4vw, 34px);
+      height: clamp(24px, 4vw, 34px);
+      align-self: end;
+      stroke-width: 2.25;
+    }
+
+    .saved-actions {
+      display: grid;
+      grid-template-columns: repeat(5, 80px);
+      gap: 10px;
+      align-content: center;
+      justify-content: end;
+      align-self: stretch;
+    }
+
+    .saved-action {
+      width: 80px;
+      aspect-ratio: 1 / 1;
+      min-height: 80px;
+      max-height: 96px;
+      display: inline-grid;
+      grid-template-rows: 1fr auto;
+      place-items: center;
+      gap: 8px;
+      padding: 12px 8px 10px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--field);
+      color: var(--ink);
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .saved-action.edit {
+      color: #2563eb;
+      background: rgba(37, 99, 235, .1);
+      border-color: rgba(37, 99, 235, .32);
+    }
+
+    .saved-action.copy {
+      color: #7c3aed;
+      background: rgba(124, 58, 237, .1);
+      border-color: rgba(124, 58, 237, .32);
+    }
+
+    .saved-action.print {
+      color: #0f766e;
+      background: rgba(15, 118, 110, .1);
+      border-color: rgba(15, 118, 110, .32);
+    }
+
+    .saved-action.share {
+      color: #c2410c;
+      background: rgba(194, 65, 12, .1);
+      border-color: rgba(194, 65, 12, .32);
+    }
+
+    .saved-action:hover {
+      transform: translateY(-1px);
+      border-color: rgba(224, 0, 27, .38);
+    }
+
+    .saved-action.danger {
+      color: var(--bad);
+      background: rgba(179, 38, 30, .08);
+    }
+
+    .saved-action-label {
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1;
+      color: currentColor;
+      text-align: center;
+    }
+
     .meta {
       color: var(--muted);
       font-size: 12px;
@@ -944,8 +1179,6 @@
     }
 
     .pill.saved { background: rgba(19, 122, 67, .14); color: var(--ok); }
-    .pill.draft { background: rgba(155, 101, 0, .16); color: var(--warn); }
-
     .inventory-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -1355,6 +1588,89 @@
 
     .print-preview { display: none; }
 
+    .pdf-export {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 794px;
+      background: #fff;
+      color: #000;
+      font-family: Arial, sans-serif;
+      padding: 18px;
+      z-index: 99999;
+      pointer-events: none;
+    }
+
+    .pdf-export .print-header {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 18px;
+      align-items: start;
+      border-bottom: 3px solid #000;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .pdf-export .print-header img {
+      width: 150px;
+      height: auto;
+    }
+
+    .pdf-export .print-title {
+      text-align: right;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .pdf-export .print-title h1 {
+      font-size: 22px;
+      margin: 0 0 6px;
+    }
+
+    .pdf-export .print-notes {
+      border: 1px solid #999;
+      padding: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .pdf-export .print-section {
+      break-inside: avoid;
+      margin-bottom: 16px;
+    }
+
+    .pdf-export .print-section h2 {
+      font-size: 14px;
+      margin: 0 0 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #999;
+    }
+
+    .pdf-export .print-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .pdf-export .print-table th,
+    .pdf-export .print-table td {
+      border: 1px solid #aaa;
+      padding: 5px 7px;
+      font-size: 11px;
+      color: #000;
+    }
+
+    .pdf-export .print-table th {
+      background: #efefef;
+    }
+
+    .pdf-export .print-footer {
+      margin-top: 18px;
+      border-top: 1px solid #999;
+      padding-top: 8px;
+      font-size: 10px;
+      color: #555;
+    }
+
     @media (max-width: 900px) {
       .app,
       .app.sidebar-collapsed { grid-template-columns: 1fr; }
@@ -1431,6 +1747,17 @@
       }
       .main { padding: 16px; }
       .topbar, .ficha { grid-template-columns: 1fr; display: grid; }
+      .saved-toolbar {
+        grid-template-columns: 1fr;
+      }
+      .saved-actions {
+        grid-template-columns: repeat(5, minmax(70px, 1fr));
+        justify-content: stretch;
+      }
+      .saved-action {
+        width: 100%;
+        min-height: 78px;
+      }
       .actions { justify-content: flex-start; }
       .form-grid, .inventory-grid, .settings-grid, .inventory-toolbar, .home-actions { grid-template-columns: 1fr; }
       .home-hero { min-height: auto; align-content: start; }
@@ -1526,12 +1853,14 @@
         width: 100%;
         height: 44px;
       }
-      .ficha .actions {
-        grid-template-columns: 1fr 1fr;
+      .saved-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      .ficha .pill {
-        justify-content: center;
-        grid-column: 1 / -1;
+      .saved-action {
+        min-height: 82px;
+      }
+      .ficha-date {
+        min-height: 76px;
       }
     }
 
@@ -1587,6 +1916,13 @@
         border: 1px solid #aaa;
         padding: 5px 7px;
         font-size: 11px;
+      }
+      .print-check {
+        display: inline-block;
+        width: 11px;
+        height: 11px;
+        border: 1.5px solid #000;
+        vertical-align: middle;
       }
       .print-table th { background: #efefef; }
       .print-footer {
@@ -1732,6 +2068,10 @@
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>
               Imprimir
             </button>
+            <button class="btn" onclick="shareCurrentBolo()">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M16 6 12 2 8 6"></path><path d="M12 2v13"></path></svg>
+              Compartir
+            </button>
             <button class="btn btn-primary" onclick="saveFicha('guardada')">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
               Guardar bolo
@@ -1780,6 +2120,29 @@
             <h1>Bolos guardados</h1>
           </div>
         </div>
+        <div class="saved-toolbar">
+          <div class="search-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            <input id="fichas-search" type="search" placeholder="Buscar bolo, lugar, responsable o material..." oninput="setFichasSearch(this.value)">
+          </div>
+          <div class="saved-filter-group" aria-label="Filtrar por fecha">
+            <button class="saved-filter-btn active" type="button" data-date-filter="all" onclick="setFichasDateFilter('all')">Todas</button>
+            <button class="saved-filter-btn" type="button" data-date-filter="upcoming" onclick="setFichasDateFilter('upcoming')">Próximos</button>
+            <button class="saved-filter-btn" type="button" data-date-filter="past" onclick="setFichasDateFilter('past')">Pasados</button>
+            <button class="saved-filter-btn" type="button" data-date-filter="nodate" onclick="setFichasDateFilter('nodate')">Sin fecha</button>
+          </div>
+          <div class="saved-date-selectors" aria-label="Filtrar por mes y año">
+            <label class="saved-select-filter">
+              <span>Mes</span>
+              <select id="fichas-month-filter" onchange="setFichasMonthFilter(this.value)"></select>
+            </label>
+            <label class="saved-select-filter">
+              <span>Año</span>
+              <select id="fichas-year-filter" onchange="setFichasYearFilter(this.value)"></select>
+            </label>
+          </div>
+        </div>
+        <div class="saved-count" id="fichas-result-count"></div>
         <div id="fichas-list"></div>
       </section>
 
@@ -1866,6 +2229,7 @@
     </main>
   </div>
   <script src="senorp_config.js"></script>
+  <script src="jspdf.umd.min.js"></script>
   <script>
     const STORAGE_KEY = "senorp_fichas_v2";
     const THEME_KEY = "senorp_theme";
@@ -1917,6 +2281,10 @@
     let inventoryEditSnapshot = null;
     let activeInventoryCategory = "sonido";
     let inventorySearch = "";
+    let fichasSearch = "";
+    let fichasDateFilter = "all";
+    let fichasMonthFilter = "all";
+    let fichasYearFilter = "all";
     let currentBulkType = "sonido";
     let editingBoloId = null;
     let cloudUrl = "";
@@ -1926,7 +2294,7 @@
       applyTheme(localStorage.getItem(THEME_KEY) || "light");
       applySidebarState(true);
       categories.forEach(c => rowCounters[c.id] = 0);
-      fichas = readLocalDrafts();
+      fichas = readLocalFichas();
       cloudUrl = getConfiguredCloudUrl();
       DB = emptyInventory();
       renderCloudConfig();
@@ -2053,12 +2421,12 @@
       }
     }
 
-    function readLocalDrafts() {
-      return readJson(STORAGE_KEY, []).filter(ficha => ficha.status !== "guardada");
+    function readLocalFichas() {
+      return readJson(STORAGE_KEY, []).filter(ficha => ficha?.status === "guardada");
     }
 
     function persistFichas() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas.filter(ficha => ficha.status !== "guardada")));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas.filter(ficha => ficha?.status === "guardada")));
       updateCount();
     }
 
@@ -2087,19 +2455,14 @@
           title: editingBoloId ? "Cambios sin guardar" : "Bolo sin guardar",
           message: editingBoloId
             ? "Hay cambios en este bolo. Puedes guardarlos antes de salir."
-            : "Hay cambios en el nuevo bolo. Puedes guardarlo como borrador antes de salir.",
-          confirmText: editingBoloId ? "Guardar cambios" : "Guardar borrador",
+            : "Hay cambios en el nuevo bolo. Puedes guardarlo antes de salir o descartarlo.",
+          confirmText: editingBoloId ? "Guardar cambios" : "Guardar bolo",
           discardText: "Salir sin guardar",
           cancelText: "Seguir editando"
         });
         if (leaveAction === "cancel") return;
         if (leaveAction === "confirm") {
-          if (editingBoloId) {
-            await saveFicha("guardada", { silent: true, reset: true });
-          } else {
-            await saveFicha("borrador", { silent: true, reset: true });
-            notify("Borrador guardado", "El bolo se ha guardado antes de salir.", "success");
-          }
+          await saveFicha("guardada", { silent: true, reset: true });
         } else {
           resetForm();
         }
@@ -2354,9 +2717,9 @@
     }
 
     async function saveFicha(status, options = {}) {
-      const ficha = buildCurrentFicha(status);
+      const ficha = buildCurrentFicha("guardada");
       cloudUrl = getConfiguredCloudUrl();
-      if (status === "guardada" && !cloudUrl) {
+      if (!cloudUrl) {
         notify("Configura Google Sheets", "Los bolos finalizados se guardan en Google Sheets. Añade la URL en senorp_config.js.", "warning");
         return false;
       }
@@ -2365,23 +2728,18 @@
       fichas.unshift(ficha);
       lastSavedBoloSignature = getBoloSignature();
 
-      if (status === "guardada") {
-        try {
-          await saveBoloToCloud(ficha);
-        } catch {
-          fichas = fichas.filter(f => f.id !== ficha.id);
-          return;
-        }
-        persistFichas();
-        editingBoloId = null;
-        resetForm();
-        showPage("fichas");
-        notify(wasEditing ? "Bolo actualizado" : "Bolo guardado", ficha.nombre, "success");
-      } else {
-        persistFichas();
-        if (options.reset) resetForm();
-        if (!options.silent) notify("Borrador guardado", ficha.nombre, "success");
+      try {
+        await saveBoloToCloud(ficha);
+      } catch {
+        fichas = fichas.filter(f => f.id !== ficha.id);
+        return false;
       }
+      persistFichas();
+      editingBoloId = null;
+      resetForm();
+      showPage("fichas");
+      if (!options.silent) notify(wasEditing ? "Bolo actualizado" : "Bolo guardado", ficha.nombre, "success");
+      return true;
     }
 
     async function printCurrentBolo() {
@@ -2423,6 +2781,318 @@
       }
     }
 
+    async function shareCurrentBolo() {
+      const ficha = buildCurrentFicha("guardada");
+      const action = await confirmDialog({
+        title: "Compartir bolo",
+        message: "La app preparará la misma hoja que se imprime y generará un PDF para compartirlo desde el móvil o el navegador.",
+        confirmText: "Guardar y compartir",
+        discardText: "Solo compartir",
+        cancelText: "Cancelar"
+      });
+      if (action === "cancel") return;
+
+      let cloudSaved = false;
+      if (action === "confirm") {
+        cloudUrl = getConfiguredCloudUrl();
+        if (editingBoloId) fichas = fichas.filter(f => f.id !== editingBoloId);
+        fichas.unshift(ficha);
+        persistFichas();
+        editingBoloId = null;
+        lastSavedBoloSignature = getBoloSignature();
+
+        try {
+          if (cloudUrl) await saveBoloToCloud(ficha, { silent: true });
+          cloudSaved = true;
+        } catch (error) {
+          notify("Bolo guardado en este navegador", "No se pudo sincronizar con Google Sheets, pero voy a generar el PDF igualmente.", "warning", 5200);
+        }
+      }
+
+      renderPrintArea(ficha);
+      await shareFichaBlob(ficha, {
+        cloudSaved,
+        afterDone: () => {
+          resetForm();
+          showPage("fichas");
+        }
+      });
+    }
+
+    async function shareFichaBlob(ficha, options = {}) {
+      let pdfBlob;
+      try {
+        pdfBlob = await buildBoloPdf(ficha);
+      } catch (error) {
+        console.error("Error generando PDF para compartir:", error);
+        notify("Bolo guardado", "No se pudo generar el PDF. Revisa que jspdf.umd.min.js esté junto a index.html y recarga la página.", "error", 6500);
+        return;
+      }
+      const fileName = `${slugify(ficha.nombre || "bolo")}-material.pdf`;
+      const file = typeof File !== "undefined"
+        ? new File([pdfBlob], fileName, { type: "application/pdf" })
+        : null;
+      const canShareFile = Boolean(file && navigator.canShare?.({ files: [file] }));
+
+      try {
+        if (canShareFile) {
+          await navigator.share({
+            title: `Ficha de material - ${ficha.nombre}`,
+            text: `Ficha de salida de material: ${ficha.nombre}`,
+            files: [file]
+          });
+          notify(options.cloudSaved ? "Bolo guardado y PDF listo" : "PDF listo", "La ficha se ha enviado al menú de compartir.", options.cloudSaved ? "success" : "warning");
+          options.afterDone?.();
+          return;
+        }
+      } catch (error) {
+        if (error?.name === "AbortError") {
+          notify("Bolo guardado", "Has cancelado compartir, pero el bolo queda guardado en este navegador.", "warning", 4200);
+          options.afterDone?.();
+          return;
+        }
+      }
+
+      downloadBlob(pdfBlob, fileName);
+      notify(options.cloudSaved ? "Bolo guardado y PDF descargado" : "PDF descargado", "Este navegador no permite compartir PDFs directamente, así que he descargado la ficha.", "warning", 5200);
+      options.afterDone?.();
+    }
+
+    async function buildBoloPdf(ficha) {
+      await loadJsPdf();
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 44;
+      const footerY = pageHeight - 34;
+      let y = 34;
+      let logoDataUrl = null;
+
+      function cleanPdfText(value) {
+        return String(value ?? "")
+          .replace(/[\u2022\u00b7]/g, "-")
+          .replace(/[^\x20-\x7E\u00C0-\u00FF\u20AC]/g, "");
+      }
+
+      function ensureSpace(height) {
+        if (y + height < footerY) return;
+        drawFooter();
+        doc.addPage();
+        y = 44;
+      }
+
+      function ellipsize(value, maxWidth) {
+        let text = cleanPdfText(value);
+        if (doc.getTextWidth(text) <= maxWidth) return text;
+        while (text.length > 1 && doc.getTextWidth(`${text}...`) > maxWidth) {
+          text = text.slice(0, -1);
+        }
+        return `${text}...`;
+      }
+
+      function drawFooter() {
+        doc.setDrawColor(150);
+        doc.setLineWidth(.6);
+        doc.line(margin, footerY - 10, pageWidth - margin, footerY - 10);
+        if (logoDataUrl) {
+          try {
+            doc.addImage(logoDataUrl, "PNG", margin, footerY - 30, 58, 39);
+          } catch {}
+        }
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(85);
+        doc.text(`Fecha de generacion: ${new Date().toLocaleDateString("es-ES")}`, pageWidth - margin, footerY, { align: "right" });
+        doc.setTextColor(0);
+      }
+
+      try {
+        logoDataUrl = await loadPdfLogoDataUrl("pdf-logo.png");
+        doc.addImage(logoDataUrl, "PNG", margin, y - 2, 150, 100);
+      } catch {}
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(22);
+      doc.text("Ficha de carga del bolo", pageWidth - margin, y + 22, { align: "right" });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      doc.text(`Bolo: ${cleanPdfText(ficha.nombre || "Sin nombre")}`, pageWidth - margin, y + 48, { align: "right" });
+      doc.text(`Fecha: ${cleanPdfText(ficha.fecha || "")}`, pageWidth - margin, y + 66, { align: "right" });
+      doc.text(`Lugar: ${cleanPdfText(ficha.lugar || "")}`, pageWidth - margin, y + 84, { align: "right" });
+      doc.text(`Responsable: ${cleanPdfText(ficha.resp || "")}`, pageWidth - margin, y + 102, { align: "right" });
+      y += 120;
+
+      doc.setDrawColor(0);
+      doc.setLineWidth(2);
+      doc.line(margin, y, pageWidth - margin, y);
+      y += 18;
+
+      if (ficha.notas) {
+        ensureSpace(56);
+        doc.setDrawColor(150);
+        doc.setLineWidth(.8);
+        doc.rect(margin, y, pageWidth - margin * 2, 42);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.text("Notas:", margin + 8, y + 15);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        doc.text(doc.splitTextToSize(cleanPdfText(ficha.notas), pageWidth - margin * 2 - 58), margin + 52, y + 15);
+        y += 58;
+      }
+
+      categories.forEach(cat => {
+        const rows = ficha.material?.[cat.id] || [];
+        ensureSpace(86);
+        if (y > 90) y += 10;
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(15);
+        doc.setFillColor(245, 245, 245);
+        doc.setDrawColor(185);
+        doc.setLineWidth(.6);
+        doc.rect(margin, y, pageWidth - margin * 2, 28, "FD");
+        doc.text(cat.label, margin + 8, y + 19);
+        y += 42;
+
+        const col = {
+          material: { x: margin, w: 145 },
+          modelo: { x: margin + 145, w: 185 },
+          cantidad: { x: margin + 330, w: 52 },
+          cargado: { x: margin + 382, w: 62 },
+          notas: { x: margin + 444, w: pageWidth - margin * 2 - 444 }
+        };
+
+        doc.setFillColor(239, 239, 239);
+        doc.rect(margin, y, pageWidth - margin * 2, 22, "F");
+        doc.setDrawColor(170);
+        doc.setLineWidth(.5);
+        doc.rect(margin, y, pageWidth - margin * 2, 22);
+        [col.modelo.x, col.cantidad.x, col.cargado.x, col.notas.x].forEach(lineX => {
+          doc.line(lineX, y, lineX, y + 22);
+        });
+        doc.setFontSize(10);
+        doc.text("Material", col.material.x + 6, y + 15);
+        doc.text("Modelo", col.modelo.x + 6, y + 15);
+        doc.text("Cant.", col.cantidad.x + 6, y + 15);
+        doc.text("Cargado", col.cargado.x + 6, y + 15);
+        doc.text("Notas", col.notas.x + 6, y + 15);
+        y += 22;
+
+        if (!rows.length) {
+          doc.setFont("helvetica", "normal");
+          doc.text("Sin material", margin + 6, y + 14);
+          doc.rect(margin, y, pageWidth - margin * 2, 22);
+          y += 30;
+          return;
+        }
+
+        rows.forEach(row => {
+          ensureSpace(34);
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(10);
+          doc.rect(margin, y, pageWidth - margin * 2, 24);
+          [col.modelo.x, col.cantidad.x, col.cargado.x, col.notas.x].forEach(lineX => {
+            doc.line(lineX, y, lineX, y + 24);
+          });
+          doc.text(ellipsize(row.nombre, col.material.w - 12), col.material.x + 6, y + 16);
+          doc.text(ellipsize(row.modelo, col.modelo.w - 12), col.modelo.x + 6, y + 16);
+          doc.text(cleanPdfText(row.cantidad), col.cantidad.x + 6, y + 16);
+          doc.rect(col.cargado.x + 24, y + 6, 11, 11);
+          doc.text(ellipsize(row.notas, col.notas.w - 12), col.notas.x + 6, y + 16);
+          y += 24;
+        });
+        y += 12;
+      });
+
+      drawFooter();
+      return doc.output("blob");
+    }
+
+    function loadJsPdf() {
+      if (window.jspdf?.jsPDF) return Promise.resolve();
+      const sources = [
+        "jspdf.umd.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+      ];
+      let sourceIndex = 0;
+
+      return new Promise((resolve, reject) => {
+        const existing = document.querySelector("script[data-jspdf]");
+        if (existing) {
+          existing.addEventListener("load", resolve, { once: true });
+          existing.addEventListener("error", reject, { once: true });
+          return;
+        }
+
+        const loadNextSource = () => {
+          const source = sources[sourceIndex];
+          if (!source) {
+            reject(new Error("No se pudo cargar el generador de PDF."));
+            return;
+          }
+          sourceIndex += 1;
+          const script = document.createElement("script");
+          script.src = source;
+          script.dataset.jspdf = "true";
+          script.onload = resolve;
+          script.onerror = () => {
+            script.remove();
+            loadNextSource();
+          };
+          document.head.appendChild(script);
+        };
+
+        loadNextSource();
+      });
+    }
+
+    function loadPdfLogoDataUrl(src) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => {
+          try {
+            resolve(imageToCanvasDataUrl(image, 720));
+          } catch (error) {
+            reject(error);
+          }
+        };
+        image.onerror = () => reject(new Error("No se pudo cargar el logo."));
+        image.src = src;
+      });
+    }
+
+    function imageToCanvasDataUrl(image, targetWidth = 720) {
+      const ratio = image.naturalHeight / image.naturalWidth || image.height / image.width || .67;
+      const canvas = document.createElement("canvas");
+      canvas.width = targetWidth;
+      canvas.height = Math.max(1, Math.round(targetWidth * ratio));
+      const context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      return canvas.toDataURL("image/png");
+    }
+
+    function downloadBlob(blob, fileName) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function slugify(value) {
+      return String(value || "bolo")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase() || "bolo";
+    }
+
     function resetForm() {
       ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
       categories.forEach(cat => {
@@ -2435,11 +3105,13 @@
 
     function loadFichaIntoForm(ficha, options = {}) {
       ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
-      document.getElementById("evento-nombre").value = options.duplicate ? `Copia de ${ficha.nombre || "Sin nombre"}` : ficha.nombre || "";
-      document.getElementById("evento-fecha").value = ficha.fecha || "";
-      document.getElementById("evento-lugar").value = ficha.lugar || "";
-      document.getElementById("evento-resp").value = ficha.resp || "";
-      document.getElementById("evento-notas").value = ficha.notas || "";
+      if (!options.duplicate) {
+        document.getElementById("evento-nombre").value = ficha.nombre || "";
+        document.getElementById("evento-fecha").value = ficha.fecha || "";
+        document.getElementById("evento-lugar").value = ficha.lugar || "";
+        document.getElementById("evento-resp").value = ficha.resp || "";
+        document.getElementById("evento-notas").value = ficha.notas || "";
+      }
       categories.forEach(cat => {
         document.getElementById("tbody-" + cat.id).innerHTML = "";
         rowCounters[cat.id] = 0;
@@ -2451,28 +3123,180 @@
 
     function renderFichas() {
       const box = document.getElementById("fichas-list");
+      const count = document.getElementById("fichas-result-count");
+      renderFichasDateSelectors();
+      const filtered = getFilteredFichas();
+      if (count) count.textContent = `${filtered.length} de ${fichas.length} bolo${fichas.length === 1 ? "" : "s"}`;
       if (fichas.length === 0) {
-        box.innerHTML = `<div class="empty">No hay bolos guardados todavía.</div>`;
+        box.className = "";
+        box.innerHTML = `<div class="empty">No hay bolos guardados todavia.</div>`;
         return;
       }
-      box.innerHTML = fichas.map(f => {
+      if (filtered.length === 0) {
+        box.className = "";
+        box.innerHTML = `<div class="empty">No hay bolos que coincidan con la busqueda o filtros.</div>`;
+        return;
+      }
+      box.className = "saved-list";
+      box.innerHTML = filtered.map(f => {
         const counts = categories.map(cat => `${(f.material?.[cat.id] || []).length} ${cat.label.toLowerCase()}`).join(" · ");
+        const date = formatFichaDateParts(f.fecha);
+        const total = countFichaItems(f);
+        const safeId = JSON.stringify(f.id);
         return `
           <article class="ficha">
-            <div>
-              <strong>${escapeHtml(f.nombre)}</strong>
-              <div class="meta">${escapeHtml(f.fecha || "Sin fecha")} · ${escapeHtml(f.lugar || "Sin lugar")} · ${counts}</div>
+            <div class="ficha-date">
+              <span class="ficha-date-day">${date.day}</span>
+              <span class="ficha-date-month">${date.month}</span>
+              <span class="ficha-date-year">${date.year}</span>
             </div>
-            <div class="actions">
-              <span class="pill ${f.status === "guardada" ? "saved" : "draft"}">${f.status === "guardada" ? "Guardada" : "Borrador"}</span>
-              <button class="btn" onclick="editFicha(${f.id})">Editar</button>
-              <button class="btn" onclick="duplicateFicha(${f.id})">Duplicar</button>
-              <button class="btn" onclick="printFicha(${f.id})">Imprimir</button>
-              <button class="btn btn-danger" onclick="deleteFicha(${f.id})">Eliminar</button>
+            <div class="ficha-main">
+              <div class="ficha-title">
+                <strong>${escapeHtml(f.nombre)}</strong>
+                <span class="pill saved">Guardado</span>
+              </div>
+              <div class="ficha-place">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>${escapeHtml(f.lugar || "Sin lugar")}</span>
+              </div>
+              <div class="meta">${total} pieza${total === 1 ? "" : "s"} · ${counts}</div>
+            </div>
+            <div class="saved-actions" aria-label="Acciones del bolo">
+              <button class="saved-action edit" onclick='editFicha(${safeId})' aria-label="Editar bolo" title="Editar">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="m16.5 3.5 4 4L7 21H3v-4Z"></path></svg>
+                <span class="saved-action-label">Editar</span>
+              </button>
+              <button class="saved-action copy" onclick='duplicateFicha(${safeId})' aria-label="Duplicar bolo" title="Duplicar">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M4 16V6a2 2 0 0 1 2-2h10"></path></svg>
+                <span class="saved-action-label">Copiar</span>
+              </button>
+              <button class="saved-action print" onclick='printFicha(${safeId})' aria-label="Imprimir bolo" title="Imprimir">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>
+                <span class="saved-action-label">Imprimir</span>
+              </button>
+              <button class="saved-action share" onclick='shareFicha(${safeId})' aria-label="Compartir bolo" title="Compartir">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M16 6 12 2 8 6"></path><path d="M12 2v13"></path></svg>
+                <span class="saved-action-label">Compartir</span>
+              </button>
+              <button class="saved-action danger" onclick='deleteFicha(${safeId})' aria-label="Eliminar bolo" title="Eliminar">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="m19 6-1 14H6L5 6"></path><path d="M10 11v5"></path><path d="M14 11v5"></path></svg>
+                <span class="saved-action-label">Eliminar</span>
+              </button>
             </div>
           </article>
         `;
       }).join("");
+    }
+
+    function getFilteredFichas() {
+      const query = normalizeText(fichasSearch);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return fichas.filter(ficha => {
+        if (fichasDateFilter !== "all") {
+          const date = parseFichaDate(ficha.fecha);
+          if (fichasDateFilter === "nodate" && date) return false;
+          if (fichasDateFilter === "upcoming" && (!date || date < today)) return false;
+          if (fichasDateFilter === "past" && (!date || date >= today)) return false;
+        }
+        if (fichasMonthFilter !== "all" && getFichaMonthNumber(ficha.fecha) !== fichasMonthFilter) return false;
+        if (fichasYearFilter !== "all" && getFichaYear(ficha.fecha) !== fichasYearFilter) return false;
+        if (!query) return true;
+        return normalizeText([
+          ficha.nombre,
+          ficha.fecha,
+          ficha.lugar,
+          ficha.resp,
+          ficha.notas,
+          categories.flatMap(cat => (ficha.material?.[cat.id] || []).flatMap(row => [row.nombre, row.modelo, row.notas])).join(" ")
+        ].join(" ")).includes(query);
+      });
+    }
+
+    function setFichasSearch(value) {
+      fichasSearch = value || "";
+      renderFichas();
+    }
+
+    function setFichasDateFilter(value) {
+      fichasDateFilter = value || "all";
+      document.querySelectorAll("[data-date-filter]").forEach(button => {
+        button.classList.toggle("active", button.dataset.dateFilter === fichasDateFilter);
+      });
+      renderFichas();
+    }
+
+    function setFichasMonthFilter(value) {
+      fichasMonthFilter = value || "all";
+      renderFichas();
+    }
+
+    function setFichasYearFilter(value) {
+      fichasYearFilter = value || "all";
+      renderFichas();
+    }
+
+    function parseFichaDate(value) {
+      if (!value) return null;
+      const date = new Date(`${value}T00:00:00`);
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    function getFichaMonthNumber(value) {
+      const date = parseFichaDate(value);
+      if (!date) return "";
+      return String(date.getMonth() + 1).padStart(2, "0");
+    }
+
+    function getFichaYear(value) {
+      const date = parseFichaDate(value);
+      return date ? String(date.getFullYear()) : "";
+    }
+
+    function renderFichasDateSelectors() {
+      const monthSelect = document.getElementById("fichas-month-filter");
+      const yearSelect = document.getElementById("fichas-year-filter");
+      if (!monthSelect || !yearSelect) return;
+      const years = [...new Set(fichas.map(ficha => getFichaYear(ficha.fecha)).filter(Boolean))].sort((a, b) => b.localeCompare(a));
+      if (fichasYearFilter !== "all" && !years.includes(fichasYearFilter)) fichasYearFilter = "all";
+      monthSelect.innerHTML = [
+        `<option value="all">Todos los meses</option>`,
+        ...Array.from({ length: 12 }, (_, index) => {
+          const value = String(index + 1).padStart(2, "0");
+          const label = new Date(2026, index, 1).toLocaleDateString("es-ES", { month: "long" });
+          return `<option value="${value}">${label}</option>`;
+        })
+      ].join("");
+      yearSelect.innerHTML = [
+        `<option value="all">Todos los años</option>`,
+        ...years.map(year => `<option value="${year}">${year}</option>`)
+      ].join("");
+      monthSelect.value = fichasMonthFilter;
+      yearSelect.value = fichasYearFilter;
+    }
+
+    function formatFichaDateParts(value) {
+      const date = parseFichaDate(value);
+      if (!date) return { day: "--", month: "Sin fecha", year: "" };
+      const month = date.toLocaleDateString("es-ES", { month: "short" }).replace(".", "");
+      return {
+        day: String(date.getDate()).padStart(2, "0"),
+        month,
+        year: String(date.getFullYear())
+      };
+    }
+
+    function countFichaItems(ficha) {
+      return categories.reduce((sum, cat) => {
+        return sum + (ficha.material?.[cat.id] || []).reduce((total, row) => total + (Number(row.cantidad) || 0), 0);
+      }, 0);
+    }
+
+    function normalizeText(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
     }
 
     async function editFicha(id) {
@@ -2488,7 +3312,7 @@
       if (!ficha) return;
       loadFichaIntoForm(ficha, { duplicate: true });
       await showPage("nueva");
-      notify("Bolo duplicado", "Revisa los datos y guárdalo como un bolo nuevo.", "success");
+      notify("Material copiado", "Completa nombre, fecha, lugar y responsable para crear un bolo nuevo.", "success");
     }
 
     async function deleteFicha(id) {
@@ -2514,8 +3338,19 @@
       window.print();
     }
 
+    async function shareFicha(id) {
+      const ficha = fichas.find(f => f.id === id);
+      if (!ficha) return;
+      renderPrintArea(ficha);
+      await shareFichaBlob(ficha);
+    }
+
     function renderPrintArea(ficha) {
-      document.getElementById("printArea").innerHTML = `
+      document.getElementById("printArea").innerHTML = buildPrintMarkup(ficha);
+    }
+
+    function buildPrintMarkup(ficha) {
+      return `
         <div class="print-header">
           <img src="logo-transparent.png" alt="SENORP">
           <div class="print-title">
@@ -2528,19 +3363,19 @@
         </div>
         ${ficha.notas ? `<div class="print-notes"><b>Notas:</b> ${escapeHtml(ficha.notas)}</div>` : ""}
         ${categories.map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("")}
-        <div class="print-footer">Generado por SENORP · ${new Date().toLocaleDateString("es-ES")}</div>
+        <div class="print-footer">Fecha de generacion: ${new Date().toLocaleDateString("es-ES")}</div>
       `;
     }
 
     function printSection(cat, rows) {
       const body = rows.length
-        ? rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td>${escapeHtml(r.notas)}</td></tr>`).join("")
-        : `<tr><td colspan="4">Sin material</td></tr>`;
+        ? rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td><span class="print-check"></span></td><td>${escapeHtml(r.notas)}</td></tr>`).join("")
+        : `<tr><td colspan="5">Sin material</td></tr>`;
       return `
         <section class="print-section">
           <h2>${cat.label}</h2>
           <table class="print-table">
-            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Notas</th></tr></thead>
+            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Cargado</th><th>Notas</th></tr></thead>
             <tbody>${body}</tbody>
           </table>
         </section>
@@ -2794,8 +3629,8 @@
         if (!response.ok) throw new Error("No se pudo leer la hoja.");
         const data = await response.json();
         DB = normalizeInventory(data.inventory || emptyInventory());
-        const drafts = readLocalDrafts();
-        fichas = [...(Array.isArray(data.bolos) ? data.bolos : []), ...drafts];
+        fichas = (Array.isArray(data.bolos) ? data.bolos : []).map(ficha => ({ ...ficha, status: "guardada" }));
+        persistFichas();
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(DB));
         resetForm();
         renderCategoryUi();
@@ -2835,7 +3670,7 @@
       if (cloudUrl) notify("Guardado solicitado", "La app ha enviado el inventario actual a Google Sheets.", "success");
     }
 
-    async function saveBoloToCloud(ficha) {
+    async function saveBoloToCloud(ficha, options = {}) {
       cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) {
         throw new Error("Sin Google Sheets");
@@ -2843,7 +3678,7 @@
       try {
         await cloudPost({ action: "saveBolo", bolo: ficha });
       } catch (error) {
-        notify("Bolo no sincronizado", "No se pudo guardar el bolo en Google Sheets.", "error");
+        if (!options.silent) notify("Bolo no sincronizado", "No se pudo guardar el bolo en Google Sheets.", "error");
         throw error;
       }
     }
