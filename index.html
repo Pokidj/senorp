@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SENORP | Fichas de material</title>
+  <link rel="icon" type="image/png" href="logo-mini.png">
+  <link rel="apple-touch-icon" href="logo-mini.png">
   <style>
     :root {
       color-scheme: light;
@@ -17,6 +19,8 @@
       --body-bg: #ededed;
       --soft: #f5f5f5;
       --soft-red: #fff1f3;
+      --main-line-texture: rgba(224, 0, 27, .075);
+      --main-line-texture-strong: rgba(224, 0, 27, .11);
       --hover-line: #b8b8b8;
       --ok: #137a43;
       --warn: #9b6500;
@@ -36,6 +40,8 @@
       --body-bg: #0d0d0d;
       --soft: #232323;
       --soft-red: #2b1115;
+      --main-line-texture: rgba(224, 0, 27, .13);
+      --main-line-texture-strong: rgba(224, 0, 27, .20);
       --hover-line: #666;
       --ok: #60d394;
       --warn: #ffd166;
@@ -97,8 +103,8 @@
 
     .sidebar-collapse {
       justify-self: end;
-      width: 38px;
-      height: 38px;
+      width: 48px;
+      height: 48px;
       border: 1px solid var(--line);
       border-radius: 999px;
       background: var(--soft);
@@ -186,15 +192,11 @@
       display: none;
     }
 
-    .app.home-active .sidebar-tools {
-      grid-template-columns: minmax(0, 1fr) 48px;
-    }
-
     .app.sidebar-collapsed .sidebar-collapse {
       justify-self: center;
       transform: rotate(180deg);
-      width: 34px;
-      height: 34px;
+      width: 52px;
+      height: 52px;
     }
 
     .nav {
@@ -204,7 +206,8 @@
 
     .nav button {
       width: 100%;
-      min-height: 48px;
+      height: 52px;
+      min-height: 52px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -222,6 +225,7 @@
 
     .nav-label {
       min-width: 0;
+      white-space: nowrap;
     }
 
     .nav svg {
@@ -237,7 +241,8 @@
 
     .app.sidebar-collapsed .nav button {
       justify-content: center;
-      min-height: 48px;
+      height: 52px;
+      min-height: 52px;
       padding: 8px;
       text-align: center;
       transform: none;
@@ -368,11 +373,8 @@
     .sidebar-tools {
       margin-top: auto;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 48px 48px;
-      gap: 8px;
-      align-items: center;
-      border-top: 1px solid var(--line);
-      padding-top: 14px;
+      gap: 12px;
+      align-items: stretch;
     }
 
     .sidebar-tools .theme-toggle {
@@ -405,15 +407,20 @@
     }
 
     .settings-button {
-      width: 48px;
-      height: 48px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
+      width: 100%;
+      height: 52px;
+      min-height: 52px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
       background: var(--soft);
       color: var(--muted);
-      display: inline-grid;
-      place-items: center;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
       cursor: pointer;
+      text-align: left;
+      font-weight: 800;
       touch-action: manipulation;
       transition: background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
@@ -427,8 +434,9 @@
     }
 
     .settings-button svg {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
       stroke: currentColor;
       stroke-width: 2.1;
       fill: none;
@@ -441,6 +449,29 @@
       padding: 26px;
       display: flex;
       flex-direction: column;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        linear-gradient(116deg, transparent 0 33%, var(--main-line-texture) 33.1% 33.45%, transparent 33.6% 100%),
+        linear-gradient(116deg, transparent 0 53%, var(--main-line-texture-strong) 53.08% 53.32%, transparent 53.48% 100%),
+        linear-gradient(116deg, transparent 0 72%, var(--main-line-texture) 72.1% 72.42%, transparent 72.58% 100%),
+        radial-gradient(circle at 88% 8%, rgba(224, 0, 27, .08), transparent 24%),
+        var(--body-bg);
+      background-attachment: fixed;
+    }
+
+    .main::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .42;
+      background:
+        repeating-linear-gradient(116deg, transparent 0 34px, var(--main-line-texture) 35px, transparent 37px),
+        repeating-linear-gradient(26deg, transparent 0 92px, var(--main-line-texture) 93px, transparent 95px);
+      mask-image: linear-gradient(90deg, transparent 0, #000 14%, #000 84%, transparent 100%);
     }
 
     .app.sidebar-collapsed .sidebar-tools {
@@ -450,7 +481,39 @@
     .app.sidebar-collapsed .settings-button {
       width: 52px;
       height: 52px;
+      min-height: 52px;
       justify-self: center;
+      justify-content: center;
+      padding: 8px;
+      position: relative;
+    }
+
+    .app.sidebar-collapsed .settings-button .nav-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .app.sidebar-collapsed .settings-button svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .sidebar-bottom-tools {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 48px;
+      gap: 8px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+
+    .app.sidebar-collapsed .sidebar-bottom-tools {
+      grid-template-columns: 1fr;
+      justify-items: center;
     }
 
     .app.sidebar-collapsed .watermark {
@@ -573,12 +636,14 @@
       gap: 8px;
       justify-items: center;
       text-align: center;
-      max-width: 760px;
+      max-width: 920px;
       margin-inline: auto;
+      width: 100%;
     }
 
     .home-heading img {
-      width: min(360px, 72vw);
+      width: min(920px, 82vw);
+      max-height: 260px;
       height: auto;
       object-fit: contain;
     }
@@ -712,36 +777,47 @@
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 14px;
     }
 
     .field {
       display: grid;
-      gap: 5px;
+      gap: 7px;
+      min-width: 0;
     }
 
     .field.full { grid-column: 1 / -1; }
     label {
       color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 800;
     }
 
     input, select, textarea {
       width: 100%;
+      min-width: 0;
       border: 1px solid var(--line);
       background: var(--field);
       color: var(--ink);
       border-radius: var(--radius);
-      padding: 9px 10px;
-      min-height: 44px;
+      padding: 12px 13px;
+      min-height: 52px;
       font-size: 16px;
     }
 
     input[type="file"] {
-      padding: 10px;
-      cursor: pointer;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    input[type="date"] {
+      min-width: 0;
+      max-width: 100%;
+      appearance: none;
     }
 
     input:disabled {
@@ -760,10 +836,45 @@
     .rider-field {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: var(--soft);
-      padding: 12px;
+      background: var(--field);
+      padding: 10px;
       display: grid;
       gap: 10px;
+    }
+
+    .rider-upload {
+      min-height: 62px;
+      border: 1px dashed rgba(224, 0, 27, .38);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--paper) 78%, transparent);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 900;
+      text-align: center;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+
+    .rider-upload:hover {
+      border-color: var(--red);
+      background: rgba(224, 0, 27, .08);
+      transform: translateY(-1px);
+    }
+
+    .rider-upload svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      color: var(--red);
+      flex: 0 0 auto;
     }
 
     .rider-actions {
@@ -771,6 +882,11 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
+    }
+
+    .rider-actions .btn {
+      min-height: 42px;
+      padding-inline: 13px;
     }
 
     .rider-status {
@@ -957,15 +1073,19 @@
     }
 
     .main-material-toolbar {
-      grid-template-columns: minmax(230px, 330px);
+      grid-template-columns: repeat(2, minmax(230px, 330px));
       justify-content: start;
     }
 
     .main-material-toolbar .add-material-card {
       min-height: 82px;
-      border-color: rgba(224, 0, 27, .46);
-      background: linear-gradient(135deg, rgba(224, 0, 27, .22), rgba(224, 0, 27, .08));
-      box-shadow: 0 12px 30px rgba(224, 0, 27, .12);
+      border-color: rgba(98, 98, 98, .35);
+      background: color-mix(in srgb, var(--paper) 72%, var(--soft));
+      box-shadow: none;
+    }
+
+    .main-material-toolbar .add-card-icon {
+      background: rgba(224, 0, 27, .08);
     }
 
     .summary-toolbar {
@@ -1111,6 +1231,13 @@
       gap: 12px;
       align-items: stretch;
       margin-bottom: 16px;
+    }
+
+    .saved-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
     }
 
     .saved-filter-group {
@@ -1689,6 +1816,10 @@
       width: min(980px, 100%);
     }
 
+    .rider-dialog {
+      width: min(620px, 100%);
+    }
+
     .detail-dialog {
       width: min(980px, 100%);
     }
@@ -1697,6 +1828,18 @@
       padding: 18px 18px 10px;
       display: grid;
       gap: 6px;
+    }
+
+    .bulk-head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      column-gap: 16px;
+    }
+
+    .bulk-head-copy {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
     }
 
     .dialog-head strong {
@@ -1716,6 +1859,49 @@
       padding: 14px 18px 18px;
       border-top: 1px solid var(--line);
       background: var(--soft);
+    }
+
+    .bulk-top-actions {
+      padding: 0;
+      border-top: 0;
+      background: transparent;
+      align-self: start;
+    }
+
+    .bulk-top-actions .saved-action {
+      width: 64px;
+      min-width: 64px;
+      min-height: 58px;
+      height: 58px;
+      max-height: none;
+      gap: 0;
+      padding: 8px;
+      color: var(--action-fg);
+    }
+
+    .bulk-top-actions .saved-action svg {
+      align-self: center;
+      width: 28px;
+      height: 28px;
+    }
+
+    .bulk-top-actions .saved-action-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .bulk-top-actions .saved-action.close {
+      background: rgba(179, 38, 30, .14);
+      border-color: rgba(179, 38, 30, .34);
+    }
+
+    .bulk-top-actions .saved-action.save {
+      background: rgba(19, 122, 67, .14);
+      border-color: rgba(19, 122, 67, .34);
     }
 
     .detail-body {
@@ -1857,7 +2043,7 @@
 
     .bulk-picker-grid {
       display: grid;
-      grid-template-columns: minmax(210px, .8fr) minmax(0, 1.2fr);
+      grid-template-columns: max-content minmax(0, 1fr);
       gap: 14px;
       align-items: start;
     }
@@ -1879,15 +2065,24 @@
     .bulk-choice-grid {
       display: grid;
       gap: 8px;
-      grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
     }
 
     .bulk-choice-grid.category {
       grid-template-columns: 1fr;
+      width: max-content;
+      justify-items: stretch;
+    }
+
+    .bulk-choice-grid.category .bulk-choice-btn {
+      width: 100%;
+      min-width: 210px;
+      min-height: 70px;
+      white-space: nowrap;
     }
 
     .bulk-choice-btn {
-      min-height: 56px;
+      min-height: 70px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: var(--field);
@@ -1897,10 +2092,36 @@
       gap: 4px;
       align-content: center;
       text-align: left;
-      padding: 10px 12px;
+      padding: 9px 10px;
       font-weight: 900;
+      font-size: 14px;
       touch-action: manipulation;
       transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+
+    .bulk-choice-btn.category-btn {
+      grid-template-columns: 30px max-content;
+      align-content: center;
+      align-items: center;
+      column-gap: 10px;
+      font-size: 16px;
+      padding-right: 14px;
+    }
+
+    .bulk-choice-btn.category-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .bulk-choice-btn span {
+      min-width: 0;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
     }
 
     .bulk-choice-btn:hover {
@@ -2002,6 +2223,34 @@
       background: rgba(19, 122, 67, .12);
     }
 
+    .mini-chip.available {
+      color: var(--ok);
+      border-color: rgba(19, 122, 67, .42);
+      background: rgba(19, 122, 67, .12);
+    }
+
+    .mini-chip.empty {
+      color: var(--bad);
+      border-color: rgba(179, 38, 30, .42);
+      background: rgba(179, 38, 30, .11);
+    }
+
+    .bulk-added-tag {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 23px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      color: var(--ok);
+      border: 1px solid rgba(19, 122, 67, .42);
+      background: rgba(19, 122, 67, .12);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
     .bulk-model-row.added {
       border-color: rgba(19, 122, 67, .46);
       background: linear-gradient(135deg, rgba(19, 122, 67, .12), var(--paper));
@@ -2046,6 +2295,10 @@
 
     .bulk-model-row .stepper-btn {
       width: 64px;
+      border: 1px solid rgba(224, 0, 27, .34);
+      border-radius: var(--radius);
+      background: rgba(224, 0, 27, .12);
+      color: var(--action-fg);
     }
 
     .max-btn {
@@ -2231,6 +2484,10 @@
         display: grid;
         grid-template-columns: 1fr;
       }
+      .bulk-top-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
       .detail-summary {
         grid-template-columns: 1fr 1fr;
       }
@@ -2256,11 +2513,15 @@
         margin-top: 0;
         border-top: 0;
         padding-top: 0;
-        grid-template-columns: minmax(0, 1fr) 48px 48px;
+        grid-template-columns: 1fr;
       }
       .main { padding: 16px; }
       .topbar, .ficha { grid-template-columns: 1fr; display: grid; }
       .saved-toolbar {
+        grid-template-columns: 1fr;
+      }
+      .saved-filter-row {
+        display: grid;
         grid-template-columns: 1fr;
       }
       .saved-actions {
@@ -2270,6 +2531,10 @@
       .saved-action {
         width: 100%;
         min-height: 78px;
+      }
+      .bulk-top-actions .saved-action {
+        width: 64px;
+        min-height: 58px;
       }
       .actions { justify-content: flex-start; }
       .form-grid, .inventory-grid, .settings-grid, .inventory-toolbar, .home-actions { grid-template-columns: 1fr; }
@@ -2281,6 +2546,14 @@
       .main-material-toolbar,
       .bulk-picker-grid {
         grid-template-columns: 1fr;
+      }
+      .bulk-choice-grid.category {
+        width: 100%;
+      }
+      .bulk-choice-grid.category .bulk-choice-btn {
+        width: 100%;
+        min-width: 0;
+        white-space: normal;
       }
       .add-material-card {
         width: 100%;
@@ -2329,7 +2602,7 @@
       td:nth-child(1)::before { content: "Material"; }
       td:nth-child(2)::before { content: "Modelo"; }
       td:nth-child(3)::before { content: "Cantidad"; }
-      td:nth-child(4)::before { content: "Notas"; }
+      td:nth-child(4)::before { content: ""; }
       td:nth-child(6)::before { content: ""; }
       .inventory-grid td:nth-child(2)::before { content: "Modelo"; }
       .inventory-grid td:nth-child(3)::before { content: "Stock"; }
@@ -2509,9 +2782,21 @@
   </div>
   <div class="dialog-backdrop" id="bulkBackdrop" role="dialog" aria-modal="true" aria-labelledby="bulkTitle">
     <div class="dialog bulk-dialog">
-      <div class="dialog-head">
-        <strong id="bulkTitle">Añadir material</strong>
-        <span>Elige un material y marca cantidades por modelo para crear varias líneas de una vez.</span>
+      <div class="dialog-head bulk-head">
+        <div class="bulk-head-copy">
+          <strong id="bulkTitle">Añadir / editar material</strong>
+          <span>Muévete por categorías, marca cantidades y pulsa actualizar para aplicar todo al bolo.</span>
+        </div>
+        <div class="dialog-actions bulk-top-actions">
+          <button class="saved-action close" type="button" onclick="closeBulkDialog()" aria-label="Terminar" title="Terminar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+            <span class="saved-action-label">Terminar</span>
+          </button>
+          <button class="saved-action save" type="button" onclick="addBulkRows()" aria-label="Actualizar material" title="Actualizar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+            <span class="saved-action-label">Actualizar</span>
+          </button>
+        </div>
       </div>
       <div class="bulk-form">
         <div class="bulk-picker-grid">
@@ -2531,21 +2816,30 @@
             <span class="saved-action-label">Todo</span>
           </button>
         </div>
-        <div class="form-grid">
-          <div class="field full">
-            <label for="bulk-notas">Notas comunes</label>
-            <input id="bulk-notas" type="text" placeholder="Opcional">
-          </div>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-backdrop" id="riderBackdrop" role="dialog" aria-modal="true" aria-labelledby="riderTitle" onclick="if (event.target === this) closeRiderDialog()">
+    <div class="dialog rider-dialog">
+      <div class="dialog-head">
+        <strong id="riderTitle">Rider técnico</strong>
+        <span>Adjunta el PDF del bolo para guardarlo con la ficha y descargarlo cuando haga falta.</span>
+      </div>
+      <div class="bulk-form">
+        <div class="rider-field">
+          <input id="evento-rider" type="file" accept="application/pdf,.pdf" onchange="handleRiderFile(this.files?.[0])">
+          <label class="rider-upload" for="evento-rider">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 12v6"></path><path d="m9 15 3 3 3-3"></path></svg>
+            <span>Adjuntar rider técnico</span>
+          </label>
+          <div class="rider-actions" id="rider-actions"></div>
+          <small>Con Google Sheets configurado, se sube a Google Drive y la ficha guarda el enlace.</small>
         </div>
       </div>
       <div class="dialog-actions">
-        <button class="saved-action close" type="button" onclick="closeBulkDialog()" aria-label="Terminar" title="Terminar">
+        <button class="saved-action close" type="button" onclick="closeRiderDialog()" aria-label="Cerrar rider" title="Cerrar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-          <span class="saved-action-label">Terminar</span>
-        </button>
-        <button class="saved-action save" type="button" onclick="addBulkRows()" aria-label="Añadir seleccionados" title="Añadir">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
-          <span class="saved-action-label">Añadir</span>
+          <span class="saved-action-label">Cerrar</span>
         </button>
       </div>
     </div>
@@ -2578,13 +2872,16 @@
       </nav>
 
       <div class="sidebar-tools">
-        <span class="watermark">© POKIDJ</span>
         <button class="settings-button" id="nav-configuracion" onclick="showPage('configuracion')" aria-label="Configuración" title="Configuración">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.38a1.7 1.7 0 0 0-1 .9 1.7 1.7 0 0 0-.2.8V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.59 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.62 15a1.7 1.7 0 0 0-.9-1 1.7 1.7 0 0 0-.8-.2H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.59-1.1A1.7 1.7 0 0 0 4.34 6.8l-.06-.06A2 2 0 1 1 7.1 3.93l.06.06A1.7 1.7 0 0 0 9 4.62h.02a1.7 1.7 0 0 0 1-.9 1.7 1.7 0 0 0 .2-.8V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1.1 1.59 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.38 9c.05.16.11.31.2.46a1.7 1.7 0 0 0 .9 1 1.7 1.7 0 0 0 .8.2H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51.34Z"></path></svg>
+          <span class="nav-label">AJUSTES</span>
         </button>
-        <button class="sidebar-collapse" type="button" onclick="toggleSidebar()" aria-label="Ocultar barra lateral" title="Ocultar barra lateral">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
-        </button>
+        <div class="sidebar-bottom-tools">
+          <span class="watermark">© POKIDJ</span>
+          <button class="sidebar-collapse" type="button" onclick="toggleSidebar()" aria-label="Ocultar barra lateral" title="Ocultar barra lateral">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+          </button>
+        </div>
       </div>
     </aside>
 
@@ -2680,14 +2977,6 @@
                 <label for="evento-notas">Notas generales</label>
                 <textarea id="evento-notas" rows="3" placeholder="Horarios, accesos, necesidades especiales..."></textarea>
               </div>
-              <div class="field full">
-                <label for="evento-rider">Rider técnico PDF</label>
-                <div class="rider-field">
-                  <input id="evento-rider" type="file" accept="application/pdf,.pdf" onchange="handleRiderFile(this.files?.[0])">
-                  <div class="rider-actions" id="rider-actions"></div>
-                  <small>Se guardará con el bolo. Con Google Sheets configurado, la app lo sube a Google Drive y guarda el enlace.</small>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -2696,7 +2985,11 @@
           <div class="material-toolbar main-material-toolbar">
             <button class="add-material-card" onclick="openAddMaterial()">
               <span class="add-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
-              <span><strong>Añadir material</strong><small>Elegir y editar</small></span>
+              <span><strong>Añadir / editar material</strong><small>Elegir y editar</small></span>
+            </button>
+            <button class="add-material-card" onclick="openRiderDialog()">
+              <span class="add-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 12v6"></path><path d="m9 15 3 3 3-3"></path></svg></span>
+              <span><strong>Añadir rider técnico</strong><small id="rider-card-status">Sin adjuntar</small></span>
             </button>
           </div>
         </div>
@@ -2715,21 +3008,23 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
             <input id="fichas-search" type="search" placeholder="Buscar bolo, lugar, responsable o material..." oninput="setFichasSearch(this.value)">
           </div>
-          <div class="saved-filter-group" aria-label="Filtrar por fecha">
-            <button class="saved-filter-btn active" type="button" data-date-filter="all" onclick="setFichasDateFilter('all')">Todas</button>
-            <button class="saved-filter-btn" type="button" data-date-filter="upcoming" onclick="setFichasDateFilter('upcoming')">Próximos</button>
-            <button class="saved-filter-btn" type="button" data-date-filter="past" onclick="setFichasDateFilter('past')">Pasados</button>
-            <button class="saved-filter-btn" type="button" data-date-filter="nodate" onclick="setFichasDateFilter('nodate')">Sin fecha</button>
-          </div>
-          <div class="saved-date-selectors" aria-label="Filtrar por mes y año">
-            <label class="saved-select-filter">
-              <span>Mes</span>
-              <select id="fichas-month-filter" onchange="setFichasMonthFilter(this.value)"></select>
-            </label>
-            <label class="saved-select-filter">
-              <span>Año</span>
-              <select id="fichas-year-filter" onchange="setFichasYearFilter(this.value)"></select>
-            </label>
+          <div class="saved-filter-row">
+            <div class="saved-filter-group" aria-label="Filtrar por fecha">
+              <button class="saved-filter-btn active" type="button" data-date-filter="all" onclick="setFichasDateFilter('all')">Todas</button>
+              <button class="saved-filter-btn" type="button" data-date-filter="upcoming" onclick="setFichasDateFilter('upcoming')">Próximos</button>
+              <button class="saved-filter-btn" type="button" data-date-filter="past" onclick="setFichasDateFilter('past')">Pasados</button>
+              <button class="saved-filter-btn" type="button" data-date-filter="nodate" onclick="setFichasDateFilter('nodate')">Sin fecha</button>
+            </div>
+            <div class="saved-date-selectors" aria-label="Filtrar por mes y año">
+              <label class="saved-select-filter">
+                <span>Mes</span>
+                <select id="fichas-month-filter" onchange="setFichasMonthFilter(this.value)"></select>
+              </label>
+              <label class="saved-select-filter">
+                <span>Año</span>
+                <select id="fichas-year-filter" onchange="setFichasYearFilter(this.value)"></select>
+              </label>
+            </div>
           </div>
         </div>
         <div class="saved-count" id="fichas-result-count"></div>
@@ -2878,6 +3173,7 @@
     let currentBulkType = "sonido";
     let currentBulkMaterial = "";
     let boloMaterial = {};
+    let bulkDraft = {};
     let currentRider = null;
     let editingBoloId = null;
     let cloudUrl = "";
@@ -2890,14 +3186,15 @@
       boloMaterial = emptyBoloMaterial();
       fichas = readLocalFichas();
       cloudUrl = getConfiguredCloudUrl();
-      DB = emptyInventory();
+      DB = cloudUrl ? readLocalInventory() : emptyInventory();
       renderCloudConfig();
       renderCategoryUi();
+      renderRiderUi();
       lastSavedBoloSignature = getBoloSignature();
       renderInventory();
       updateCount();
       if (cloudUrl) {
-        await syncFromCloud({ startup: true });
+        syncFromCloud({ startup: true, silent: true });
       } else {
         localStorage.removeItem(INVENTORY_KEY);
         notify("Google Sheets sin configurar", "No se ha encontrado el enlace en senorp_config.js. El inventario queda vacío hasta conectar la hoja.", "warning", 6500);
@@ -3019,6 +3316,10 @@
       return readJson(STORAGE_KEY, []).filter(ficha => ficha?.status === "guardada");
     }
 
+    function readLocalInventory() {
+      return normalizeInventory(readJson(INVENTORY_KEY, emptyInventory()));
+    }
+
     function persistFichas() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas.filter(ficha => ficha?.status === "guardada")));
       updateCount();
@@ -3104,7 +3405,6 @@
                     <th>Material</th>
                     <th>Modelo</th>
                     <th>Cantidad</th>
-                    <th>Notas</th>
                   </tr>
                 </thead>
                 <tbody id="tbody-${cat.id}"></tbody>
@@ -3127,6 +3427,7 @@
 
     function openAddMaterial() {
       if (!categories.some(cat => cat.id === currentBulkType)) currentBulkType = categories[0].id;
+      bulkDraft = cloneMaterialState(boloMaterial);
       renderBulkCategories();
       renderBulkMaterials();
       renderBulkModels();
@@ -3137,22 +3438,19 @@
       const box = document.getElementById("bulk-category-buttons");
       if (!box) return;
       box.innerHTML = categories.map(cat => {
-        const count = (boloMaterial[cat.id] || []).length;
         return `
-          <button class="bulk-choice-btn ${cat.id === currentBulkType ? "active" : ""} ${count ? "added" : ""}" type="button" onclick="setBulkCategory('${cat.id}')">
+          <button class="bulk-choice-btn category-btn ${cat.id === currentBulkType ? "active" : ""}" type="button" onclick="setBulkCategory('${cat.id}')">
+            ${categoryIcon(cat.id)}
             <span>${escapeHtml(cat.label)}</span>
-            <small>${count ? `${count} añadido${count === 1 ? "" : "s"}` : "Sin añadir"}</small>
           </button>
         `;
       }).join("");
-      const cat = categories.find(c => c.id === currentBulkType);
-      document.getElementById("bulkTitle").textContent = cat ? `Añadir ${cat.label.toLowerCase()}` : "Añadir material";
+      document.getElementById("bulkTitle").textContent = "Añadir / editar material";
     }
 
     function setBulkCategory(tipo) {
       currentBulkType = tipo;
       currentBulkMaterial = "";
-      document.getElementById("bulk-notas").value = "";
       renderBulkCategories();
       renderBulkMaterials();
       renderBulkModels();
@@ -3169,11 +3467,11 @@
       }
       if (!currentBulkMaterial || !materials.includes(currentBulkMaterial)) currentBulkMaterial = materials[0];
       box.innerHTML = materials.map(nombre => {
-        const count = (boloMaterial[currentBulkType] || []).filter(row => row.nombre === nombre).length;
+        const count = sumDraftQuantity(currentBulkType, nombre);
         return `
           <button class="bulk-choice-btn ${nombre === currentBulkMaterial ? "active" : ""} ${count ? "added" : ""}" type="button" data-material="${escapeAttr(nombre)}" onclick="setBulkMaterial(this.dataset.material)">
             <span>${escapeHtml(nombre)}</span>
-            <small>${count ? `${count} modelo${count === 1 ? "" : "s"}` : "Disponible"}</small>
+            ${count ? `<small class="bulk-added-tag">${count} añadido${count === 1 ? "" : "s"}</small>` : ""}
           </button>
         `;
       }).join("");
@@ -3181,7 +3479,6 @@
 
     function setBulkMaterial(nombre) {
       currentBulkMaterial = nombre;
-      document.getElementById("bulk-notas").value = "";
       renderBulkMaterials();
       renderBulkModels();
     }
@@ -3199,20 +3496,23 @@
         return;
       }
       box.innerHTML = models.map((modelo, index) => {
-        const existing = getExistingBoloRow(currentBulkType, material, modelo.nombre);
-        const value = existing ? existing.cantidad : 0;
+        const existing = getExistingDraftRow(currentBulkType, material, modelo.nombre);
+        const value = Number(existing?.cantidad) || 0;
+        const stock = Number(modelo.stock) || 0;
+        const availableCount = Math.max(0, stock - value);
+        const available = availableCount > 0;
         return `
           <div class="bulk-model-row ${existing ? "added" : ""}">
             <div class="bulk-model-info">
               <span class="bulk-model-name">${escapeHtml(modelo.nombre)}</span>
               <div class="bulk-model-meta">
-                <span class="mini-chip">Stock ${escapeHtml(modelo.stock)}</span>
+                <span class="mini-chip availability ${available ? "available" : "empty"}">Disponible ${escapeHtml(availableCount)}</span>
                 ${existing ? `<span class="mini-chip added">Añadido ${escapeHtml(existing.cantidad)}</span>` : ""}
               </div>
             </div>
             <div class="bulk-model-controls">
               <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', -1)" aria-label="Restar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
-              <input id="bulk-model-${index}" type="number" min="0" max="${escapeAttr(modelo.stock)}" inputmode="numeric" value="${escapeAttr(value)}" data-bulk-model="${escapeAttr(modelo.nombre)}" aria-label="Cantidad ${escapeAttr(modelo.nombre)}" ${index === 0 ? "autofocus" : ""}>
+              <input id="bulk-model-${index}" type="number" min="0" max="${escapeAttr(stock)}" inputmode="numeric" value="${escapeAttr(value)}" data-bulk-stock="${escapeAttr(stock)}" data-bulk-type="${escapeAttr(currentBulkType)}" data-bulk-material="${escapeAttr(material)}" data-bulk-model="${escapeAttr(modelo.nombre)}" oninput="updateBulkDraftFromInput(this)" aria-label="Cantidad ${escapeAttr(modelo.nombre)}" ${index === 0 ? "autofocus" : ""}>
               <button class="stepper-btn" type="button" onclick="stepInput('bulk-model-${index}', 1)" aria-label="Sumar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></button>
               <button class="max-btn" type="button" onclick="setInputMax('bulk-model-${index}')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10"></path><path d="M4 12h10"></path><path d="M4 18h7"></path><path d="m15 17 2 2 4-5"></path></svg><span>Todo</span></button>
             </div>
@@ -3225,33 +3525,22 @@
       document.getElementById("bulkBackdrop").classList.remove("active");
     }
 
+    function openRiderDialog() {
+      renderRiderUi();
+      document.getElementById("riderBackdrop").classList.add("active");
+    }
+
+    function closeRiderDialog() {
+      document.getElementById("riderBackdrop").classList.remove("active");
+    }
+
     function addBulkRows() {
-      const material = currentBulkMaterial;
-      const notas = document.getElementById("bulk-notas").value.trim();
-      if (!material) {
-        notify("Sin material", "Elige una categoría con inventario antes de añadir.", "warning");
-        return false;
-      }
-      const rows = Array.from(document.querySelectorAll("[data-bulk-model]"))
-        .map(input => ({
-          nombre: material,
-          modelo: input.dataset.bulkModel,
-          cantidad: Math.min(Number(input.max) || Infinity, Math.max(0, Number(input.value) || 0)),
-          notas
-        }));
-      const touched = rows.filter(row => row.cantidad > 0 || getExistingBoloRow(currentBulkType, material, row.modelo));
-
-      if (touched.length === 0) {
-        notify("Sin cantidades", "Indica al menos una cantidad para añadir material.", "warning");
-        return false;
-      }
-
-      touched.forEach(row => setBoloMaterialRow(currentBulkType, row));
+      boloMaterial = cloneMaterialState(bulkDraft);
       renderBoloSummary();
-      renderBulkCategories();
-      renderBulkMaterials();
-      renderBulkModels();
-      notify("Material actualizado", `${touched.length} modelo${touched.length === 1 ? "" : "s"} revisado${touched.length === 1 ? "" : "s"} en el bolo.`, "success");
+      closeBulkDialog();
+      const total = categories.reduce((sum, cat) => sum + (boloMaterial[cat.id] || []).reduce((catSum, row) => catSum + (Number(row.cantidad) || 0), 0), 0);
+      notify("Material actualizado", total ? `${total} añadido${total === 1 ? "" : "s"} en el bolo.` : "El bolo queda sin material seleccionado.", "success");
+      return true;
     }
 
 
@@ -3274,6 +3563,13 @@
       return Object.fromEntries(categories.map(cat => [cat.id, []]));
     }
 
+    function cloneMaterialState(source = {}) {
+      return Object.fromEntries(categories.map(cat => [
+        cat.id,
+        (source[cat.id] || []).map(row => ({ ...normalizeBoloRow(row) }))
+      ]));
+    }
+
     function normalizeBoloRow(row = {}) {
       return {
         nombre: String(row.nombre || "").trim(),
@@ -3285,6 +3581,73 @@
 
     function getExistingBoloRow(tipo, nombre, modelo) {
       return (boloMaterial[tipo] || []).find(row => row.nombre === nombre && row.modelo === modelo) || null;
+    }
+
+    function getExistingDraftRow(tipo, nombre, modelo) {
+      return (bulkDraft[tipo] || []).find(row => row.nombre === nombre && row.modelo === modelo) || null;
+    }
+
+    function sumDraftQuantity(tipo, nombre = "") {
+      return (bulkDraft[tipo] || [])
+        .filter(row => !nombre || row.nombre === nombre)
+        .reduce((sum, row) => sum + (Number(row.cantidad) || 0), 0);
+    }
+
+    function setBulkDraftRow(tipo, data = {}) {
+      const row = normalizeBoloRow(data);
+      if (!row.nombre || !row.modelo) return;
+      if (!bulkDraft[tipo]) bulkDraft[tipo] = [];
+      const index = bulkDraft[tipo].findIndex(item => item.nombre === row.nombre && item.modelo === row.modelo);
+      if (Number(row.cantidad) <= 0) {
+        if (index >= 0) bulkDraft[tipo].splice(index, 1);
+        return;
+      }
+      if (index >= 0) bulkDraft[tipo][index] = row;
+      else bulkDraft[tipo].push(row);
+    }
+
+    function updateBulkDraftFromInput(input) {
+      if (!input) return;
+      const max = input.max === "" ? Infinity : Number(input.max);
+      const cantidad = Math.min(max, Math.max(0, Number(input.value) || 0));
+      input.value = cantidad;
+      const existing = getExistingDraftRow(input.dataset.bulkType, input.dataset.bulkMaterial, input.dataset.bulkModel);
+      setBulkDraftRow(input.dataset.bulkType, {
+        nombre: input.dataset.bulkMaterial,
+        modelo: input.dataset.bulkModel,
+        cantidad,
+        notas: existing?.notas || ""
+      });
+      updateBulkModelRowVisual(input, cantidad);
+      renderBulkCategories();
+      renderBulkMaterials();
+    }
+
+    function updateBulkModelRowVisual(input, cantidad) {
+      const row = input.closest(".bulk-model-row");
+      if (!row) return;
+      row.classList.toggle("added", cantidad > 0);
+      const meta = row.querySelector(".bulk-model-meta");
+      if (!meta) return;
+      const stock = Number(input.dataset.bulkStock) || 0;
+      const availableCount = Math.max(0, stock - cantidad);
+      const availability = meta.querySelector(".mini-chip.availability");
+      if (availability) {
+        availability.textContent = `Disponible ${availableCount}`;
+        availability.classList.toggle("available", availableCount > 0);
+        availability.classList.toggle("empty", availableCount <= 0);
+      }
+      let chip = meta.querySelector(".mini-chip.added");
+      if (cantidad > 0) {
+        if (!chip) {
+          chip = document.createElement("span");
+          chip.className = "mini-chip added";
+          meta.appendChild(chip);
+        }
+        chip.textContent = `Añadido ${cantidad}`;
+      } else if (chip) {
+        chip.remove();
+      }
     }
 
     function setBoloMaterialRow(tipo, data = {}) {
@@ -3321,7 +3684,6 @@
             <td>${escapeHtml(row.nombre)}</td>
             <td>${escapeHtml(row.modelo)}</td>
             <td><strong>${escapeHtml(row.cantidad)}</strong></td>
-            <td>${escapeHtml(row.notas || "")}</td>
           </tr>
         `).join("");
       });
@@ -3384,6 +3746,10 @@
 
     function renderRiderUi() {
       const box = document.getElementById("rider-actions");
+      const cardStatus = document.getElementById("rider-card-status");
+      if (cardStatus) {
+        cardStatus.textContent = currentRider ? currentRider.name || "PDF adjunto" : "Sin adjuntar";
+      }
       if (!box) return;
       if (!currentRider) {
         box.innerHTML = `<span class="rider-status">Sin rider adjunto.</span>`;
@@ -3709,11 +4075,10 @@
         y += 42;
 
         const col = {
-          material: { x: margin, w: 145 },
-          modelo: { x: margin + 145, w: 185 },
-          cantidad: { x: margin + 330, w: 52 },
-          cargado: { x: margin + 382, w: 62 },
-          notas: { x: margin + 444, w: pageWidth - margin * 2 - 444 }
+          material: { x: margin, w: 175 },
+          modelo: { x: margin + 175, w: 230 },
+          cantidad: { x: margin + 405, w: 62 },
+          cargado: { x: margin + 467, w: pageWidth - margin * 2 - 467 }
         };
 
         doc.setFillColor(239, 239, 239);
@@ -3721,7 +4086,7 @@
         doc.setDrawColor(170);
         doc.setLineWidth(.5);
         doc.rect(margin, y, pageWidth - margin * 2, 22);
-        [col.modelo.x, col.cantidad.x, col.cargado.x, col.notas.x].forEach(lineX => {
+        [col.modelo.x, col.cantidad.x, col.cargado.x].forEach(lineX => {
           doc.line(lineX, y, lineX, y + 22);
         });
         doc.setFontSize(10);
@@ -3729,7 +4094,6 @@
         doc.text("Modelo", col.modelo.x + 6, y + 15);
         doc.text("Cant.", col.cantidad.x + 6, y + 15);
         doc.text("Cargado", col.cargado.x + 6, y + 15);
-        doc.text("Notas", col.notas.x + 6, y + 15);
         y += 22;
 
         rows.forEach(row => {
@@ -3737,14 +4101,13 @@
           doc.setFont("helvetica", "normal");
           doc.setFontSize(10);
           doc.rect(margin, y, pageWidth - margin * 2, 24);
-          [col.modelo.x, col.cantidad.x, col.cargado.x, col.notas.x].forEach(lineX => {
+          [col.modelo.x, col.cantidad.x, col.cargado.x].forEach(lineX => {
             doc.line(lineX, y, lineX, y + 24);
           });
           doc.text(ellipsize(row.nombre, col.material.w - 12), col.material.x + 6, y + 16);
           doc.text(ellipsize(row.modelo, col.modelo.w - 12), col.modelo.x + 6, y + 16);
           doc.text(cleanPdfText(row.cantidad), col.cantidad.x + 6, y + 16);
           doc.rect(col.cargado.x + 24, y + 6, 11, 11);
-          doc.text(ellipsize(row.notas, col.notas.w - 12), col.notas.x + 6, y + 16);
           y += 24;
         });
         y += 12;
@@ -4127,14 +4490,13 @@
             <td>${escapeHtml(row.nombre)}</td>
             <td>${escapeHtml(row.modelo)}</td>
             <td><strong>${escapeHtml(row.cantidad)}</strong></td>
-            <td>${escapeHtml(row.notas)}</td>
           </tr>
         `).join("");
       return `
         <section class="detail-section">
           <h3>${escapeHtml(cat.label)}</h3>
           <table class="detail-table">
-            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Notas</th></tr></thead>
+            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th></tr></thead>
             <tbody>${body}</tbody>
           </table>
         </section>
@@ -4211,12 +4573,12 @@
     }
 
     function printSection(cat, rows) {
-      const body = rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td><span class="print-check"></span></td><td>${escapeHtml(r.notas)}</td></tr>`).join("");
+      const body = rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td><span class="print-check"></span></td></tr>`).join("");
       return `
         <section class="print-section">
           <h2>${cat.label}</h2>
           <table class="print-table">
-            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Cargado</th><th>Notas</th></tr></thead>
+            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Cargado</th></tr></thead>
             <tbody>${body}</tbody>
           </table>
         </section>
@@ -4483,12 +4845,11 @@
         if (!options.silent) notify("Datos sincronizados", "Inventario y bolos guardados se han recargado desde Google Sheets.", "success");
         return true;
       } catch (error) {
-        DB = emptyInventory();
-        localStorage.removeItem(INVENTORY_KEY);
+        DB = readLocalInventory();
         renderCategoryUi();
         renderInventory();
         updateCount();
-        if (!options.silent || options.startup) notify("No se pudo sincronizar", "Revisa la URL de Apps Script y que esté desplegada con acceso público. El inventario queda vacío.", "error", 7500);
+        if (!options.silent || options.startup) notify("No se pudo sincronizar", "Revisa la URL de Apps Script y que esté desplegada con acceso público. Se mantiene el último inventario guardado en este navegador.", "error", 7500);
         return false;
       }
     }

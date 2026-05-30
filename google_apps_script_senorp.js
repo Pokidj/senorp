@@ -43,7 +43,7 @@ function doPost(e) {
 
 function readInventory() {
   const sheet = getSheet(SHEETS.inventory, ["categoria", "nombre", "modelo", "stock", "estado"]);
-  const values = sheet.getDataRange().getValues();
+  const values = readSheetValues(sheet, 5);
   const rows = values.slice(1);
   const inventory = { sonido: [], iluminacion: [], otros: [] };
 
@@ -128,7 +128,7 @@ function cleanName(value, fallback) {
 
 function readBolos() {
   const sheet = getSheet(SHEETS.bolos, ["json"]);
-  const values = sheet.getDataRange().getValues();
+  const values = readSheetValues(sheet, 1);
   return values.slice(1)
     .map(row => {
       try {
@@ -143,7 +143,7 @@ function readBolos() {
 function saveBolo(bolo) {
   if (!bolo || !bolo.id) throw new Error("Missing bolo");
   const sheet = getSheet(SHEETS.bolos, ["json"]);
-  const values = sheet.getDataRange().getValues();
+  const values = readSheetValues(sheet, 1);
   const rowIndex = values.findIndex((row, index) => index > 0 && safeJsonId(row[0]) === bolo.id);
   const json = JSON.stringify(bolo);
 
@@ -157,7 +157,7 @@ function saveBolo(bolo) {
 
 function deleteBolo(id) {
   const sheet = getSheet(SHEETS.bolos, ["json"]);
-  const values = sheet.getDataRange().getValues();
+  const values = readSheetValues(sheet, 1);
   for (let index = values.length - 1; index >= 1; index--) {
     if (safeJsonId(values[index][0]) === id) {
       sheet.deleteRow(index + 1);
@@ -208,6 +208,11 @@ function getSheet(name, headers) {
   return sheet;
 }
 
+function readSheetValues(sheet, columns) {
+  const lastRow = Math.max(sheet.getLastRow(), 1);
+  return sheet.getRange(1, 1, lastRow, columns).getValues();
+}
+
 function replaceSheetRows(sheet, rows) {
   const requiredRows = Math.max(rows.length, 1);
   const requiredCols = rows[0].length;
@@ -226,7 +231,8 @@ function replaceSheetRows(sheet, rows) {
 }
 
 function compactSheetRows(sheet) {
-  const values = sheet.getDataRange().getValues();
+  const columns = Math.max(sheet.getLastColumn(), 1);
+  const values = readSheetValues(sheet, columns);
   const compacted = values.filter((row, index) => index === 0 || row.some(cell => String(cell || "").trim() !== ""));
   replaceSheetRows(sheet, compacted.length ? compacted : [["json"]]);
 }
