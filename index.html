@@ -59,6 +59,10 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    body.modal-open {
+      overflow: hidden;
+    }
+
     button, input, select, textarea {
       font: inherit;
     }
@@ -202,6 +206,10 @@
     .nav {
       display: grid;
       gap: 8px;
+    }
+
+    .mobile-home-button {
+      display: none !important;
     }
 
     .nav button {
@@ -618,6 +626,10 @@
       width: 86px;
       min-height: 86px;
       max-height: 96px;
+    }
+
+    #mobile-save-slot {
+      display: none;
     }
 
     .page { display: none; }
@@ -1201,9 +1213,6 @@
       transform: scale(.96);
     }
 
-    .bulk-model-row .number-stepper {
-      justify-self: end;
-    }
     .row-delete {
       width: 34px;
       min-width: 34px;
@@ -1795,6 +1804,7 @@
       background: rgba(0, 0, 0, .46);
       backdrop-filter: blur(6px);
       overflow-y: auto;
+      overscroll-behavior: contain;
     }
 
     .dialog-backdrop.active {
@@ -2621,9 +2631,6 @@
         width: 48px;
         height: 48px;
       }
-      .bulk-model-row .number-stepper {
-        justify-self: stretch;
-      }
       .bulk-model-row .stepper-btn,
       .bulk-model-controls input,
       .bulk-model-row .max-btn {
@@ -2670,6 +2677,494 @@
       .ficha-date {
         min-height: 76px;
       }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        overflow-x: hidden;
+      }
+
+      .app,
+      .app.sidebar-collapsed {
+        display: block;
+        min-height: 100vh;
+      }
+
+      .sidebar,
+      .app.sidebar-collapsed .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        z-index: 40;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 58px;
+        gap: 8px;
+        align-items: stretch;
+        padding: calc(8px + env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 8px max(8px, env(safe-area-inset-left));
+        border-right: 0;
+        border-top: 0;
+        border-bottom: 1px solid var(--line);
+        background: color-mix(in srgb, var(--paper) 92%, transparent);
+        box-shadow: 0 12px 34px rgba(0, 0, 0, .18);
+        backdrop-filter: blur(16px);
+      }
+
+      .brand {
+        display: none !important;
+      }
+
+      .app.home-active .sidebar {
+        display: none;
+      }
+
+      body.modal-open .app .sidebar,
+      body.modal-open .app.sidebar-collapsed .sidebar {
+        display: none !important;
+      }
+
+      .nav {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .mobile-home-button {
+        display: flex !important;
+      }
+
+      .nav button,
+      .app.sidebar-collapsed .nav button {
+        height: 58px;
+        min-height: 58px;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        padding: 6px 4px;
+        border-radius: 12px;
+        font-size: 10px;
+        line-height: 1.05;
+        text-align: center;
+      }
+
+      .app.sidebar-collapsed .nav-label,
+      .app.sidebar-collapsed .settings-button .nav-label {
+        position: static;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+      }
+
+      .nav svg,
+      .app.sidebar-collapsed .nav svg,
+      .app.sidebar-collapsed .settings-button svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .mobile-home-button img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      .badge,
+      .app.sidebar-collapsed .badge {
+        position: absolute;
+        right: 5px;
+        top: 4px;
+        min-width: 17px;
+        padding: 1px 5px;
+        font-size: 10px;
+      }
+
+      .sidebar-tools,
+      .app.sidebar-collapsed .sidebar-tools {
+        margin: 0;
+        display: block;
+        align-self: stretch;
+      }
+
+      .settings-button,
+      .app.sidebar-collapsed .settings-button {
+        width: 100%;
+        height: 58px;
+        min-height: 58px;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        padding: 6px 4px;
+        border-radius: 12px;
+        font-size: 10px;
+        line-height: 1.05;
+        text-align: center;
+      }
+
+      .sidebar-bottom-tools {
+        display: none;
+      }
+
+      .main {
+        min-height: 100vh;
+        padding: calc(86px + env(safe-area-inset-top)) 12px 16px;
+        overflow: visible;
+      }
+
+      .app.home-active .main {
+        padding-top: 14px;
+      }
+
+      .topbar {
+        margin-bottom: 12px;
+        gap: 10px;
+      }
+
+      #page-nueva {
+        display: none;
+      }
+
+      #page-nueva.active {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #page-nueva .topbar {
+        order: 0;
+        margin-bottom: 12px;
+      }
+
+      #bolo-data-panel {
+        order: 1;
+      }
+
+      #bolo-material-panel {
+        order: 2;
+      }
+
+      #categorySections {
+        order: 4;
+      }
+
+      #mobile-save-slot {
+        display: block;
+        order: 3;
+        margin-top: 4px;
+      }
+
+      #page-nueva .save-actions .save {
+        order: 1;
+      }
+
+      #page-nueva .save-actions .print {
+        order: 2;
+      }
+
+      #page-nueva .save-actions .share {
+        order: 3;
+      }
+
+      .eyebrow {
+        font-size: 11px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+      }
+
+      .home-hero {
+        min-height: auto;
+        gap: 16px;
+        align-content: start;
+        padding-top: 4px;
+      }
+
+      .home-heading img {
+        width: min(100%, 430px);
+        max-height: 150px;
+      }
+
+      .home-actions {
+        gap: 10px;
+      }
+
+      .home-card {
+        min-height: 112px;
+        aspect-ratio: auto;
+        grid-template-columns: 58px minmax(0, 1fr);
+        align-items: center;
+        align-content: center;
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .home-card-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 12px;
+      }
+
+      .home-card-icon svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      .home-card strong {
+        font-size: 17px;
+        margin-bottom: 3px;
+      }
+
+      .home-card > .home-card-meta {
+        grid-column: 1 / -1;
+        font-size: 11px;
+      }
+
+      .panel {
+        margin-bottom: 12px;
+      }
+
+      .panel-head,
+      .panel-body {
+        padding: 12px;
+      }
+
+      input,
+      select,
+      textarea {
+        min-height: 50px;
+        font-size: 16px;
+      }
+
+      .save-actions {
+        gap: 8px;
+        padding: 7px;
+      }
+
+      .save-actions .saved-action,
+      .saved-action {
+        aspect-ratio: auto;
+        min-height: 68px;
+        height: 68px;
+        grid-template-rows: auto auto;
+        align-content: center;
+        gap: 5px;
+        padding: 8px 6px;
+      }
+
+      .saved-action svg {
+        width: 25px;
+        height: 25px;
+        align-self: center;
+      }
+
+      .save-actions .saved-action {
+        min-height: 78px;
+        height: 78px;
+      }
+
+      .save-actions .saved-action svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .main-material-toolbar .add-material-card {
+        min-height: 74px;
+      }
+
+      .dialog-backdrop {
+        padding: 8px;
+        align-items: center;
+        overflow: hidden;
+        overscroll-behavior: contain;
+      }
+
+      .dialog {
+        width: 100%;
+        height: calc(100dvh - 18px);
+        max-height: calc(100dvh - 18px);
+        overflow: hidden;
+        margin: 0;
+        border-radius: 14px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .dialog-head {
+        flex: 0 0 auto;
+      }
+
+      .dialog-actions {
+        flex: 0 0 auto;
+      }
+
+      .dialog .bulk-form,
+      .detail-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
+      }
+
+      .detail-dialog .dialog-actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        padding: 10px;
+        flex: 0 0 auto;
+      }
+
+      .detail-danger-actions {
+        display: contents;
+      }
+
+      .detail-danger-actions .saved-action,
+      .detail-dialog .dialog-actions > .saved-action {
+        width: 100%;
+        min-height: 68px;
+        height: 68px;
+        max-height: none;
+        aspect-ratio: auto;
+      }
+
+      .detail-body {
+        max-height: none;
+        padding: 0 14px 14px;
+      }
+
+      .detail-print-card {
+        overflow: visible;
+      }
+
+      .dialog-head {
+        padding: 14px 14px 10px;
+      }
+
+      .bulk-form {
+        padding: 0 14px 14px;
+      }
+
+      .bulk-head {
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+      }
+
+      .bulk-head-copy span {
+        font-size: 12px;
+      }
+
+      .bulk-top-actions {
+        gap: 6px;
+      }
+
+      .bulk-top-actions .saved-action {
+        width: 54px;
+        min-width: 54px;
+        height: 54px;
+        min-height: 54px;
+      }
+
+      .bulk-choice-grid.category {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .bulk-choice-grid.category .bulk-choice-btn,
+      .bulk-choice-btn.category-btn {
+        width: 100%;
+        min-width: 0;
+        min-height: 62px;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        white-space: normal;
+        font-size: 12px;
+        padding: 8px 6px;
+      }
+
+      .bulk-choice-btn.category-btn svg {
+        width: 21px;
+        height: 21px;
+      }
+
+      .bulk-choice-grid:not(.category) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .bulk-choice-btn {
+        min-height: 60px;
+        padding: 9px;
+      }
+
+      .bulk-model-row {
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .bulk-model-controls {
+        gap: 6px;
+      }
+
+      .ficha {
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 10px;
+        padding: 12px;
+        align-items: start;
+        overflow: visible;
+      }
+
+      .saved-list {
+        gap: 12px;
+        overflow: visible;
+      }
+
+      .ficha-main {
+        align-content: start;
+      }
+
+      .ficha-title strong {
+        font-size: 16px;
+      }
+
+      .saved-actions {
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(3, 92px);
+        justify-content: end;
+        align-items: center;
+        gap: 8px;
+        padding-top: 2px;
+        overflow: visible;
+      }
+
+      .ficha .saved-action {
+        width: 92px;
+        min-height: 72px;
+        height: 72px;
+      }
+
+      .saved-action-label {
+        font-size: 11px;
+      }
+
+      .inventory-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+        padding-bottom: 2px;
+        scroll-snap-type: x proximity;
+      }
+
+      .inventory-tabs button {
+        min-width: 170px;
+        scroll-snap-align: start;
+      }
+
+      .inventory-toolbar {
+        gap: 8px;
+      }
+
     }
 
     @media print {
@@ -2857,6 +3352,10 @@
       </div>
 
       <nav class="nav" aria-label="Principal">
+        <button class="mobile-home-button" onclick="showPage('home')" aria-label="Inicio" title="Inicio">
+          <img src="logo-mini.png" alt="Inicio">
+          <span class="nav-label">INICIO</span>
+        </button>
         <button id="nav-nueva" onclick="showPage('nueva')" aria-label="Nuevo bolo" title="Nuevo bolo">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 18v-6"></path><path d="M9 15h6"></path></svg>
           <span class="nav-label">NUEVO BOLO</span>
@@ -2936,7 +3435,8 @@
             <div class="eyebrow">Nuevo bolo</div>
             <h1>Salida técnica del bolo</h1>
           </div>
-          <div class="save-actions">
+          <span id="desktop-save-anchor" hidden></span>
+          <div class="save-actions" id="bolo-save-actions">
             <button class="saved-action print" onclick="printCurrentBolo()" aria-label="Imprimir bolo" title="Imprimir">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>
               <span class="saved-action-label">Imprimir</span>
@@ -2952,7 +3452,7 @@
           </div>
         </div>
 
-        <div class="panel">
+        <div class="panel" id="bolo-data-panel">
           <div class="panel-head">
             <div class="panel-title">Datos del bolo</div>
           </div>
@@ -2982,7 +3482,7 @@
           </div>
         </div>
 
-        <div class="panel">
+        <div class="panel" id="bolo-material-panel">
           <div class="material-toolbar main-material-toolbar">
             <button class="add-material-card" onclick="openAddMaterial()">
               <span class="add-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
@@ -2994,6 +3494,7 @@
             </button>
           </div>
         </div>
+        <div id="mobile-save-slot"></div>
         <div id="categorySections"></div>
       </section>
 
@@ -3179,6 +3680,7 @@
     let editingBoloId = null;
     let cloudUrl = "";
     let inventorySyncTimer = null;
+    let scrollLockY = 0;
 
     async function init() {
       applyTheme(localStorage.getItem(THEME_KEY) || "light");
@@ -3192,6 +3694,8 @@
       renderCategoryUi();
       renderRiderUi();
       lastSavedBoloSignature = getBoloSignature();
+      placeBoloActions();
+      window.addEventListener("resize", placeBoloActions);
       renderInventory();
       updateCount();
       if (cloudUrl) {
@@ -3212,6 +3716,37 @@
     function applySidebarState(collapsed) {
       const app = document.querySelector(".app");
       app?.classList.toggle("sidebar-collapsed", collapsed);
+    }
+
+    function placeBoloActions() {
+      const actions = document.getElementById("bolo-save-actions");
+      const desktopAnchor = document.getElementById("desktop-save-anchor");
+      const mobileSlot = document.getElementById("mobile-save-slot");
+      if (!actions || !desktopAnchor || !mobileSlot) return;
+      if (window.matchMedia("(max-width: 640px)").matches) {
+        if (actions.parentElement !== mobileSlot) mobileSlot.appendChild(actions);
+      } else if (actions.previousElementSibling !== desktopAnchor) {
+        desktopAnchor.after(actions);
+      }
+    }
+
+    function openModal(backdrop) {
+      if (!backdrop || backdrop.classList.contains("active")) return;
+      const hasOpenModal = Boolean(document.querySelector(".dialog-backdrop.active"));
+      if (!hasOpenModal) {
+        scrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+        document.body.classList.add("modal-open");
+      }
+      backdrop.classList.add("active");
+    }
+
+    function closeModal(backdrop) {
+      if (!backdrop || !backdrop.classList.contains("active")) return;
+      backdrop.classList.remove("active");
+      const hasOpenModal = Boolean(document.querySelector(".dialog-backdrop.active"));
+      if (hasOpenModal) return;
+      document.body.classList.remove("modal-open");
+      window.scrollTo(0, scrollLockY);
     }
 
     function getBuiltInCloudUrl() {
@@ -3372,6 +3907,7 @@
       document.getElementById("nav-" + page)?.classList.add("active");
       document.querySelector(".app")?.classList.toggle("home-active", page === "home");
       applySidebarState(page === "home" ? true : localStorage.getItem(SIDEBAR_KEY) === "true");
+      placeBoloActions();
       currentPage = page;
       if (page === "home") renderHomeStats();
       if (page === "fichas") renderFichas();
@@ -3435,7 +3971,7 @@
       renderBulkCategories();
       renderBulkMaterials();
       renderBulkModels();
-      document.getElementById("bulkBackdrop").classList.add("active");
+      openModal(document.getElementById("bulkBackdrop"));
     }
 
     function renderBulkCategories() {
@@ -3526,16 +4062,16 @@
     }
 
     function closeBulkDialog() {
-      document.getElementById("bulkBackdrop").classList.remove("active");
+      closeModal(document.getElementById("bulkBackdrop"));
     }
 
     function openRiderDialog() {
       renderRiderUi();
-      document.getElementById("riderBackdrop").classList.add("active");
+      openModal(document.getElementById("riderBackdrop"));
     }
 
     function closeRiderDialog() {
-      document.getElementById("riderBackdrop").classList.remove("active");
+      closeModal(document.getElementById("riderBackdrop"));
     }
 
     function addBulkRows() {
@@ -3581,10 +4117,6 @@
         cantidad: String(Math.max(0, Number(row.cantidad) || 0)),
         notas: String(row.notas || "").trim()
       };
-    }
-
-    function getExistingBoloRow(tipo, nombre, modelo) {
-      return (boloMaterial[tipo] || []).find(row => row.nombre === nombre && row.modelo === modelo) || null;
     }
 
     function getExistingDraftRow(tipo, nombre, modelo) {
@@ -3665,11 +4197,6 @@
       }
       if (index >= 0) boloMaterial[tipo][index] = row;
       else boloMaterial[tipo].push(row);
-    }
-
-    function addRow(tipo, data = {}) {
-      setBoloMaterialRow(tipo, data);
-      renderBoloSummary();
     }
 
     function renderBoloSummary() {
@@ -4444,11 +4971,11 @@
         closeFichaDetail();
         deleteFicha(id);
       };
-      backdrop.classList.add("active");
+      openModal(backdrop);
     }
 
     function closeFichaDetail() {
-      document.getElementById("fichaDetailBackdrop")?.classList.remove("active");
+      closeModal(document.getElementById("fichaDetailBackdrop"));
     }
 
     function buildFichaDetailMarkup(ficha) {
@@ -4930,41 +5457,6 @@
       return data;
     }
 
-    function buildDbFromJson(rows) {
-      return groupInventory(Array.isArray(rows) ? rows : rows.data || []);
-    }
-
-    function buildDbFromCsv(csv) {
-      const lines = parseCsv(csv);
-      const headers = lines.shift().map(h => h.trim().toLowerCase());
-      const rows = lines.map(cols => Object.fromEntries(headers.map((h, i) => [h, cols[i] || ""])));
-      return groupInventory(rows);
-    }
-
-    function groupInventory(rows) {
-      const next = { sonido: [], iluminacion: [], otros: [] };
-      rows.forEach(row => {
-        const categoria = normalizeCategory(row.categoria || row.category);
-        const nombre = cleanName(row.nombre || row.material, "");
-        const modelo = cleanName(row.modelo || row.model, "Sin modelo");
-        const stock = Number(row.stock || row.cantidad || 0);
-        const estado = normalizeEstado(row.estado || row.status);
-        if (!nombre) return;
-        upsertInventoryModel(next, categoria, nombre, {
-          nombre: modelo,
-          stock: Number.isFinite(stock) ? stock : 0,
-          estado
-        });
-      });
-      categories.forEach(cat => {
-        if (next[cat.id].length === 0) next[cat.id] = DB[cat.id];
-        next[cat.id].forEach(item => {
-          if (item.modelos.length === 0) item.modelos = [{ nombre: "Sin modelo", stock: 0, estado: "ok" }];
-        });
-      });
-      return next;
-    }
-
     function normalizeCategory(value) {
       const clean = String(value || "").trim().toLowerCase();
       if (clean.startsWith("ilu")) return "iluminacion";
@@ -4977,35 +5469,6 @@
       if (clean.startsWith("rev")) return "revision";
       if (clean.startsWith("baj")) return "baja";
       return "ok";
-    }
-
-    function parseCsv(text) {
-      const rows = [];
-      let row = [], cell = "", quoted = false;
-      for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        const next = text[i + 1];
-        if (char === '"' && quoted && next === '"') {
-          cell += '"';
-          i++;
-        } else if (char === '"') {
-          quoted = !quoted;
-        } else if (char === "," && !quoted) {
-          row.push(cell);
-          cell = "";
-        } else if ((char === "\n" || char === "\r") && !quoted) {
-          if (char === "\r" && next === "\n") i++;
-          row.push(cell);
-          if (row.some(v => v.trim() !== "")) rows.push(row);
-          row = [];
-          cell = "";
-        } else {
-          cell += char;
-        }
-      }
-      row.push(cell);
-      if (row.some(v => v.trim() !== "")) rows.push(row);
-      return rows;
     }
 
     function notify(title, message = "", type = "success", duration = 3200) {
@@ -5035,10 +5498,10 @@
           ${discardText ? `<button class="btn btn-danger" type="button" data-dialog-action="discard">${escapeHtml(discardText)}</button>` : ""}
           <button class="btn ${danger ? "btn-danger" : "btn-primary"}" type="button" data-dialog-action="confirm">${escapeHtml(confirmText)}</button>
         `;
-        backdrop.classList.add("active");
+        openModal(backdrop);
 
         const close = value => {
-          backdrop.classList.remove("active");
+          closeModal(backdrop);
           actions.removeEventListener("click", onAction);
           backdrop.removeEventListener("click", onBackdrop);
           document.removeEventListener("keydown", onKey);
