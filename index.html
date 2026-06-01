@@ -846,6 +846,46 @@
       line-height: 1.35;
     }
 
+    .field-control {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 52px;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .field-tool {
+      width: 52px;
+      min-height: 52px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+      color: var(--action-fg);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+
+    .field-tool:hover {
+      border-color: rgba(224, 0, 27, .34);
+      background: var(--soft-red);
+    }
+
+    .field-tool:active {
+      transform: scale(.96);
+    }
+
+    .field-tool svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .rider-field {
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -1420,6 +1460,16 @@
       height: 18px;
     }
 
+    .ficha-submeta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
     .saved-action svg {
       width: clamp(24px, 4vw, 34px);
       height: clamp(24px, 4vw, 34px);
@@ -1835,6 +1885,10 @@
       width: min(980px, 100%);
     }
 
+    .detail-dialog > .dialog-head {
+      display: none;
+    }
+
     .dialog-head {
       padding: 18px 18px 10px;
       display: grid;
@@ -1916,7 +1970,7 @@
     }
 
     .detail-body {
-      padding: 0 20px 20px;
+      padding: 0;
       display: grid;
       gap: 16px;
       max-height: min(68vh, 680px);
@@ -1924,43 +1978,33 @@
     }
 
     .detail-print-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
+      display: contents;
     }
 
     .detail-print-header {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
       gap: 14px;
-      padding: 18px;
+      padding: 24px 24px 18px;
       border-bottom: 2px solid var(--ink);
       background: var(--soft);
     }
 
     .detail-print-header h2 {
       margin: 0 0 8px;
-      font-size: 22px;
-    }
-
-    .detail-print-meta {
-      display: grid;
-      gap: 4px;
-      color: var(--muted);
-      font-weight: 800;
-      text-align: right;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.05;
     }
 
     .detail-print-content {
       display: grid;
       gap: 18px;
-      padding: 18px;
+      padding: 18px 24px 24px;
     }
 
     .detail-summary {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 10px;
     }
 
@@ -1986,6 +2030,45 @@
       display: block;
       font-size: 14px;
       word-break: break-word;
+    }
+
+    .detail-quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .detail-quick-action {
+      min-height: 58px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 12px;
+      font-weight: 900;
+      text-decoration: none;
+      touch-action: manipulation;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+
+    .detail-quick-action:hover {
+      border-color: rgba(224, 0, 27, .34);
+      background: var(--soft-red);
+      transform: translateY(-1px);
+    }
+
+    .detail-quick-action svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .detail-section {
@@ -2505,9 +2588,6 @@
       .detail-print-header {
         grid-template-columns: 1fr;
       }
-      .detail-print-meta {
-        text-align: left;
-      }
       .bulk-model-row {
         grid-template-columns: 1fr;
       }
@@ -2615,6 +2695,47 @@
       td:nth-child(3)::before { content: "Cantidad"; }
       td:nth-child(4)::before { content: ""; }
       td:nth-child(6)::before { content: ""; }
+      .detail-table {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+      }
+      .detail-table thead {
+        display: table-header-group;
+      }
+      .detail-table tbody {
+        display: table-row-group;
+      }
+      .detail-table tr {
+        display: table-row;
+        border-bottom: 0;
+        padding: 0;
+      }
+      .detail-table th,
+      .detail-table td {
+        display: table-cell;
+        padding: 8px 6px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: middle;
+        word-break: break-word;
+      }
+      .detail-table td::before {
+        display: none;
+        content: "";
+      }
+      .detail-table th:nth-child(1),
+      .detail-table td:nth-child(1) {
+        width: 38%;
+      }
+      .detail-table th:nth-child(2),
+      .detail-table td:nth-child(2) {
+        width: 44%;
+      }
+      .detail-table th:nth-child(3),
+      .detail-table td:nth-child(3) {
+        width: 18%;
+        text-align: center;
+      }
       .inventory-grid td:nth-child(2)::before { content: "Modelo"; }
       .inventory-grid td:nth-child(3)::before { content: "Stock"; }
       .inventory-grid td:nth-child(4)::before { content: "Estado"; }
@@ -2680,6 +2801,17 @@
     }
 
     @media (max-width: 640px) {
+      * {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      *::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
+      }
+
       body {
         overflow-x: hidden;
       }
@@ -3032,11 +3164,15 @@
 
       .detail-body {
         max-height: none;
-        padding: 0 14px 14px;
+        padding: 0;
       }
 
-      .detail-print-card {
-        overflow: visible;
+      .detail-print-header {
+        padding: 18px 14px 14px;
+      }
+
+      .detail-print-content {
+        padding: 14px;
       }
 
       .dialog-head {
@@ -3130,22 +3266,29 @@
 
       .saved-actions {
         grid-column: 1 / -1;
-        grid-template-columns: repeat(3, 92px);
-        justify-content: end;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        justify-content: stretch;
         align-items: center;
-        gap: 8px;
-        padding-top: 2px;
+        gap: 6px;
+        padding-top: 0;
         overflow: visible;
       }
 
       .ficha .saved-action {
-        width: 92px;
-        min-height: 72px;
-        height: 72px;
+        width: 100%;
+        min-height: 58px;
+        height: 58px;
+        padding: 7px 4px 6px;
+        gap: 4px;
+      }
+
+      .ficha .saved-action svg {
+        width: 24px;
+        height: 24px;
       }
 
       .saved-action-label {
-        font-size: 11px;
+        font-size: 10px;
       }
 
       .inventory-tabs {
@@ -3463,19 +3606,41 @@
                 <input id="evento-nombre" type="text" placeholder="Festival de verano">
               </div>
               <div class="field">
-                <label for="evento-fecha">Fecha</label>
+                <label for="evento-fecha">Fecha del evento</label>
                 <input id="evento-fecha" type="date">
               </div>
               <div class="field">
-                <label for="evento-lugar">Lugar / recinto</label>
-                <input id="evento-lugar" type="text" placeholder="Polideportivo municipal">
+                <label for="evento-hora-llegada">Hora de llegada</label>
+                <input id="evento-hora-llegada" type="time">
+              </div>
+              <div class="field">
+                <label for="evento-lugar">Lugar del evento</label>
+                <div class="field-control">
+                  <input id="evento-lugar" type="text" placeholder="Polideportivo municipal" autocomplete="street-address">
+                  <button class="field-tool" type="button" onclick="openEventLocationMap()" aria-label="Abrir ubicación en Google Maps" title="Abrir en Google Maps">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="field">
+                <label for="evento-telefono-lugar">Teléfono responsable del lugar</label>
+                <div class="field-control">
+                  <input id="evento-telefono-lugar" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000">
+                  <button class="field-tool" type="button" onclick="pickPlaceContact()" aria-label="Elegir contacto de la agenda" title="Elegir de la agenda">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M4 8h16"></path><rect x="4" y="4" width="16" height="18" rx="2"></rect><circle cx="12" cy="14" r="2"></circle><path d="M8 20a4 4 0 0 1 8 0"></path></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="field">
+                <label for="evento-contacto-lugar">Nombre del contacto del lugar</label>
+                <input id="evento-contacto-lugar" type="text" placeholder="Nombre de quien atiende" autocomplete="name">
               </div>
               <div class="field">
                 <label for="evento-resp">Responsable de carga</label>
-                <input id="evento-resp" type="text" placeholder="Nombre del técnico">
+                <input id="evento-resp" type="text" placeholder="Nombre del técnico" autocomplete="name">
               </div>
               <div class="field full">
-                <label for="evento-notas">Notas generales</label>
+                <label for="evento-notas">Notas / detalles adicionales</label>
                 <textarea id="evento-notas" rows="3" placeholder="Horarios, accesos, necesidades especiales..."></textarea>
               </div>
             </div>
@@ -3852,7 +4017,7 @@
     }
 
     function readLocalFichas() {
-      return readJson(STORAGE_KEY, []).filter(ficha => ficha?.status === "guardada");
+      return readJson(STORAGE_KEY, []).filter(ficha => ficha?.status === "guardada").map(normalizeBoloFicha);
     }
 
     function readLocalInventory() {
@@ -3919,7 +4084,7 @@
     }
 
     function getBoloSignature() {
-      const fieldIds = ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"];
+      const fieldIds = ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"];
       return JSON.stringify({
         fields: Object.fromEntries(fieldIds.map(id => [id, document.getElementById(id).value.trim()])),
         material: Object.fromEntries(categories.map(cat => [cat.id, getRows(cat.id)])),
@@ -4331,13 +4496,58 @@
       return (boloMaterial[tipo] || []).map(row => ({ ...row }));
     }
 
+    function openEventLocationMap() {
+      const place = document.getElementById("evento-lugar")?.value.trim();
+      if (!place) {
+        notify("Falta el lugar", "Escribe el lugar del evento antes de abrir Google Maps.", "warning");
+        document.getElementById("evento-lugar")?.focus();
+        return;
+      }
+      window.open(getGoogleMapsUrl(place), "_blank", "noopener");
+    }
+
+    function getGoogleMapsUrl(place) {
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place || "")}`;
+    }
+
+    function getPhoneHref(phone) {
+      return `tel:${String(phone || "").replace(/[^\d+]/g, "")}`;
+    }
+
+    async function pickPlaceContact() {
+      const input = document.getElementById("evento-telefono-lugar");
+      const nameInput = document.getElementById("evento-contacto-lugar");
+      if (!input) return;
+      if (navigator.contacts?.select) {
+        try {
+          const contacts = await navigator.contacts.select(["name", "tel"], { multiple: false });
+          const contact = contacts?.[0];
+          const phone = Array.isArray(contact?.tel) ? contact.tel[0] : contact?.tel;
+          const name = Array.isArray(contact?.name) ? contact.name[0] : contact?.name;
+          if (phone) {
+            input.value = phone;
+            if (nameInput && name) nameInput.value = name;
+            notify("Teléfono añadido", name || "Contacto seleccionado", "success");
+            return;
+          }
+        } catch (error) {
+          if (error?.name === "AbortError") return;
+        }
+      }
+      input.focus();
+      notify("Agenda no disponible", "Este navegador no permite abrir la agenda desde la web. Puedes escribir o pegar el teléfono.", "warning", 5200);
+    }
+
     function buildCurrentFicha(status = "guardada") {
       const ficha = {
         id: editingBoloId || Date.now(),
         status,
         nombre: document.getElementById("evento-nombre").value.trim() || "Sin nombre",
         fecha: document.getElementById("evento-fecha").value,
+        horaLlegada: document.getElementById("evento-hora-llegada").value,
         lugar: document.getElementById("evento-lugar").value.trim(),
+        telefonoLugar: document.getElementById("evento-telefono-lugar").value.trim(),
+        contactoLugar: document.getElementById("evento-contacto-lugar").value.trim(),
         resp: document.getElementById("evento-resp").value.trim(),
         notas: document.getElementById("evento-notas").value.trim(),
         rider: currentRider ? { ...currentRider } : null,
@@ -4346,6 +4556,16 @@
 
       categories.forEach(cat => ficha.material[cat.id] = getRows(cat.id));
       return ficha;
+    }
+
+    function normalizeBoloFicha(ficha = {}) {
+      if (!ficha) return null;
+      return {
+        ...ficha,
+        horaLlegada: ficha.horaLlegada || ficha.hora_llegada || ficha.hora || "",
+        telefonoLugar: ficha.telefonoLugar || ficha.telefono_lugar || ficha.telefonoResponsableLugar || ficha.telefono || "",
+        contactoLugar: ficha.contactoLugar || ficha.contacto_lugar || ficha.nombreContactoLugar || ficha.contacto || ""
+      };
     }
 
     async function saveFicha(status, options = {}) {
@@ -4556,9 +4776,12 @@
       doc.setFontSize(12);
       doc.text(`Bolo: ${cleanPdfText(ficha.nombre || "Sin nombre")}`, pageWidth - margin, y + 48, { align: "right" });
       doc.text(`Fecha: ${cleanPdfText(ficha.fecha || "")}`, pageWidth - margin, y + 66, { align: "right" });
-      doc.text(`Lugar: ${cleanPdfText(ficha.lugar || "")}`, pageWidth - margin, y + 84, { align: "right" });
-      doc.text(`Responsable: ${cleanPdfText(ficha.resp || "")}`, pageWidth - margin, y + 102, { align: "right" });
-      y += 120;
+      doc.text(`Hora llegada: ${cleanPdfText(ficha.horaLlegada || "")}`, pageWidth - margin, y + 84, { align: "right" });
+      doc.text(`Lugar: ${cleanPdfText(ficha.lugar || "")}`, pageWidth - margin, y + 102, { align: "right" });
+      doc.text(`Contacto lugar: ${cleanPdfText(ficha.contactoLugar || "")}`, pageWidth - margin, y + 120, { align: "right" });
+      doc.text(`Tel. lugar: ${cleanPdfText(ficha.telefonoLugar || "")}`, pageWidth - margin, y + 138, { align: "right" });
+      doc.text(`Responsable carga: ${cleanPdfText(ficha.resp || "")}`, pageWidth - margin, y + 156, { align: "right" });
+      y += 174;
 
       doc.setDrawColor(0);
       doc.setLineWidth(2);
@@ -4733,7 +4956,7 @@
     }
 
     function resetForm() {
-      ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
+      ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
       currentRider = null;
       const riderInput = document.getElementById("evento-rider");
       if (riderInput) riderInput.value = "";
@@ -4746,11 +4969,15 @@
     }
 
     function loadFichaIntoForm(ficha, options = {}) {
-      ["evento-nombre", "evento-fecha", "evento-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
+      ficha = normalizeBoloFicha(ficha);
+      ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
       if (!options.duplicate) {
         document.getElementById("evento-nombre").value = ficha.nombre || "";
         document.getElementById("evento-fecha").value = ficha.fecha || "";
+        document.getElementById("evento-hora-llegada").value = ficha.horaLlegada || "";
         document.getElementById("evento-lugar").value = ficha.lugar || "";
+        document.getElementById("evento-telefono-lugar").value = ficha.telefonoLugar || "";
+        document.getElementById("evento-contacto-lugar").value = ficha.contactoLugar || "";
         document.getElementById("evento-resp").value = ficha.resp || "";
         document.getElementById("evento-notas").value = ficha.notas || "";
       }
@@ -4805,6 +5032,7 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 <span>${escapeHtml(f.lugar || "Sin lugar")}</span>
               </div>
+              ${f.horaLlegada ? `<div class="ficha-submeta"><span>Llegada ${escapeHtml(f.horaLlegada)}</span></div>` : ""}
               ${tags}
             </div>
             <div class="saved-actions" aria-label="Acciones del bolo" onclick="event.stopPropagation()">
@@ -4843,7 +5071,9 @@
         return normalizeText([
           ficha.nombre,
           ficha.fecha,
+          ficha.horaLlegada,
           ficha.lugar,
+          ficha.contactoLugar,
           ficha.resp,
           ficha.notas,
           ficha.rider?.name,
@@ -4957,11 +5187,11 @@
     }
 
     function openFichaDetail(id) {
-      const ficha = fichas.find(f => f.id === id);
+      const ficha = normalizeBoloFicha(fichas.find(f => f.id === id));
       if (!ficha) return;
       const backdrop = document.getElementById("fichaDetailBackdrop");
-      document.getElementById("fichaDetailTitle").textContent = ficha.nombre || "Sin nombre";
-      document.getElementById("fichaDetailMeta").textContent = `${ficha.fecha || "Sin fecha"} · ${ficha.lugar || "Sin lugar"}`;
+      document.getElementById("fichaDetailTitle").textContent = ficha.nombre || "Bolo guardado";
+      document.getElementById("fichaDetailMeta").textContent = "";
       document.getElementById("fichaDetailBody").innerHTML = buildFichaDetailMarkup(ficha);
       document.getElementById("fichaDetailEditBtn").onclick = () => {
         closeFichaDetail();
@@ -4983,23 +5213,48 @@
         <div class="detail-print-card">
           <div class="detail-print-header">
             <div>
-              <h2>Ficha de carga del bolo</h2>
+              <h2>${escapeHtml(ficha.nombre || "Bolo sin nombre")}</h2>
               ${buildCategoryTags(ficha)}
-            </div>
-            <div class="detail-print-meta">
-              <span><strong>Bolo:</strong> ${escapeHtml(ficha.nombre || "Sin nombre")}</span>
-              <span><strong>Fecha:</strong> ${escapeHtml(ficha.fecha || "Sin fecha")}</span>
-              <span><strong>Lugar:</strong> ${escapeHtml(ficha.lugar || "Sin lugar")}</span>
-              <span><strong>Responsable:</strong> ${escapeHtml(ficha.resp || "Sin responsable")}</span>
             </div>
           </div>
           <div class="detail-print-content">
+            ${buildFichaDetailQuickActions(ficha)}
+            <div class="detail-summary">
+              <div class="detail-field"><span>Fecha del evento</span><strong>${escapeHtml(ficha.fecha || "Sin fecha")}</strong></div>
+              <div class="detail-field"><span>Hora de llegada</span><strong>${escapeHtml(ficha.horaLlegada || "Sin hora")}</strong></div>
+              <div class="detail-field"><span>Lugar del evento</span><strong>${escapeHtml(ficha.lugar || "Sin lugar")}</strong></div>
+              <div class="detail-field"><span>Contacto lugar</span><strong>${escapeHtml(ficha.contactoLugar || "Sin contacto")}</strong></div>
+              <div class="detail-field"><span>Teléfono lugar</span><strong>${escapeHtml(ficha.telefonoLugar || "Sin teléfono")}</strong></div>
+              <div class="detail-field"><span>Responsable carga</span><strong>${escapeHtml(ficha.resp || "Sin responsable")}</strong></div>
+            </div>
             ${ficha.notas ? `<div class="detail-field"><span>Notas generales</span><strong>${escapeHtml(ficha.notas)}</strong></div>` : ""}
             ${buildRiderDetailLink(ficha.rider)}
             ${getUsedCategories(ficha).length ? getUsedCategories(ficha).map(cat => buildFichaDetailSection(cat, ficha.material?.[cat.id] || [])).join("") : `<div class="detail-empty">Sin material asignado.</div>`}
           </div>
         </div>
       `;
+    }
+
+    function buildFichaDetailQuickActions(ficha) {
+      const actions = [];
+      if (ficha.telefonoLugar) {
+        const callName = ficha.contactoLugar || "responsable";
+        actions.push(`
+          <a class="detail-quick-action" href="${escapeAttr(getPhoneHref(ficha.telefonoLugar))}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.31 1.84.53 2.8.66A2 2 0 0 1 22 16.92Z"></path></svg>
+            Llamar a ${escapeHtml(callName)}
+          </a>
+        `);
+      }
+      if (ficha.lugar) {
+        actions.push(`
+          <a class="detail-quick-action" href="${escapeAttr(getGoogleMapsUrl(ficha.lugar))}" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            Abrir ubicación
+          </a>
+        `);
+      }
+      return actions.length ? `<div class="detail-quick-actions">${actions.join("")}</div>` : "";
     }
 
     function buildRiderDetailLink(rider) {
@@ -5092,8 +5347,11 @@
             <h1>Ficha de carga del bolo</h1>
             <div><b>Bolo:</b> ${escapeHtml(ficha.nombre)}</div>
             <div><b>Fecha:</b> ${escapeHtml(ficha.fecha || "")}</div>
+            <div><b>Hora llegada:</b> ${escapeHtml(ficha.horaLlegada || "")}</div>
             <div><b>Lugar:</b> ${escapeHtml(ficha.lugar || "")}</div>
-            <div><b>Responsable:</b> ${escapeHtml(ficha.resp || "")}</div>
+            <div><b>Contacto lugar:</b> ${escapeHtml(ficha.contactoLugar || "")}</div>
+            <div><b>Tel. lugar:</b> ${escapeHtml(ficha.telefonoLugar || "")}</div>
+            <div><b>Responsable carga:</b> ${escapeHtml(ficha.resp || "")}</div>
           </div>
         </div>
         ${ficha.notas ? `<div class="print-notes"><b>Notas:</b> ${escapeHtml(ficha.notas)}</div>` : ""}
@@ -5366,7 +5624,7 @@
         if (!response.ok) throw new Error("No se pudo leer la hoja.");
         const data = await response.json();
         DB = normalizeInventory(data.inventory || emptyInventory());
-        fichas = (Array.isArray(data.bolos) ? data.bolos : []).map(ficha => ({ ...ficha, status: "guardada" }));
+        fichas = (Array.isArray(data.bolos) ? data.bolos : []).map(ficha => normalizeBoloFicha({ ...ficha, status: "guardada" }));
         persistFichas();
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(DB));
         resetForm();
