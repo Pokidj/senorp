@@ -2736,6 +2736,53 @@
         width: 18%;
         text-align: center;
       }
+      .inventory-table {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        min-width: 0;
+        font-size: 12px;
+      }
+      .inventory-table thead {
+        display: table-header-group;
+      }
+      .inventory-table tbody {
+        display: table-row-group;
+      }
+      .inventory-table tr {
+        display: table-row;
+        border-bottom: 0;
+        padding: 0;
+      }
+      .inventory-table th,
+      .inventory-table td {
+        display: table-cell;
+        padding: 8px 6px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: middle;
+        word-break: break-word;
+      }
+      .inventory-table td::before {
+        display: none;
+        content: "";
+      }
+      .inventory-table th:nth-child(1),
+      .inventory-table td:nth-child(1) {
+        width: 31%;
+      }
+      .inventory-table th:nth-child(2),
+      .inventory-table td:nth-child(2) {
+        width: 37%;
+      }
+      .inventory-table th:nth-child(3),
+      .inventory-table td:nth-child(3) {
+        width: 14%;
+        text-align: center;
+      }
+      .inventory-table th:nth-child(4),
+      .inventory-table td:nth-child(4) {
+        width: 18%;
+      }
       .inventory-grid td:nth-child(2)::before { content: "Modelo"; }
       .inventory-grid td:nth-child(3)::before { content: "Stock"; }
       .inventory-grid td:nth-child(4)::before { content: "Estado"; }
@@ -2872,11 +2919,20 @@
         flex-direction: column;
         justify-content: center;
         gap: 4px;
-        padding: 6px 4px;
+        padding: 6px 3px;
         border-radius: 12px;
-        font-size: 10px;
+        font-size: 9px;
         line-height: 1.05;
         text-align: center;
+      }
+
+      .nav-label,
+      .settings-button .nav-label {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-wrap: balance;
+        word-break: normal;
       }
 
       .app.sidebar-collapsed .nav-label,
@@ -2927,9 +2983,9 @@
         flex-direction: column;
         justify-content: center;
         gap: 4px;
-        padding: 6px 4px;
+        padding: 6px 3px;
         border-radius: 12px;
-        font-size: 10px;
+        font-size: 9px;
         line-height: 1.05;
         text-align: center;
       }
@@ -3056,6 +3112,22 @@
         margin-bottom: 12px;
       }
 
+      .field input,
+      .field textarea,
+      .field select,
+      .field-control {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+
+      input[type="date"],
+      input[type="time"] {
+        min-width: 0;
+        max-width: 100%;
+      }
+
       .panel-head,
       .panel-body {
         padding: 12px;
@@ -3120,6 +3192,43 @@
         border-radius: 14px;
         display: flex;
         flex-direction: column;
+      }
+
+      #dialogBackdrop {
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+      }
+
+      #dialogBackdrop .dialog {
+        width: min(420px, 100%);
+        height: auto;
+        max-height: calc(100dvh - 48px);
+        margin: auto;
+      }
+
+      #dialogBackdrop .dialog-head {
+        padding: 22px 18px 12px;
+        text-align: center;
+      }
+
+      #dialogBackdrop .dialog-head strong {
+        font-size: 20px;
+      }
+
+      #dialogBackdrop .dialog-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 12px 18px 18px;
+      }
+
+      #dialogBackdrop .dialog-actions .btn {
+        width: 100%;
+        min-height: 56px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 900;
       }
 
       .dialog-head {
@@ -3291,17 +3400,23 @@
         font-size: 10px;
       }
 
-      .inventory-tabs {
-        display: flex;
-        overflow-x: auto;
-        gap: 8px;
-        padding-bottom: 2px;
-        scroll-snap-type: x proximity;
+      .inventory-tabs,
+      .inventory-tabs.active {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow: visible;
+        gap: 6px;
+        padding-bottom: 0;
       }
 
       .inventory-tabs button {
-        min-width: 170px;
-        scroll-snap-align: start;
+        min-width: 0;
+        min-height: 62px;
+        grid-template-columns: 26px minmax(0, 1fr);
+        gap: 7px;
+        padding: 8px 7px;
+        font-size: 11px;
+        line-height: 1.05;
       }
 
       .inventory-toolbar {
