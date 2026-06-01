@@ -271,15 +271,6 @@
       height: 24px;
     }
 
-    .app.sidebar-collapsed .badge {
-      position: absolute;
-      right: 4px;
-      top: 4px;
-      min-width: 18px;
-      padding: 1px 5px;
-      font-size: 10px;
-    }
-
     .nav button:hover {
       background: var(--soft-red);
       color: var(--ink);
@@ -292,24 +283,6 @@
       color: #fff;
       box-shadow: 0 10px 22px rgba(224, 0, 27, .22);
       transform: translateX(2px);
-    }
-
-    .badge {
-      margin-left: auto;
-      min-width: 24px;
-      text-align: center;
-      border-radius: 999px;
-      background: var(--red);
-      color: #fff;
-      font-size: 12px;
-      padding: 3px 8px;
-      box-shadow: 0 0 0 1px rgba(255, 255, 255, .18);
-    }
-
-    .nav button.active .badge {
-      background: #fff;
-      color: var(--red);
-      box-shadow: none;
     }
 
     .theme-toggle {
@@ -2878,8 +2851,8 @@
         bottom: auto;
         z-index: 40;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 58px;
-        gap: 8px;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 6px;
         align-items: stretch;
         padding: calc(8px + env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) 8px max(8px, env(safe-area-inset-left));
         border-right: 0;
@@ -2904,8 +2877,7 @@
       }
 
       .nav {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 6px;
+        display: contents;
       }
 
       .mobile-home-button {
@@ -2946,6 +2918,7 @@
       }
 
       .nav svg,
+      .settings-button svg,
       .app.sidebar-collapsed .nav svg,
       .app.sidebar-collapsed .settings-button svg {
         width: 22px;
@@ -2958,21 +2931,12 @@
         object-fit: contain;
       }
 
-      .badge,
-      .app.sidebar-collapsed .badge {
-        position: absolute;
-        right: 5px;
-        top: 4px;
-        min-width: 17px;
-        padding: 1px 5px;
-        font-size: 10px;
-      }
-
       .sidebar-tools,
       .app.sidebar-collapsed .sidebar-tools {
         margin: 0;
-        display: block;
+        display: contents;
         align-self: stretch;
+        min-width: 0;
       }
 
       .settings-button,
@@ -2988,6 +2952,27 @@
         font-size: 9px;
         line-height: 1.05;
         text-align: center;
+      }
+
+      #page-inventario .topbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 10px;
+      }
+
+      #page-inventario .actions {
+        width: auto;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      #page-inventario #inventory-edit-btn,
+      #page-inventario #inventory-save-btn {
+        min-height: 44px;
+        width: auto;
+        padding: 0 12px;
+        white-space: nowrap;
       }
 
       .sidebar-bottom-tools {
@@ -3122,10 +3107,31 @@
         box-sizing: border-box;
       }
 
+      .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .field {
+        max-width: 100%;
+        overflow: hidden;
+      }
+
       input[type="date"],
       input[type="time"] {
+        display: block;
+        inline-size: 100%;
+        width: 100%;
         min-width: 0;
         max-width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      #evento-hora-llegada {
+        flex: 1 1 auto;
+        min-inline-size: 0;
+        max-inline-size: 100%;
+        padding-right: 10px;
       }
 
       .panel-head,
@@ -3621,7 +3627,6 @@
         <button id="nav-fichas" onclick="showPage('fichas')" aria-label="Bolos guardados" title="Bolos guardados">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18"></path><path d="M5 7v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7"></path><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M9 13h6"></path><path d="M9 17h4"></path></svg>
           <span class="nav-label">BOLOS GUARDADOS</span>
-          <span class="badge" id="fichas-count">0</span>
         </button>
         <button id="nav-inventario" onclick="showPage('inventario')" aria-label="Inventario" title="Inventario">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
@@ -3741,7 +3746,7 @@
                 <label for="evento-telefono-lugar">Teléfono responsable del lugar</label>
                 <div class="field-control">
                   <input id="evento-telefono-lugar" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000">
-                  <button class="field-tool" type="button" onclick="pickPlaceContact()" aria-label="Elegir contacto de la agenda" title="Elegir de la agenda">
+                  <button class="field-tool" type="button" onclick="pickPlaceContact()" aria-label="Elegir contacto o pegar teléfono" title="Elegir contacto o pegar teléfono">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M4 8h16"></path><rect x="4" y="4" width="16" height="18" rx="2"></rect><circle cx="12" cy="14" r="2"></circle><path d="M8 20a4 4 0 0 1 8 0"></path></svg>
                   </button>
                 </div>
@@ -4145,7 +4150,8 @@
     }
 
     function updateCount() {
-      document.getElementById("fichas-count").textContent = fichas.length;
+      const fichasCount = document.getElementById("fichas-count");
+      if (fichasCount) fichasCount.textContent = fichas.length;
       renderHomeStats();
     }
 
@@ -4649,8 +4655,35 @@
           if (error?.name === "AbortError") return;
         }
       }
+      if (navigator.clipboard?.readText) {
+        try {
+          const text = await navigator.clipboard.readText();
+          const phone = extractPhoneFromText(text);
+          if (phone) {
+            input.value = phone;
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            notify("Teléfono pegado", "Se ha usado el número del portapapeles.", "success");
+            return;
+          }
+          notify("Portapapeles sin teléfono", "No he encontrado un número válido para pegar.", "warning", 5200);
+          input.focus();
+          return;
+        } catch (error) {
+          input.focus();
+          notify("Permiso de portapapeles bloqueado", "Puedes pegar el teléfono manualmente en el campo.", "warning", 5200);
+          return;
+        }
+      }
       input.focus();
-      notify("Agenda no disponible", "Este navegador no permite abrir la agenda desde la web. Puedes escribir o pegar el teléfono.", "warning", 5200);
+      notify("Pega el teléfono", "Este navegador no permite abrir la agenda ni leer el portapapeles automaticamente.", "warning", 5200);
+    }
+
+    function extractPhoneFromText(value) {
+      const text = String(value || "").trim();
+      if (!text) return "";
+      const match = text.match(/(?:\+?\d[\d\s().-]{5,}\d)/);
+      if (!match) return "";
+      return match[0].replace(/[^\d+]/g, "").replace(/(?!^)\+/g, "");
     }
 
     function buildCurrentFicha(status = "guardada") {
