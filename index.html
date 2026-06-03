@@ -67,6 +67,103 @@
       font: inherit;
     }
 
+    button,
+    .btn,
+    .home-card,
+    .saved-action,
+    .add-material-card,
+    .field-tool,
+    .bulk-choice-btn,
+    .stepper-btn,
+    .max-btn,
+    .load-check,
+    .detail-quick-action,
+    .saved-filter-btn,
+    .inventory-tabs button,
+    .theme-toggle button,
+    .sidebar-collapse {
+      -webkit-tap-highlight-color: transparent;
+      will-change: transform;
+    }
+
+    button:active,
+    .btn:active,
+    .home-card:active,
+    .saved-action:active,
+    .add-material-card:active,
+    .field-tool:active,
+    .bulk-choice-btn:active,
+    .stepper-btn:active,
+    .max-btn:active,
+    .load-check:active,
+    .detail-quick-action:active,
+    .saved-filter-btn:active,
+    .inventory-tabs button:active,
+    .theme-toggle button:active,
+    .sidebar-collapse:active {
+      transform: translateY(1px) scale(.97);
+      filter: brightness(1.08);
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      button,
+      .btn,
+      .home-card,
+      .saved-action,
+      .add-material-card,
+      .field-tool,
+      .bulk-choice-btn,
+      .stepper-btn,
+      .max-btn,
+      .load-check,
+      .detail-quick-action,
+      .saved-filter-btn,
+      .inventory-tabs button,
+      .theme-toggle button,
+      .sidebar-collapse {
+        transition: transform .08s ease, filter .08s ease, background .15s ease, border-color .15s ease;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      button,
+      .btn,
+      .home-card,
+      .saved-action,
+      .add-material-card,
+      .field-tool,
+      .bulk-choice-btn,
+      .stepper-btn,
+      .max-btn,
+      .load-check,
+      .detail-quick-action,
+      .saved-filter-btn,
+      .inventory-tabs button,
+      .theme-toggle button,
+      .sidebar-collapse {
+        transition: none !important;
+      }
+
+      button:active,
+      .btn:active,
+      .home-card:active,
+      .saved-action:active,
+      .add-material-card:active,
+      .field-tool:active,
+      .bulk-choice-btn:active,
+      .stepper-btn:active,
+      .max-btn:active,
+      .load-check:active,
+      .detail-quick-action:active,
+      .saved-filter-btn:active,
+      .inventory-tabs button:active,
+      .theme-toggle button:active,
+      .sidebar-collapse:active {
+        transform: none;
+        filter: brightness(1.08);
+      }
+    }
+
     .app {
       min-height: 100vh;
       display: grid;
@@ -1111,13 +1208,43 @@
     }
 
     .summary-toolbar {
-      grid-template-columns: minmax(0, 1fr) 42px;
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .summary-title strong {
       font-size: 20px;
       text-transform: uppercase;
       letter-spacing: .02em;
+    }
+
+    .category-heading {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      line-height: 1.1;
+    }
+
+    .category-heading-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius);
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      background: rgba(224, 0, 27, .1);
+      color: var(--red);
+      border: 1px solid rgba(224, 0, 27, .22);
+    }
+
+    .category-heading-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .summary-table td {
@@ -1255,25 +1382,26 @@
     .saved-filter-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
     }
 
     .saved-filter-group {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
     }
 
     .saved-filter-btn {
-      min-height: 42px;
+      min-height: 48px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: var(--field);
       color: var(--ink);
-      padding: 0 14px;
-      font-weight: 800;
+      padding: 0 18px;
+      font-size: 14px;
+      font-weight: 900;
       cursor: pointer;
       touch-action: manipulation;
       transition: background .15s ease, border-color .15s ease, color .15s ease;
@@ -1288,15 +1416,16 @@
     .saved-date-selectors {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
     }
 
     .saved-select-filter {
       display: inline-grid;
-      grid-template-columns: auto minmax(130px, 1fr);
+      grid-template-columns: auto minmax(104px, 1fr);
       align-items: stretch;
-      min-height: 42px;
+      min-height: 48px;
+      height: 48px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       overflow: hidden;
@@ -1306,7 +1435,7 @@
     .saved-select-filter span {
       display: inline-grid;
       place-items: center;
-      padding: 0 12px;
+      padding: 0 10px;
       background: var(--red);
       color: #fff;
       font-weight: 900;
@@ -1318,8 +1447,11 @@
       border: 0;
       background: var(--field);
       color: var(--ink);
-      padding: 0 12px;
-      font-weight: 800;
+      min-height: 0;
+      height: 48px;
+      padding: 0 34px 0 12px;
+      font-weight: 900;
+      font-size: 14px;
       outline: 0;
     }
 
@@ -1339,9 +1471,9 @@
 
     .ficha {
       display: grid;
-      grid-template-columns: 124px minmax(0, 1fr) auto;
+      grid-template-columns: 124px minmax(0, 1fr) auto auto;
       gap: 14px;
-      align-items: stretch;
+      align-items: center;
       padding: 14px;
       background: var(--paper);
       border: 1px solid var(--line);
@@ -1359,7 +1491,7 @@
       display: grid;
       place-items: center;
       align-content: center;
-      gap: 2px;
+      gap: 3px;
       min-height: 92px;
       border-radius: var(--radius);
       background: var(--soft);
@@ -1375,13 +1507,15 @@
     }
 
     .ficha-date-month {
-      font-size: 13px;
+      font-size: 14px;
+      line-height: 1;
       font-weight: 900;
       text-transform: uppercase;
     }
 
     .ficha-date-year {
       font-size: 12px;
+      line-height: 1;
       color: var(--muted);
       font-weight: 800;
     }
@@ -1390,7 +1524,7 @@
       min-width: 0;
       display: grid;
       align-content: center;
-      gap: 8px;
+      gap: 9px;
     }
 
     .ficha-title {
@@ -1401,8 +1535,9 @@
     }
 
     .ficha-title strong {
-      font-size: 18px;
-      line-height: 1.15;
+      font-size: 20px;
+      line-height: 1.1;
+      letter-spacing: .01em;
     }
 
     .ficha-place {
@@ -1411,6 +1546,7 @@
       gap: 7px;
       color: var(--ink);
       font-weight: 900;
+      font-size: 15px;
       min-width: 0;
     }
 
@@ -1430,13 +1566,66 @@
     }
 
     .ficha-submeta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      display: inline-grid;
+      align-self: start;
+      justify-self: end;
+      align-content: center;
       color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 12px;
+      font-weight: 900;
+      min-width: 0;
+      width: max-content;
+      max-width: none;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--soft);
+    }
+
+    .ficha-submeta > span {
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .ficha-submeta > span:first-child {
+      color: var(--red);
+    }
+
+    .ficha-submeta > span:not(:last-child)::after {
+      content: "";
+      margin-left: 0;
+    }
+
+    .ficha-submeta-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-grid;
+      place-items: center;
+      color: currentColor;
+    }
+
+    .ficha-submeta-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ficha-submeta-value {
+      min-width: 0;
+      overflow: visible;
+      white-space: nowrap;
     }
 
     .saved-action svg {
@@ -1556,15 +1745,32 @@
     .category-tag {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: auto;
       min-height: 24px;
       border-radius: 999px;
-      padding: 0 10px;
+      padding: 0 10px 0 8px;
       background: rgba(224, 0, 27, .1);
       color: var(--red);
       border: 1px solid rgba(224, 0, 27, .22);
       font-size: 11px;
       font-weight: 900;
       text-transform: uppercase;
+    }
+
+    .category-tag svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .category-tag-label {
+      line-height: 1;
     }
     .inventory-grid {
       display: grid;
@@ -1658,6 +1864,29 @@
     .inventory-actions {
       padding: 12px 16px 16px;
       border-top: 1px solid var(--line);
+    }
+
+    .inventory-action {
+      width: 92px;
+      min-height: 72px;
+      height: 72px;
+      padding: 9px 8px 8px;
+      gap: 6px;
+      flex: 0 0 auto;
+      display: inline-grid;
+      grid-template-rows: 1fr auto;
+      place-items: center;
+    }
+
+    .inventory-action svg {
+      width: 26px;
+      height: 26px;
+      align-self: center;
+    }
+
+    .inventory-action .saved-action-label {
+      font-size: 12px;
+      line-height: 1.05;
     }
 
     .inventory-edit-list {
@@ -1903,29 +2132,30 @@
     }
 
     .bulk-top-actions .saved-action {
-      width: 64px;
-      min-width: 64px;
-      min-height: 58px;
-      height: 58px;
+      width: 76px;
+      min-width: 76px;
+      min-height: 70px;
+      height: 70px;
       max-height: none;
-      gap: 0;
-      padding: 8px;
+      gap: 6px;
+      padding: 8px 7px 7px;
       color: var(--action-fg);
     }
 
     .bulk-top-actions .saved-action svg {
       align-self: center;
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
     }
 
     .bulk-top-actions .saved-action-label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip: auto;
       white-space: nowrap;
+      font-size: 11px;
     }
 
     .bulk-top-actions .saved-action.close {
@@ -2080,18 +2310,82 @@
       border-bottom: 0;
     }
 
+    .load-check {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+      color: var(--muted);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: background .15s ease, border-color .15s ease, color .15s ease, transform .15s ease;
+    }
+
+    .load-check svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .28;
+    }
+
+    .load-check[aria-pressed="true"] {
+      background: rgba(19, 122, 67, .14);
+      border-color: rgba(19, 122, 67, .42);
+      color: var(--ok);
+    }
+
+    .load-check[aria-pressed="true"] svg {
+      opacity: 1;
+    }
+
+    .load-check:active {
+      transform: scale(.95);
+    }
+
+    .loaded-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .loaded-head svg {
+      display: none;
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .detail-empty {
       padding: 13px 14px;
       color: var(--muted);
       font-weight: 800;
     }
 
+    .detail-main-actions {
+      display: none;
+    }
+
     .detail-danger-actions {
       display: flex;
       gap: 8px;
+    }
+
+    .detail-danger-actions {
       margin-right: auto;
     }
 
+    .detail-main-actions .saved-action,
     .detail-danger-actions .saved-action {
       width: 86px;
       min-height: 86px;
@@ -2102,6 +2396,22 @@
       padding: 0 18px 18px;
       display: grid;
       gap: 14px;
+      align-content: start;
+    }
+
+    .bulk-search-field {
+      height: 50px;
+      align-self: start;
+    }
+
+    .bulk-search-field svg {
+      top: 25px;
+    }
+
+    .bulk-search-field input {
+      min-height: 50px;
+      height: 50px;
+      font-size: 16px;
     }
 
     .bulk-picker-grid {
@@ -2109,6 +2419,7 @@
       grid-template-columns: max-content minmax(0, 1fr);
       gap: 14px;
       align-items: start;
+      align-content: start;
     }
 
     .bulk-choice-block {
@@ -2190,6 +2501,12 @@
     .bulk-choice-btn:hover {
       transform: translateY(-1px);
       border-color: rgba(224, 0, 27, .36);
+    }
+
+    .bulk-choice-btn:disabled {
+      opacity: .38;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .bulk-choice-btn.active {
@@ -2456,11 +2773,27 @@
     }
 
     .pdf-export .print-section h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-size: 14px;
       margin: 0 0 12px;
       padding: 8px;
       border: 1px solid #b9b9b9;
       background: #f5f5f5;
+    }
+
+    .pdf-export .category-heading-icon {
+      width: 22px;
+      height: 22px;
+      border-color: #d0d0d0;
+      background: #fff;
+      color: #e0001b;
+    }
+
+    .pdf-export .category-heading-icon svg {
+      width: 14px;
+      height: 14px;
     }
 
     .pdf-export .print-table {
@@ -2694,14 +3027,80 @@
       }
       .detail-table th:nth-child(1),
       .detail-table td:nth-child(1) {
-        width: 38%;
+        width: 31%;
       }
       .detail-table th:nth-child(2),
       .detail-table td:nth-child(2) {
-        width: 44%;
+        width: 37%;
       }
       .detail-table th:nth-child(3),
       .detail-table td:nth-child(3) {
+        width: 16%;
+        text-align: center;
+      }
+      .detail-table th:nth-child(4),
+      .detail-table td:nth-child(4) {
+        width: 16%;
+        text-align: center;
+      }
+      .detail-table th:nth-child(3),
+      .detail-table th:nth-child(4) {
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+      .detail-table .loaded-head {
+        justify-content: center;
+        width: 100%;
+      }
+      .detail-table .loaded-head span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+      .detail-table .loaded-head svg {
+        display: inline-block;
+      }
+      .summary-table {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+      }
+      .summary-table thead {
+        display: table-header-group;
+      }
+      .summary-table tbody {
+        display: table-row-group;
+      }
+      .summary-table tr {
+        display: table-row;
+        border-bottom: 0;
+        padding: 0;
+      }
+      .summary-table th,
+      .summary-table td {
+        display: table-cell;
+        padding: 8px 6px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: middle;
+        word-break: break-word;
+      }
+      .summary-table td::before {
+        display: none;
+        content: "";
+      }
+      .summary-table th:nth-child(1),
+      .summary-table td:nth-child(1) {
+        width: 38%;
+      }
+      .summary-table th:nth-child(2),
+      .summary-table td:nth-child(2) {
+        width: 44%;
+      }
+      .summary-table th:nth-child(3),
+      .summary-table td:nth-child(3) {
         width: 18%;
         text-align: center;
       }
@@ -2813,6 +3212,15 @@
       }
       .ficha-date {
         min-height: 76px;
+        gap: 3px;
+      }
+
+      .ficha-date-day {
+        font-size: 32px;
+      }
+
+      .ficha-date-month {
+        font-size: 13px;
       }
     }
 
@@ -2965,10 +3373,22 @@
 
       #page-inventario #inventory-edit-btn,
       #page-inventario #inventory-save-btn {
-        min-height: 44px;
-        width: auto;
-        padding: 0 12px;
-        white-space: nowrap;
+        width: 72px;
+        min-height: 62px;
+        height: 62px;
+        padding: 7px 5px 6px;
+        white-space: normal;
+      }
+
+      #page-inventario #inventory-edit-btn svg,
+      #page-inventario #inventory-save-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      #page-inventario #inventory-edit-btn .saved-action-label,
+      #page-inventario #inventory-save-btn .saved-action-label {
+        font-size: 10px;
       }
 
       .sidebar-bottom-tools {
@@ -3013,13 +3433,21 @@
       }
 
       #categorySections {
-        order: 4;
+        order: 3;
       }
 
       #mobile-save-slot {
         display: block;
-        order: 3;
-        margin-top: 4px;
+        order: 4;
+        position: sticky;
+        bottom: 0;
+        z-index: 12;
+        margin-top: 8px;
+        margin-inline: -12px;
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+        background: color-mix(in srgb, var(--body-bg) 88%, transparent);
+        border-top: 1px solid var(--line);
+        backdrop-filter: blur(14px);
       }
 
       #page-nueva .save-actions .save {
@@ -3044,49 +3472,54 @@
 
       .home-hero {
         min-height: auto;
-        gap: 16px;
+        gap: 18px;
         align-content: start;
         padding-top: 4px;
       }
 
       .home-heading img {
-        width: min(100%, 430px);
-        max-height: 150px;
+        width: min(100%, 500px);
+        max-height: 196px;
       }
 
       .home-actions {
-        gap: 10px;
+        gap: 12px;
       }
 
       .home-card {
-        min-height: 148px;
+        min-height: 172px;
         aspect-ratio: auto;
-        grid-template-columns: 58px minmax(0, 1fr);
+        grid-template-columns: 70px minmax(0, 1fr);
         align-items: center;
-        align-content: center;
-        gap: 12px;
-        padding: 14px;
+        align-content: stretch;
+        gap: 16px;
+        padding: 18px 16px;
       }
 
       .home-card-icon {
-        width: 54px;
-        height: 54px;
-        border-radius: 12px;
+        width: 66px;
+        height: 66px;
+        border-radius: 15px;
       }
 
       .home-card-icon svg {
-        width: 30px;
-        height: 30px;
+        width: 36px;
+        height: 36px;
       }
 
       .home-card strong {
-        font-size: 17px;
-        margin-bottom: 3px;
+        font-size: 19px;
+        margin-bottom: 5px;
+      }
+
+      .home-card span {
+        font-size: 13px;
       }
 
       .home-card > .home-card-meta {
-        grid-column: 1 / -1;
-        font-size: 11px;
+        grid-column: 2;
+        align-self: end;
+        font-size: 12px;
       }
 
       .panel {
@@ -3260,10 +3693,12 @@
         flex: 0 0 auto;
       }
 
+      .detail-main-actions,
       .detail-danger-actions {
         display: contents;
       }
 
+      .detail-main-actions .saved-action,
       .detail-danger-actions .saved-action,
       .detail-dialog .dialog-actions > .saved-action {
         width: 100%;
@@ -3271,6 +3706,10 @@
         height: 68px;
         max-height: none;
         aspect-ratio: auto;
+      }
+
+      .ficha > .saved-actions {
+        display: none;
       }
 
       .detail-body {
@@ -3292,6 +3731,19 @@
 
       .bulk-form {
         padding: 0 14px 14px;
+        align-content: start;
+        gap: 12px;
+      }
+
+      .bulk-search-field {
+        height: 50px;
+        min-height: 50px;
+      }
+
+      .bulk-search-field input {
+        height: 50px;
+        min-height: 50px;
+        font-size: 16px;
       }
 
       .bulk-head {
@@ -3308,10 +3760,15 @@
       }
 
       .bulk-top-actions .saved-action {
-        width: 54px;
-        min-width: 54px;
-        height: 54px;
-        min-height: 54px;
+        width: 68px;
+        min-width: 68px;
+        height: 64px;
+        min-height: 64px;
+        padding: 7px 5px 6px;
+      }
+
+      .bulk-top-actions .saved-action-label {
+        font-size: 10px;
       }
 
       .bulk-choice-grid.category {
@@ -3355,11 +3812,29 @@
       }
 
       .ficha {
-        grid-template-columns: 76px minmax(0, 1fr);
+        grid-template-columns: 92px minmax(0, 1fr) auto;
         gap: 10px;
-        padding: 12px;
-        align-items: start;
+        padding: 10px 12px;
+        align-items: center;
         overflow: visible;
+      }
+
+      .ficha-date {
+        min-height: 100px;
+        height: 100%;
+        gap: 4px;
+      }
+
+      .ficha-date-day {
+        font-size: 42px;
+      }
+
+      .ficha-date-month {
+        font-size: 15px;
+      }
+
+      .ficha-date-year {
+        font-size: 13px;
       }
 
       .saved-list {
@@ -3367,21 +3842,123 @@
         overflow: visible;
       }
 
+      .saved-toolbar {
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .saved-filter-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .saved-filter-group {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 7px;
+        width: 100%;
+      }
+
+      .saved-filter-btn {
+        min-height: 50px;
+        padding: 0 5px;
+        font-size: clamp(11px, 2.6vw, 13px);
+        line-height: 1.05;
+        text-align: center;
+      }
+
+      .saved-date-selectors {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%;
+      }
+
+      .saved-select-filter {
+        width: 100%;
+        grid-template-columns: 44px minmax(0, 1fr);
+        min-height: 50px;
+        height: 50px;
+      }
+
+      .saved-select-filter span {
+        padding: 0 7px;
+        font-size: 10px;
+      }
+
+      .saved-select-filter select {
+        height: 50px;
+        padding: 0 24px 0 9px;
+        font-size: 13px;
+        min-width: 0;
+      }
+
       .ficha-main {
         align-content: start;
+        min-width: 0;
+        gap: 8px;
       }
 
       .ficha-title strong {
-        font-size: 16px;
+        font-size: 17px;
+        line-height: 1.1;
+      }
+
+      .ficha-place {
+        font-size: 14px;
+      }
+
+      .ficha-submeta {
+        align-self: start;
+        justify-self: end;
+        font-size: 8px;
+        letter-spacing: 0;
+        padding: 6px 7px;
+        max-width: min(118px, 100%);
+      }
+
+      .ficha-submeta > span {
+        grid-template-columns: 16px minmax(0, 1fr);
+        gap: 4px;
+      }
+
+      .ficha-submeta-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      .ficha-submeta-icon svg {
+        width: 15px;
+        height: 15px;
+      }
+
+      .ficha-submeta > span:not(:last-child)::after {
+        margin-left: 0;
+      }
+
+      .category-tag {
+        width: 30px;
+        aspect-ratio: 1 / 1;
+        padding: 0;
+      }
+
+      .category-tag-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
       }
 
       .saved-actions {
-        grid-column: 1 / -1;
+        grid-column: 2 / -1;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         justify-content: stretch;
         align-items: center;
         gap: 6px;
-        padding-top: 0;
+        padding-top: 8px;
         overflow: visible;
       }
 
@@ -3469,11 +4046,25 @@
         margin-bottom: 16px;
       }
       .print-section h2 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
         font-size: 14px;
         margin: 0 0 12px;
         padding: 8px;
         border: 1px solid #b9b9b9;
         background: #f5f5f5;
+      }
+      .print-section .category-heading-icon {
+        width: 22px;
+        height: 22px;
+        border-color: #d0d0d0;
+        background: #fff;
+        color: #e0001b;
+      }
+      .print-section .category-heading-icon svg {
+        width: 14px;
+        height: 14px;
       }
       .print-table th,
       .print-table td {
@@ -3519,6 +4110,20 @@
       </div>
       <div class="detail-body" id="fichaDetailBody"></div>
       <div class="dialog-actions">
+        <div class="detail-main-actions">
+          <button class="saved-action copy" type="button" id="fichaDetailCopyBtn" aria-label="Copiar bolo" title="Copiar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M4 16V6a2 2 0 0 1 2-2h10"></path></svg>
+            <span class="saved-action-label">Copiar</span>
+          </button>
+          <button class="saved-action print" type="button" id="fichaDetailPrintBtn" aria-label="Imprimir bolo" title="Imprimir">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 14h12v8H6z"></path></svg>
+            <span class="saved-action-label">Imprimir</span>
+          </button>
+          <button class="saved-action share" type="button" id="fichaDetailShareBtn" aria-label="Compartir bolo" title="Compartir">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M16 6 12 2 8 6"></path><path d="M12 2v13"></path></svg>
+            <span class="saved-action-label">Compartir</span>
+          </button>
+        </div>
         <div class="detail-danger-actions">
           <button class="saved-action edit" type="button" id="fichaDetailEditBtn" aria-label="Editar bolo" title="Editar">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="m16.5 3.5 4 4L7 21H3v-4Z"></path></svg>
@@ -3555,6 +4160,10 @@
         </div>
       </div>
       <div class="bulk-form">
+        <div class="search-field bulk-search-field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input id="bulk-search" type="search" placeholder="Buscar material o modelo..." oninput="setBulkSearch(this.value)">
+        </div>
         <div class="bulk-picker-grid">
           <div class="bulk-choice-block">
             <label>Categoría</label>
@@ -3820,8 +4429,14 @@
             <h1>Inventario</h1>
           </div>
           <div class="actions">
-            <button class="btn" id="inventory-save-btn" onclick="saveInventoryChanges()" style="display:none">Guardar cambios</button>
-            <button class="btn btn-primary" id="inventory-edit-btn" onclick="toggleInventoryEdit()">Editar inventario</button>
+            <button class="saved-action inventory-action save" id="inventory-save-btn" onclick="saveInventoryChanges()" style="display:none" aria-label="Guardar cambios" title="Guardar cambios">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg>
+              <span class="saved-action-label">Guardar</span>
+            </button>
+            <button class="saved-action inventory-action edit" id="inventory-edit-btn" onclick="toggleInventoryEdit()" aria-label="Editar inventario" title="Editar inventario">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="m16.5 3.5 4 4L7 21H3v-4Z"></path></svg>
+              <span class="saved-action-label">Editar</span>
+            </button>
           </div>
         </div>
 
@@ -3909,6 +4524,7 @@
       { id: "iluminacion", label: "Iluminación", addLabel: "Añadir iluminación" },
       { id: "otros", label: "Infraestructura / otros", addLabel: "Añadir material" }
     ];
+    const inventoryCollator = new Intl.Collator("es", { sensitivity: "base", numeric: true });
 
     let DB = {
       sonido: [
@@ -3957,6 +4573,7 @@
     let currentBulkMaterial = "";
     let boloMaterial = {};
     let bulkDraft = {};
+    let bulkSearch = "";
     let currentRider = null;
     let editingBoloId = null;
     let cloudUrl = "";
@@ -4082,7 +4699,7 @@
           });
         });
       });
-      return normalized;
+      return sortInventory(normalized);
     }
 
     function cleanName(value, fallback) {
@@ -4090,16 +4707,16 @@
     }
 
     function upsertInventoryModel(target, categoria, materialName, modelo) {
-      const materialKey = materialName.trim().toLowerCase();
-      const modelKey = modelo.nombre.trim().toLowerCase();
-      let item = target[categoria].find(entry => entry.nombre.trim().toLowerCase() === materialKey);
+      const materialKey = normalizeText(materialName);
+      const modelKey = normalizeText(modelo.nombre);
+      let item = target[categoria].find(entry => normalizeText(entry.nombre) === materialKey);
       if (!item) {
         item = { nombre: materialName, modelos: [] };
         target[categoria].push(item);
       } else {
         item.nombre = materialName;
       }
-      let modelItem = item.modelos.find(entry => entry.nombre.trim().toLowerCase() === modelKey);
+      let modelItem = item.modelos.find(entry => normalizeText(entry.nombre) === modelKey);
       if (!modelItem) {
         item.modelos.push({ nombre: modelo.nombre, stock: modelo.stock, estado: modelo.estado });
       } else {
@@ -4107,6 +4724,19 @@
         modelItem.stock = modelo.stock;
         modelItem.estado = modelo.estado;
       }
+    }
+
+    function sortInventory(db) {
+      const sorted = emptyInventory();
+      categories.forEach(cat => {
+        sorted[cat.id] = (db?.[cat.id] || [])
+          .map(item => ({
+            ...item,
+            modelos: [...(item.modelos || [])].sort((a, b) => inventoryCollator.compare(a.nombre || "", b.nombre || ""))
+          }))
+          .sort((a, b) => inventoryCollator.compare(a.nombre || "", b.nombre || ""));
+      });
+      return sorted;
     }
 
     function setTheme(theme) {
@@ -4146,8 +4776,6 @@
     }
 
     function updateCount() {
-      const fichasCount = document.getElementById("fichas-count");
-      if (fichasCount) fichasCount.textContent = fichas.length;
       renderHomeStats();
     }
 
@@ -4216,9 +4844,8 @@
           <div class="panel">
             <div class="material-toolbar summary-toolbar">
               <div class="material-toolbar-info summary-title">
-                <strong>${cat.label}</strong>
+                ${buildCategoryHeading(cat)}
               </div>
-              <span class="add-card-icon">${categoryIcon(cat.id)}</span>
             </div>
             <div class="table-wrap">
               <table class="summary-table">
@@ -4247,21 +4874,48 @@
       return icons[id] || icons.otros;
     }
 
+    function buildCategoryHeading(cat) {
+      return `
+        <span class="category-heading">
+          <span class="category-heading-icon">${categoryIcon(cat.id)}</span>
+          <strong>${escapeHtml(cat.label)}</strong>
+        </span>
+      `;
+    }
+
     function openAddMaterial() {
       if (!categories.some(cat => cat.id === currentBulkType)) currentBulkType = categories[0].id;
       bulkDraft = cloneMaterialState(boloMaterial);
+      bulkSearch = "";
+      const searchInput = document.getElementById("bulk-search");
+      if (searchInput) searchInput.value = "";
       renderBulkCategories();
       renderBulkMaterials();
       renderBulkModels();
       openModal(document.getElementById("bulkBackdrop"));
     }
 
+    function setBulkSearch(value) {
+      bulkSearch = value.trim();
+      if (!categoryMatchesBulkSearch(currentBulkType)) {
+        const match = categories.find(cat => categoryMatchesBulkSearch(cat.id));
+        if (match) {
+          currentBulkType = match.id;
+          currentBulkMaterial = "";
+        }
+      }
+      renderBulkCategories();
+      renderBulkMaterials();
+      renderBulkModels();
+    }
+
     function renderBulkCategories() {
       const box = document.getElementById("bulk-category-buttons");
       if (!box) return;
       box.innerHTML = categories.map(cat => {
+        const disabled = bulkSearch && !categoryMatchesBulkSearch(cat.id);
         return `
-          <button class="bulk-choice-btn category-btn ${cat.id === currentBulkType ? "active" : ""}" type="button" onclick="setBulkCategory('${cat.id}')">
+          <button class="bulk-choice-btn category-btn ${cat.id === currentBulkType ? "active" : ""}" type="button" onclick="setBulkCategory('${cat.id}')" ${disabled ? "disabled" : ""}>
             ${categoryIcon(cat.id)}
             <span>${escapeHtml(cat.label)}</span>
           </button>
@@ -4281,10 +4935,10 @@
     function renderBulkMaterials() {
       const box = document.getElementById("bulk-material-buttons");
       if (!box) return;
-      const materials = uniqueMaterialNames(currentBulkType);
+      const materials = getFilteredBulkMaterials(currentBulkType);
       if (!materials.length) {
         currentBulkMaterial = "";
-        box.innerHTML = `<div class="empty">No hay inventario cargado en esta categoría.</div>`;
+        box.innerHTML = `<div class="empty">${bulkSearch ? "No hay coincidencias en esta categoría." : "No hay inventario cargado en esta categoría."}</div>`;
         return;
       }
       if (!currentBulkMaterial || !materials.includes(currentBulkMaterial)) currentBulkMaterial = materials[0];
@@ -4307,14 +4961,14 @@
 
     function renderBulkModels() {
       const material = currentBulkMaterial;
-      const models = getModelEntries(currentBulkType, material);
+      const models = getFilteredBulkModels(currentBulkType, material);
       const box = document.getElementById("bulk-models");
       if (!material) {
         box.innerHTML = `<div class="empty">Elige una categoría con inventario.</div>`;
         return;
       }
       if (!models.length) {
-        box.innerHTML = `<div class="empty">Este material no tiene modelos disponibles.</div>`;
+        box.innerHTML = `<div class="empty">${bulkSearch ? "No hay modelos que coincidan con la búsqueda." : "Este material no tiene modelos disponibles."}</div>`;
         return;
       }
       box.innerHTML = models.map((modelo, index) => {
@@ -4367,13 +5021,50 @@
 
 
     function uniqueMaterialNames(tipo) {
-      return [...new Set((DB[tipo] || []).map(item => item.nombre).filter(Boolean))];
+      return [...new Set((DB[tipo] || []).map(item => item.nombre).filter(Boolean))]
+        .sort((a, b) => inventoryCollator.compare(a, b));
+    }
+
+    function getBulkSearchQuery() {
+      return normalizeText(bulkSearch);
+    }
+
+    function categoryMatchesBulkSearch(tipo) {
+      const query = getBulkSearchQuery();
+      if (!query) return true;
+      const cat = categories.find(item => item.id === tipo);
+      if (normalizeText(cat?.label).includes(query)) return true;
+      return (DB[tipo] || []).some(item => {
+        return normalizeText([
+          item.nombre,
+          ...(item.modelos || []).map(modelo => modelo.nombre)
+        ].join(" ")).includes(query);
+      });
+    }
+
+    function getFilteredBulkMaterials(tipo) {
+      const query = getBulkSearchQuery();
+      const materials = uniqueMaterialNames(tipo);
+      if (!query) return materials;
+      return materials.filter(nombre => {
+        if (normalizeText(nombre).includes(query)) return true;
+        return getModelEntries(tipo, nombre).some(modelo => normalizeText(modelo.nombre).includes(query));
+      });
+    }
+
+    function getFilteredBulkModels(tipo, nombre) {
+      const query = getBulkSearchQuery();
+      const models = getModelEntries(tipo, nombre);
+      if (!query) return models;
+      const materialMatches = normalizeText(nombre).includes(query);
+      return models.filter(modelo => materialMatches || normalizeText(modelo.nombre).includes(query));
     }
 
     function getModelEntries(tipo, nombre) {
       return (DB[tipo] || [])
         .filter(item => item.nombre === nombre)
-        .flatMap(item => item.modelos || []);
+        .flatMap(item => item.modelos || [])
+        .sort((a, b) => inventoryCollator.compare(a.nombre || "", b.nombre || ""));
     }
 
     function estadoLabel(estado) {
@@ -4397,7 +5088,8 @@
         nombre: String(row.nombre || "").trim(),
         modelo: String(row.modelo || "").trim(),
         cantidad: String(Math.max(0, Number(row.cantidad) || 0)),
-        notas: String(row.notas || "").trim()
+        notas: String(row.notas || "").trim(),
+        cargado: Boolean(row.cargado ?? row.loaded ?? row.check)
       };
     }
 
@@ -4416,6 +5108,7 @@
       if (!row.nombre || !row.modelo) return;
       if (!bulkDraft[tipo]) bulkDraft[tipo] = [];
       const index = bulkDraft[tipo].findIndex(item => item.nombre === row.nombre && item.modelo === row.modelo);
+      if (index >= 0 && data.cargado === undefined && data.loaded === undefined && data.check === undefined) row.cargado = Boolean(bulkDraft[tipo][index].cargado);
       if (Number(row.cantidad) <= 0) {
         if (index >= 0) bulkDraft[tipo].splice(index, 1);
         return;
@@ -4473,6 +5166,7 @@
       if (!row.nombre || !row.modelo) return;
       if (!boloMaterial[tipo]) boloMaterial[tipo] = [];
       const index = boloMaterial[tipo].findIndex(item => item.nombre === row.nombre && item.modelo === row.modelo);
+      if (index >= 0 && data.cargado === undefined && data.loaded === undefined && data.check === undefined) row.cargado = Boolean(boloMaterial[tipo][index].cargado);
       if (Number(row.cantidad) <= 0) {
         if (index >= 0) boloMaterial[tipo].splice(index, 1);
         return;
@@ -4708,7 +5402,11 @@
         ...ficha,
         horaLlegada: ficha.horaLlegada || ficha.hora_llegada || ficha.hora || "",
         telefonoLugar: ficha.telefonoLugar || ficha.telefono_lugar || ficha.telefonoResponsableLugar || ficha.telefono || "",
-        contactoLugar: ficha.contactoLugar || ficha.contacto_lugar || ficha.nombreContactoLugar || ficha.contacto || ""
+        contactoLugar: ficha.contactoLugar || ficha.contacto_lugar || ficha.nombreContactoLugar || ficha.contacto || "",
+        material: Object.fromEntries(categories.map(cat => [
+          cat.id,
+          (ficha.material?.[cat.id] || []).map(normalizeBoloRow)
+        ]))
       };
     }
 
@@ -4861,7 +5559,7 @@
 
     async function buildBoloPdf(ficha) {
       await loadJsPdf();
-      const { jsPDF } = window.jspdf;
+      const { jsPDF, AcroFormCheckBox } = window.jspdf;
       const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
@@ -4906,6 +5604,29 @@
         doc.setTextColor(85);
         doc.text(`Fecha de generacion: ${new Date().toLocaleDateString("es-ES")}`, pageWidth - margin, footerY, { align: "right" });
         doc.setTextColor(0);
+      }
+
+      function addPdfChecklistBox(name, x, yBox, checked = false) {
+        if (AcroFormCheckBox && typeof doc.addField === "function") {
+          try {
+            const checkbox = new AcroFormCheckBox();
+            checkbox.fieldName = name;
+            checkbox.x = x;
+            checkbox.y = yBox;
+            checkbox.width = 12;
+            checkbox.height = 12;
+            checkbox.value = checked ? "On" : "Off";
+            checkbox.appearanceState = checked ? "On" : "Off";
+            checkbox.showWhenPrinted = true;
+            doc.addField(checkbox);
+            return;
+          } catch {}
+        }
+        doc.rect(x, yBox, 12, 12);
+        if (checked) {
+          doc.line(x + 2, yBox + 6, x + 5, yBox + 10);
+          doc.line(x + 5, yBox + 10, x + 10, yBox + 2);
+        }
       }
 
       try {
@@ -4994,7 +5715,7 @@
         doc.text("Cargado", col.cargado.x + 6, y + 15);
         y += 22;
 
-        rows.forEach(row => {
+        rows.forEach((row, rowIndex) => {
           ensureSpace(34);
           doc.setFont("helvetica", "normal");
           doc.setFontSize(10);
@@ -5005,7 +5726,7 @@
           doc.text(ellipsize(row.nombre, col.material.w - 12), col.material.x + 6, y + 16);
           doc.text(ellipsize(row.modelo, col.modelo.w - 12), col.modelo.x + 6, y + 16);
           doc.text(cleanPdfText(row.cantidad), col.cantidad.x + 6, y + 16);
-          doc.rect(col.cargado.x + 24, y + 6, 11, 11);
+          addPdfChecklistBox(`cargado_${cleanPdfText(cat.id)}_${rowIndex}_${cleanPdfText(ficha.id)}`, col.cargado.x + 24, y + 6, Boolean(row.cargado));
           y += 24;
         });
         y += 12;
@@ -5159,6 +5880,7 @@
       box.innerHTML = filtered.map(f => {
         const date = formatFichaDateParts(f.fecha);
         const tags = buildCategoryTags(f);
+        const meta = buildFichaCardMeta(f);
         const safeId = JSON.stringify(f.id);
         return `
           <article class="ficha" role="button" tabindex="0" onclick='openFichaDetail(${safeId})' onkeydown='handleFichaCardKey(event, ${safeId})'>
@@ -5170,15 +5892,14 @@
             <div class="ficha-main">
               <div class="ficha-title">
                 <strong>${escapeHtml(f.nombre)}</strong>
-                <span class="pill saved">Guardado</span>
               </div>
               <div class="ficha-place">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 <span>${escapeHtml(f.lugar || "Sin lugar")}</span>
               </div>
-              ${f.horaLlegada ? `<div class="ficha-submeta"><span>Llegada ${escapeHtml(f.horaLlegada)}</span></div>` : ""}
               ${tags}
             </div>
+            ${meta}
             <div class="saved-actions" aria-label="Acciones del bolo" onclick="event.stopPropagation()">
               <button class="saved-action copy" onclick='duplicateFicha(${safeId})' aria-label="Duplicar bolo" title="Duplicar">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M4 16V6a2 2 0 0 1 2-2h10"></path></svg>
@@ -5226,6 +5947,28 @@
       });
     }
 
+    function buildFichaCardMeta(ficha) {
+      const items = [
+        { label: "Horas restantes", icon: "clock", value: formatHoursUntilBolo(ficha) }
+      ];
+      return `
+        <div class="ficha-submeta">
+          ${items.map(item => {
+            const value = escapeHtml(item.value);
+            const label = escapeHtml(`${item.label}: ${item.value}`);
+            return `<span title="${label}" aria-label="${label}"><span class="ficha-submeta-icon">${cardMetaIcon(item.icon)}</span><span class="ficha-submeta-value">${value}</span></span>`;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    function cardMetaIcon(id) {
+      const icons = {
+        clock: `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>`
+      };
+      return icons[id] || icons.clock;
+    }
+
     function setFichasSearch(value) {
       fichasSearch = value || "";
       renderFichas();
@@ -5255,6 +5998,32 @@
       return Number.isNaN(date.getTime()) ? null : date;
     }
 
+    function parseFichaDateTime(ficha) {
+      if (!ficha?.fecha) return null;
+      const time = /^([01]\d|2[0-3]):[0-5]\d$/.test(ficha.horaLlegada || "") ? ficha.horaLlegada : "00:00";
+      const date = new Date(`${ficha.fecha}T${time}:00`);
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    function formatHoursUntilBolo(ficha) {
+      const date = parseFichaDateTime(ficha);
+      if (!date) return "Sin fecha";
+      const diffMs = date.getTime() - Date.now();
+      const past = diffMs < 0;
+      const absHours = Math.abs(Math.round(diffMs / 3600000));
+      if (absHours === 0) return "Ahora";
+      const value = formatRelativeBoloTime(absHours);
+      return past ? `Hace ${value}` : `Faltan ${value}`;
+    }
+
+    function formatRelativeBoloTime(hours) {
+      if (hours < 48) return `${hours} h`;
+      const days = Math.round(hours / 24);
+      if (days < 60) return `${days} dia${days === 1 ? "" : "s"}`;
+      const months = Math.round(days / 30);
+      return `${months} mes${months === 1 ? "" : "es"}`;
+    }
+
     function getFichaMonthNumber(value) {
       const date = parseFichaDate(value);
       if (!date) return "";
@@ -5273,7 +6042,7 @@
       const years = [...new Set(fichas.map(ficha => getFichaYear(ficha.fecha)).filter(Boolean))].sort((a, b) => b.localeCompare(a));
       if (fichasYearFilter !== "all" && !years.includes(fichasYearFilter)) fichasYearFilter = "all";
       monthSelect.innerHTML = [
-        `<option value="all">Todos los meses</option>`,
+        `<option value="all">Todos</option>`,
         ...Array.from({ length: 12 }, (_, index) => {
           const value = String(index + 1).padStart(2, "0");
           const label = new Date(2026, index, 1).toLocaleDateString("es-ES", { month: "long" });
@@ -5281,7 +6050,7 @@
         })
       ].join("");
       yearSelect.innerHTML = [
-        `<option value="all">Todos los años</option>`,
+        `<option value="all">Todos</option>`,
         ...years.map(year => `<option value="${year}">${year}</option>`)
       ].join("");
       monthSelect.value = fichasMonthFilter;
@@ -5311,10 +6080,15 @@
 
     function buildCategoryTags(ficha) {
       const used = getUsedCategories(ficha);
-      const tags = used.map(cat => cat.label);
-      if (ficha.rider) tags.push("Rider");
-      if (!tags.length) return `<div class="category-tags"><span class="category-tag">Sin material</span></div>`;
-      return `<div class="category-tags">${tags.map(label => `<span class="category-tag">${escapeHtml(label)}</span>`).join("")}</div>`;
+      const tags = used.map(cat => ({ label: cat.label, icon: categoryIcon(cat.id) }));
+      if (ficha.rider) {
+        tags.push({
+          label: "Rider",
+          icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M9 15h6"></path><path d="M9 18h4"></path></svg>`
+        });
+      }
+      if (!tags.length) return `<div class="category-tags"><span class="category-tag" title="Sin material" aria-label="Sin material"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16"></path><path d="M9 9h10v10H9z"></path><path d="M5 5v10h10"></path></svg><span class="category-tag-label">Sin material</span></span></div>`;
+      return `<div class="category-tags">${tags.map(tag => `<span class="category-tag" title="${escapeHtml(tag.label)}" aria-label="${escapeHtml(tag.label)}">${tag.icon}<span class="category-tag-label">${escapeHtml(tag.label)}</span></span>`).join("")}</div>`;
     }
 
     function normalizeText(value) {
@@ -5337,6 +6111,12 @@
       document.getElementById("fichaDetailTitle").textContent = ficha.nombre || "Bolo guardado";
       document.getElementById("fichaDetailMeta").textContent = "";
       document.getElementById("fichaDetailBody").innerHTML = buildFichaDetailMarkup(ficha);
+      document.getElementById("fichaDetailCopyBtn").onclick = () => {
+        closeFichaDetail();
+        duplicateFicha(id);
+      };
+      document.getElementById("fichaDetailPrintBtn").onclick = () => printFicha(id);
+      document.getElementById("fichaDetailShareBtn").onclick = () => shareFicha(id);
       document.getElementById("fichaDetailEditBtn").onclick = () => {
         closeFichaDetail();
         editFicha(id);
@@ -5373,7 +6153,7 @@
             </div>
             ${ficha.notas ? `<div class="detail-field"><span>Notas generales</span><strong>${escapeHtml(ficha.notas)}</strong></div>` : ""}
             ${buildRiderDetailLink(ficha.rider)}
-            ${getUsedCategories(ficha).length ? getUsedCategories(ficha).map(cat => buildFichaDetailSection(cat, ficha.material?.[cat.id] || [])).join("") : `<div class="detail-empty">Sin material asignado.</div>`}
+            ${getUsedCategories(ficha).length ? getUsedCategories(ficha).map(cat => buildFichaDetailSection(ficha, cat, ficha.material?.[cat.id] || [])).join("") : `<div class="detail-empty">Sin material asignado.</div>`}
           </div>
         </div>
       `;
@@ -5414,23 +6194,47 @@
       `;
     }
 
-    function buildFichaDetailSection(cat, rows) {
-      const body = rows.map(row => `
+    function buildFichaDetailSection(ficha, cat, rows) {
+      const safeId = escapeAttr(JSON.stringify(ficha.id));
+      const body = rows.map((row, index) => `
           <tr>
             <td>${escapeHtml(row.nombre)}</td>
             <td>${escapeHtml(row.modelo)}</td>
             <td><strong>${escapeHtml(row.cantidad)}</strong></td>
+            <td>
+              <button class="load-check" type="button" aria-label="Marcar ${escapeAttr(row.nombre)} ${escapeAttr(row.modelo)} como cargado" aria-pressed="${row.cargado ? "true" : "false"}" onclick="toggleFichaItemLoaded(${safeId}, '${cat.id}', ${index}, this)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg>
+              </button>
+            </td>
           </tr>
         `).join("");
       return `
         <section class="detail-section">
-          <h3>${escapeHtml(cat.label)}</h3>
+          <h3>${buildCategoryHeading(cat)}</h3>
           <table class="detail-table">
-            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th></tr></thead>
+            <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th><span class="loaded-head"><span>Cargado</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H3v14h2"></path><path d="M15 18H9"></path><path d="M19 18h2v-6l-3-4h-4"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg></span></th></tr></thead>
             <tbody>${body}</tbody>
           </table>
         </section>
       `;
+    }
+
+    async function toggleFichaItemLoaded(id, tipo, index, button) {
+      const ficha = fichas.find(item => String(item.id) === String(id));
+      const row = ficha?.material?.[tipo]?.[index];
+      if (!row) return;
+      row.cargado = !Boolean(row.cargado);
+      if (button) {
+        button.setAttribute("aria-pressed", row.cargado ? "true" : "false");
+        button.setAttribute("aria-label", `${row.cargado ? "Desmarcar" : "Marcar"} ${row.nombre} ${row.modelo} como cargado`);
+      }
+      persistFichas();
+      if (!getConfiguredCloudUrl()) return;
+      try {
+        await saveBoloToCloud(ficha, { silent: true });
+      } catch {
+        notify("Checklist guardado en este dispositivo", "No se pudo sincronizar ahora con Google Sheets.", "warning", 4200);
+      }
     }
 
     async function editFicha(id) {
@@ -5509,7 +6313,7 @@
       const body = rows.map(r => `<tr><td>${escapeHtml(r.nombre)}</td><td>${escapeHtml(r.modelo)}</td><td>${escapeHtml(r.cantidad)}</td><td><span class="print-check"></span></td></tr>`).join("");
       return `
         <section class="print-section">
-          <h2>${cat.label}</h2>
+          <h2>${buildCategoryHeading(cat)}</h2>
           <table class="print-table">
             <thead><tr><th>Material</th><th>Modelo</th><th>Cantidad</th><th>Cargado</th></tr></thead>
             <tbody>${body}</tbody>
@@ -5526,10 +6330,13 @@
       const editButton = document.getElementById("inventory-edit-btn");
       const saveButton = document.getElementById("inventory-save-btn");
       if (editButton) {
-        editButton.textContent = inventoryEditMode ? "Salir de edición" : "Editar inventario";
-        editButton.classList.toggle("btn-primary", !inventoryEditMode);
+        editButton.querySelector(".saved-action-label").textContent = inventoryEditMode ? "Salir" : "Editar";
+        editButton.setAttribute("aria-label", inventoryEditMode ? "Salir de edición" : "Editar inventario");
+        editButton.title = inventoryEditMode ? "Salir de edición" : "Editar inventario";
+        editButton.classList.toggle("cancel", inventoryEditMode);
+        editButton.classList.toggle("edit", !inventoryEditMode);
       }
-      if (saveButton) saveButton.style.display = inventoryEditMode ? "inline-flex" : "none";
+      if (saveButton) saveButton.style.display = inventoryEditMode ? "inline-grid" : "none";
       if (!categories.some(cat => cat.id === activeInventoryCategory)) activeInventoryCategory = "sonido";
       if (searchInput && searchInput.value !== inventorySearch) searchInput.value = inventorySearch;
       tabs.classList.add("active");
@@ -5540,8 +6347,8 @@
         </button>
       `).join("");
       grid.classList.toggle("editing", inventoryEditMode);
-      const visibleCategories = categories.filter(cat => cat.id === activeInventoryCategory);
-      if (resultCount) resultCount.textContent = getInventoryRows(activeInventoryCategory).length + " modelos visibles";
+      const visibleCategories = getVisibleInventoryCategories();
+      if (resultCount) resultCount.textContent = getInventoryResultCount(visibleCategories) + " modelos visibles";
       grid.innerHTML = visibleCategories.map(cat => `
         <div class="panel">
           <div class="panel-head">
@@ -5557,7 +6364,7 @@
     }
 
     function setInventorySearch(value) {
-      inventorySearch = value.trim().toLowerCase();
+      inventorySearch = value.trim();
       renderInventory();
     }
 
@@ -5566,15 +6373,32 @@
       renderInventory();
     }
 
+    function getVisibleInventoryCategories() {
+      if (!inventorySearch) return categories.filter(cat => cat.id === activeInventoryCategory);
+      const matches = categories.filter(cat => getInventoryRows(cat.id).length > 0);
+      return matches.length ? matches : categories;
+    }
+
+    function getInventoryResultCount(visibleCategories) {
+      return visibleCategories.reduce((total, cat) => total + getInventoryRows(cat.id).length, 0);
+    }
+
     function getInventoryRows(tipo) {
-      const query = inventorySearch;
+      const query = normalizeText(inventorySearch);
       return (DB[tipo] || []).flatMap((item, itemIndex) => (item.modelos || []).map((modelo, modelIndex) => ({
         item,
         modelo,
         itemIndex,
         modelIndex,
-        searchable: `${item.nombre} ${modelo.nombre} ${modelo.stock} ${estadoLabel(modelo.estado)} ${modelo.estado}`.toLowerCase()
-      }))).filter(row => !query || row.searchable.includes(query));
+        searchable: normalizeText(`${item.nombre} ${modelo.nombre} ${modelo.stock} ${estadoLabel(modelo.estado)} ${modelo.estado}`)
+      })))
+        .filter(row => !query || row.searchable.includes(query))
+        .sort(compareInventoryRows);
+    }
+
+    function compareInventoryRows(a, b) {
+      return inventoryCollator.compare(a.item.nombre || "", b.item.nombre || "")
+        || inventoryCollator.compare(a.modelo.nombre || "", b.modelo.nombre || "");
     }
 
     function renderInventoryReadTable(tipo) {
