@@ -3,7 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e0001b">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SENORP">
   <title>SENORP | Fichas de material</title>
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" href="logo-mini.png">
   <link rel="apple-touch-icon" href="logo-mini.png">
   <style>
@@ -6771,6 +6777,12 @@
 
 
     init();
+
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js").catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>
