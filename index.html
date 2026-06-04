@@ -9,7 +9,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SENORP">
   <title>SENORP | Fichas de material</title>
-  <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" href="logo-mini.png">
   <link rel="apple-touch-icon" href="logo-mini.png">
   <style>
@@ -967,6 +966,15 @@
       gap: 10px;
     }
 
+    .file-input-hidden {
+      position: fixed;
+      inset: auto auto 0 0;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .rider-upload {
       min-height: 62px;
       border: 1px dashed rgba(224, 0, 27, .38);
@@ -1477,7 +1485,7 @@
 
     .ficha {
       display: grid;
-      grid-template-columns: 124px minmax(0, 1fr) auto auto;
+      grid-template-columns: 124px minmax(0, 1fr) auto;
       gap: 14px;
       align-items: center;
       padding: 14px;
@@ -1485,6 +1493,25 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .ficha.upcoming {
+      background: color-mix(in srgb, var(--paper) 92%, #ffffff);
+      border-color: color-mix(in srgb, var(--line) 78%, var(--red));
+    }
+
+    .ficha.past {
+      background: color-mix(in srgb, var(--paper) 78%, #000000);
+      border-color: color-mix(in srgb, var(--line) 72%, #000000);
+      opacity: .94;
+    }
+
+    [data-theme="dark"] .ficha.upcoming {
+      background: color-mix(in srgb, var(--paper) 86%, #ffffff);
+    }
+
+    [data-theme="dark"] .ficha.past {
+      background: color-mix(in srgb, var(--paper) 82%, #000000);
     }
 
     .ficha:hover {
@@ -1573,8 +1600,8 @@
 
     .ficha-submeta {
       display: inline-grid;
-      align-self: start;
-      justify-self: end;
+      align-self: center;
+      justify-self: start;
       align-content: center;
       color: var(--muted);
       font-size: 12px;
@@ -1868,6 +1895,8 @@
     }
 
     .inventory-actions {
+      display: flex;
+      justify-content: flex-end;
       padding: 12px 16px 16px;
       border-top: 1px solid var(--line);
     }
@@ -1895,6 +1924,31 @@
       line-height: 1.05;
     }
 
+    .inventory-add-action {
+      width: 66px;
+      min-width: 66px;
+      min-height: 66px;
+      height: 66px;
+      padding: 7px 5px 6px;
+      gap: 5px;
+      flex: 0 0 auto;
+      display: inline-grid;
+      grid-template-rows: 1fr auto;
+      place-items: center;
+      background: rgba(19, 122, 67, .12);
+      border-color: rgba(19, 122, 67, .34);
+    }
+
+    .inventory-add-action svg {
+      width: 24px;
+      height: 24px;
+      align-self: center;
+    }
+
+    .inventory-add-action .saved-action-label {
+      font-size: 10px;
+    }
+
     .inventory-edit-list {
       display: grid;
       grid-template-columns: 1fr;
@@ -1908,11 +1962,16 @@
       background: color-mix(in srgb, var(--paper) 72%, var(--soft));
       padding: 16px;
       display: grid;
-      grid-template-columns: minmax(180px, 1.2fr) minmax(180px, 1.2fr) minmax(154px, 180px) minmax(150px, 180px) auto;
+      grid-template-columns: minmax(180px, 1.25fr) minmax(180px, 1.25fr) 136px 120px 52px;
       gap: 12px;
       align-items: end;
       min-width: 0;
       overflow: hidden;
+    }
+
+    .inventory-edit-card.new {
+      border-color: rgba(224, 0, 27, .5);
+      box-shadow: inset 0 0 0 1px rgba(224, 0, 27, .16), var(--shadow);
     }
 
     .inventory-edit-card .field {
@@ -1923,16 +1982,69 @@
     .inventory-edit-card select {
       min-width: 0;
       width: 100%;
+      height: 44px;
+      min-height: 44px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .inventory-edit-card select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: none;
+      padding-right: 8px;
+    }
+
+    .inventory-edit-card .number-stepper {
+      grid-template-columns: 38px minmax(50px, 1fr) 38px;
+      width: 100%;
+    }
+
+    .inventory-edit-card .number-stepper input,
+    .inventory-edit-card .stepper-btn {
+      height: 44px;
+      min-height: 44px;
+    }
+
+    .inventory-edit-card .stepper-btn {
+      width: 38px;
     }
 
     .inventory-edit-footer {
-      display: flex;
-      justify-content: flex-end;
+      display: grid;
+      justify-content: end;
       padding-top: 2px;
     }
 
     .inventory-edit-footer .btn {
+      width: 46px;
+      min-width: 46px;
+      height: 44px;
       min-height: 44px;
+      padding: 0;
+      white-space: nowrap;
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .inventory-delete-btn svg {
+      display: block;
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .inventory-delete-btn span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
       white-space: nowrap;
     }
 
@@ -2007,8 +2119,9 @@
 
     .toast-stack {
       position: fixed;
-      right: 18px;
-      bottom: 18px;
+      top: calc(16px + env(safe-area-inset-top));
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 30;
       display: grid;
       gap: 10px;
@@ -2043,8 +2156,60 @@
     .toast.error { border-left-color: var(--bad); }
 
     @keyframes toast-in {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(-8px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    .loading-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, .36);
+      backdrop-filter: blur(9px);
+    }
+
+    .loading-backdrop.active {
+      display: grid;
+    }
+
+    .loading-card {
+      width: min(320px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--paper) 88%, transparent);
+      color: var(--ink);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .35);
+      padding: 22px;
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .loading-spinner {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 4px solid rgba(224, 0, 27, .18);
+      border-top-color: var(--red);
+      animation: spin .8s linear infinite;
+    }
+
+    .loading-card strong {
+      font-size: 16px;
+    }
+
+    .loading-card span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     .dialog-backdrop {
@@ -3193,15 +3358,111 @@
       }
       .inventory-edit-list {
         grid-template-columns: 1fr;
-        padding: 12px;
+        padding: 10px;
+        gap: 8px;
+      }
+      .inventory-grid.editing .panel-head {
+        min-height: 58px;
+        padding: 10px 12px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 58px;
+        align-items: center;
+      }
+      .inventory-actions {
+        padding: 10px 12px 12px;
+      }
+      .inventory-add-action,
+      .inventory-actions .inventory-add-action,
+      .panel-head .inventory-add-action {
+        width: 58px;
+        min-width: 58px;
+        height: 58px;
+        min-height: 58px;
+        max-height: 58px;
+        aspect-ratio: 1 / 1;
+        padding: 6px 4px 5px;
+        gap: 3px;
+      }
+      .inventory-add-action svg {
+        width: 22px;
+        height: 22px;
+      }
+      .inventory-add-action .saved-action-label {
+        font-size: 9px;
       }
       .inventory-edit-card {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr) 88px 42px;
+        gap: 6px 8px;
+        padding: 9px 10px;
+        align-items: end;
+        overflow: hidden;
+      }
+      .inventory-edit-card .field:nth-child(1) { grid-column: 1; grid-row: 1; }
+      .inventory-edit-card .field:nth-child(2) { grid-column: 1; grid-row: 2; }
+      .inventory-edit-card .field:nth-child(3) { grid-column: 2 / 4; grid-row: 1; }
+      .inventory-edit-card .field:nth-child(4) { grid-column: 2; grid-row: 2; }
+      .inventory-edit-card .field label {
+        font-size: 10px;
+        margin-bottom: 3px;
+      }
+      .inventory-edit-card input,
+      .inventory-edit-card select {
+        min-height: 38px;
+        height: 38px;
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+      .inventory-edit-card select {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: none;
+        padding-right: 7px;
+      }
+      .inventory-edit-card .number-stepper {
+        grid-template-columns: 34px minmax(36px, 1fr) 34px;
+        gap: 3px;
+      }
+      .inventory-edit-card .stepper-btn {
+        width: 34px;
+        height: 38px;
+        min-height: 38px;
+        max-height: 38px;
+      }
+      .inventory-edit-card .stepper-btn svg {
+        width: 17px;
+        height: 17px;
+      }
+      .inventory-edit-card .number-stepper input {
+        min-height: 38px;
+        height: 38px;
+        padding: 5px;
       }
       .inventory-edit-footer .btn,
       .inventory-edit-footer .row-delete {
-        width: 100%;
-        min-height: 44px;
+        width: 42px;
+        min-width: 42px;
+        height: 38px;
+        min-height: 38px;
+        padding: 0;
+      }
+      .inventory-edit-footer {
+        grid-column: 3;
+        grid-row: 2;
+        justify-content: end;
+        padding-top: 0;
+      }
+      .inventory-delete-btn svg {
+        display: block;
+        width: 21px;
+        height: 21px;
+      }
+      .inventory-delete-btn span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
       }
       .row-delete {
         width: 100%;
@@ -3240,6 +3501,11 @@
         width: 0;
         height: 0;
         display: none;
+      }
+
+      .toast-stack {
+        top: calc(84px + env(safe-area-inset-top));
+        width: min(420px, calc(100vw - 24px));
       }
 
       body {
@@ -3672,6 +3938,34 @@
         font-weight: 900;
       }
 
+      #riderBackdrop {
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        overflow-y: auto;
+      }
+
+      #riderBackdrop .rider-dialog {
+        width: min(420px, 100%);
+        height: auto;
+        max-height: calc(100dvh - 54px);
+        margin: auto;
+      }
+
+      #riderBackdrop .dialog-head {
+        padding: 18px 18px 8px;
+      }
+
+      #riderBackdrop .bulk-form {
+        flex: 0 1 auto;
+        overflow: visible;
+        padding-bottom: 0;
+      }
+
+      #riderBackdrop .dialog-actions {
+        padding: 10px 18px 18px;
+      }
+
       .dialog-head {
         flex: 0 0 auto;
       }
@@ -3917,7 +4211,7 @@
 
       .ficha-submeta {
         align-self: start;
-        justify-self: end;
+        justify-self: start;
         font-size: 8px;
         letter-spacing: 0;
         padding: 6px 7px;
@@ -4011,55 +4305,97 @@
     }
 
     @media print {
-      body { background: #fff; }
-      .app { display: none; }
+      @page {
+        size: A4 portrait;
+        margin: 12mm;
+        background: #fff;
+      }
+      :root {
+        background: #fff !important;
+      }
+      html,
+      body {
+        background: #fff !important;
+        background-color: #fff !important;
+        color: #000 !important;
+        margin: 0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      *,
+      *::before,
+      *::after {
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+      .app,
+      .toast-stack,
+      .loading-backdrop,
+      .dialog-backdrop {
+        display: none !important;
+      }
       .print-preview {
         display: block !important;
         color: #000;
+        background: #fff !important;
         font-family: Arial, sans-serif;
-        padding: 18px;
+        min-height: auto;
+        padding: 0;
+        width: 100%;
+        box-sizing: border-box;
+        border: 0 !important;
+        box-shadow: none !important;
+        outline: 0 !important;
       }
       .print-header {
         display: grid;
-        grid-template-columns: 180px 1fr;
-        gap: 18px;
+        grid-template-columns: 170px minmax(0, 1fr);
+        gap: 20px;
         align-items: start;
-        border-bottom: 3px solid #000;
+        border-bottom: 2px solid #000;
+        min-height: 104px;
         padding-bottom: 10px;
-        margin-bottom: 14px;
+        margin-bottom: 18px;
       }
       .print-header img {
         width: 150px;
+        max-height: 96px;
         height: auto;
+        object-fit: contain;
+        object-position: left top;
       }
       .print-title {
         text-align: right;
         font-size: 12px;
-        line-height: 1.45;
+        line-height: 1.42;
       }
       .print-title h1 {
-        font-size: 22px;
-        margin-bottom: 6px;
+        font-size: 21px;
+        margin: 0 0 8px;
+        letter-spacing: 0;
+        line-height: 1.15;
+        white-space: normal;
       }
       .print-notes {
         border: 1px solid #999;
         padding: 8px;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
         font-size: 12px;
       }
       .print-section {
-        break-inside: avoid;
-        margin-bottom: 16px;
+        break-inside: auto;
+        margin-bottom: 20px;
       }
       .print-section h2 {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 14px;
-        margin: 0 0 12px;
-        padding: 8px;
+        font-size: 15px;
+        margin: 0 0 10px;
+        padding: 7px 8px;
         border: 1px solid #b9b9b9;
         background: #f5f5f5;
+        line-height: 1.15;
       }
       .print-section .category-heading-icon {
         width: 22px;
@@ -4075,13 +4411,59 @@
       .print-table th,
       .print-table td {
         border: 1px solid #aaa;
-        padding: 5px 7px;
+        padding: 6px 8px;
         font-size: 11px;
+        color: #000;
+        vertical-align: middle;
+      }
+      .print-table {
+        display: table !important;
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        border: 1px solid #aaa;
+      }
+      .print-table thead {
+        display: table-header-group !important;
+      }
+      .print-table tbody {
+        display: table-row-group !important;
+      }
+      .print-table tr {
+        display: table-row !important;
+        border-bottom: 0 !important;
+        padding: 0 !important;
+        break-inside: avoid;
+      }
+      .print-table th,
+      .print-table td {
+        display: table-cell !important;
+      }
+      .print-table td::before {
+        display: none !important;
+        content: none !important;
+      }
+      .print-table th:nth-child(1),
+      .print-table td:nth-child(1) { width: 34%; }
+      .print-table th:nth-child(2),
+      .print-table td:nth-child(2) { width: 43%; }
+      .print-table th:nth-child(3),
+      .print-table td:nth-child(3) { width: 10%; text-align: center; }
+      .print-table th:nth-child(4),
+      .print-table td:nth-child(4) { width: 13%; text-align: center; }
+      .print-table th {
+        background: #efefef;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .02em;
+      }
+      .print-table tbody tr:last-child td {
+        border-bottom: 1px solid #aaa;
       }
       .print-check {
         display: inline-block;
-        width: 11px;
-        height: 11px;
+        width: 12px;
+        height: 12px;
         border: 1.5px solid #000;
         vertical-align: middle;
       }
@@ -4092,6 +4474,7 @@
         padding-top: 8px;
         font-size: 10px;
         color: #555;
+        text-align: right;
       }
     }
   </style>
@@ -4099,6 +4482,13 @@
 <body>
   <div class="print-preview" id="printArea"></div>
   <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+  <div class="loading-backdrop" id="loadingBackdrop" role="status" aria-live="polite" aria-hidden="true">
+    <div class="loading-card">
+      <div class="loading-spinner" aria-hidden="true"></div>
+      <strong id="loadingTitle">Trabajando</strong>
+      <span id="loadingMessage">Espera un momento...</span>
+    </div>
+  </div>
   <div class="dialog-backdrop" id="dialogBackdrop" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
     <div class="dialog">
       <div class="dialog-head">
@@ -4190,6 +4580,7 @@
       </div>
     </div>
   </div>
+  <input class="file-input-hidden" id="evento-rider" type="file" accept="application/pdf,.pdf" onchange="handleRiderFile(this.files?.[0])">
   <div class="dialog-backdrop" id="riderBackdrop" role="dialog" aria-modal="true" aria-labelledby="riderTitle" onclick="if (event.target === this) closeRiderDialog()">
     <div class="dialog rider-dialog">
       <div class="dialog-head">
@@ -4198,13 +4589,11 @@
       </div>
       <div class="bulk-form">
         <div class="rider-field">
-          <input id="evento-rider" type="file" accept="application/pdf,.pdf" onchange="handleRiderFile(this.files?.[0])">
           <label class="rider-upload" for="evento-rider">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 12v6"></path><path d="m9 15 3 3 3-3"></path></svg>
             <span>Adjuntar rider técnico</span>
           </label>
           <div class="rider-actions" id="rider-actions"></div>
-          <small>Con Google Sheets configurado, se sube a Google Drive y la ficha guarda el enlace.</small>
         </div>
       </div>
       <div class="dialog-actions">
@@ -4570,6 +4959,7 @@
     let inventoryEditMode = false;
     let inventoryEditSnapshot = null;
     let activeInventoryCategory = "sonido";
+    let newInventoryDraft = null;
     let inventorySearch = "";
     let fichasSearch = "";
     let fichasDateFilter = "all";
@@ -5008,8 +5398,14 @@
     }
 
     function openRiderDialog() {
-      renderRiderUi();
-      openModal(document.getElementById("riderBackdrop"));
+      openRiderFilePicker();
+    }
+
+    function openRiderFilePicker() {
+      const input = document.getElementById("evento-rider");
+      if (!input) return;
+      input.value = "";
+      input.click();
     }
 
     function closeRiderDialog() {
@@ -5429,7 +5825,7 @@
       lastSavedBoloSignature = getBoloSignature();
 
       try {
-        await saveBoloToCloud(ficha);
+        await withLoading("Guardando bolo", "Enviando la ficha a Google Sheets...", () => saveBoloToCloud(ficha));
       } catch {
         fichas = fichas.filter(f => f.id !== ficha.id);
         return false;
@@ -5460,7 +5856,7 @@
           return;
         }
         try {
-          await saveBoloToCloud(ficha);
+          await withLoading("Guardando bolo", "Preparando la ficha antes de imprimir...", () => saveBoloToCloud(ficha));
           if (editingBoloId) fichas = fichas.filter(f => f.id !== editingBoloId);
           fichas.unshift(ficha);
           persistFichas();
@@ -5472,8 +5868,7 @@
         }
       }
 
-      renderPrintArea(ficha);
-      window.print();
+      printFichaHtml(ficha);
 
       if (action === "confirm") {
         resetForm();
@@ -5502,7 +5897,7 @@
 
         try {
           if (cloudUrl) {
-            await saveBoloToCloud(ficha, { silent: true });
+            await withLoading("Guardando bolo", "Sincronizando antes de compartir...", () => saveBoloToCloud(ficha, { silent: true }));
           }
           cloudSaved = true;
         } catch (error) {
@@ -5515,13 +5910,13 @@
       }
 
       renderPrintArea(ficha);
-      await shareFichaBlob(ficha, {
+      await withLoading("Preparando PDF", "Generando la ficha para compartir...", () => shareFichaBlob(ficha, {
         cloudSaved,
         afterDone: () => {
           resetForm();
           showPage("fichas");
         }
-      });
+      }));
     }
 
     async function shareFichaBlob(ficha, options = {}) {
@@ -5563,15 +5958,20 @@
       options.afterDone?.();
     }
 
-    async function buildBoloPdf(ficha) {
+    function printFichaHtml(ficha) {
+      renderPrintArea(ficha);
+      window.setTimeout(() => window.print(), 50);
+    }
+
+    async function buildBoloPdf(ficha, options = {}) {
       await loadJsPdf();
       const { jsPDF, AcroFormCheckBox } = window.jspdf;
       const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
-      const margin = 44;
+      const margin = 34;
       const footerY = pageHeight - 34;
-      let y = 34;
+      let y = 42;
       let logoDataUrl = null;
 
       function cleanPdfText(value) {
@@ -5581,10 +5981,11 @@
       }
 
       function ensureSpace(height) {
-        if (y + height < footerY) return;
+        if (y + height < footerY) return false;
         drawFooter();
         doc.addPage();
-        y = 44;
+        y = 42;
+        return true;
       }
 
       function ellipsize(value, maxWidth) {
@@ -5608,8 +6009,15 @@
         doc.setFont("helvetica", "normal");
         doc.setFontSize(9);
         doc.setTextColor(85);
-        doc.text(`Fecha de generacion: ${new Date().toLocaleDateString("es-ES")}`, pageWidth - margin, footerY, { align: "right" });
+        doc.text(`Generado por SENORP - ${new Date().toLocaleDateString("es-ES")}`, pageWidth - margin, footerY, { align: "right" });
         doc.setTextColor(0);
+      }
+
+      function pdfFieldRows(fields) {
+        return fields
+          .map(([label, value]) => [label, cleanPdfText(value).trim()])
+          .filter(([, value]) => value)
+          .map(([label, value]) => `${label}: ${value}`);
       }
 
       function addPdfChecklistBox(name, x, yBox, checked = false) {
@@ -5635,6 +6043,37 @@
         }
       }
 
+      function drawPdfCategoryIcon(id, x, yIcon) {
+        doc.setDrawColor(190);
+        doc.setFillColor(255, 255, 255);
+        doc.setLineWidth(.6);
+        doc.roundedRect(x, yIcon, 16, 16, 4, 4, "FD");
+        doc.setDrawColor(224, 0, 27);
+        doc.setLineWidth(1.1);
+        if (id === "sonido") {
+          doc.line(x + 6, yIcon + 11, x + 6, yIcon + 4);
+          doc.line(x + 6, yIcon + 4, x + 12, yIcon + 3);
+          doc.line(x + 12, yIcon + 3, x + 12, yIcon + 10);
+          doc.circle(x + 4.5, yIcon + 11.5, 2, "S");
+          doc.circle(x + 10.5, yIcon + 10.5, 2, "S");
+        } else if (id === "iluminacion") {
+          doc.circle(x + 8, yIcon + 7, 4.2, "S");
+          doc.line(x + 5.5, yIcon + 10.5, x + 10.5, yIcon + 10.5);
+          doc.line(x + 6.5, yIcon + 12.5, x + 9.5, yIcon + 12.5);
+          doc.line(x + 7.2, yIcon + 14, x + 8.8, yIcon + 14);
+        } else {
+          doc.line(x + 3.5, yIcon + 14, x + 12.5, yIcon + 14);
+          doc.line(x + 4.5, yIcon + 14, x + 4.5, yIcon + 6.5);
+          doc.line(x + 11.5, yIcon + 14, x + 11.5, yIcon + 6.5);
+          doc.line(x + 3.5, yIcon + 7, x + 8, yIcon + 3.5);
+          doc.line(x + 8, yIcon + 3.5, x + 12.5, yIcon + 7);
+          doc.line(x + 7, yIcon + 14, x + 7, yIcon + 10);
+          doc.line(x + 9, yIcon + 14, x + 9, yIcon + 10);
+          doc.line(x + 7, yIcon + 10, x + 9, yIcon + 10);
+        }
+        doc.setTextColor(0);
+      }
+
       try {
         logoDataUrl = await loadPdfLogoDataUrl("pdf-logo.png");
         doc.addImage(logoDataUrl, "PNG", margin, y - 2, 150, 100);
@@ -5645,14 +6084,21 @@
       doc.text("Ficha de carga del bolo", pageWidth - margin, y + 22, { align: "right" });
       doc.setFont("helvetica", "normal");
       doc.setFontSize(12);
-      doc.text(`Bolo: ${cleanPdfText(ficha.nombre || "Sin nombre")}`, pageWidth - margin, y + 48, { align: "right" });
-      doc.text(`Fecha: ${cleanPdfText(ficha.fecha || "")}`, pageWidth - margin, y + 66, { align: "right" });
-      doc.text(`Hora llegada: ${cleanPdfText(ficha.horaLlegada || "")}`, pageWidth - margin, y + 84, { align: "right" });
-      doc.text(`Lugar: ${cleanPdfText(ficha.lugar || "")}`, pageWidth - margin, y + 102, { align: "right" });
-      doc.text(`Contacto lugar: ${cleanPdfText(ficha.contactoLugar || "")}`, pageWidth - margin, y + 120, { align: "right" });
-      doc.text(`Tel. lugar: ${cleanPdfText(ficha.telefonoLugar || "")}`, pageWidth - margin, y + 138, { align: "right" });
-      doc.text(`Responsable carga: ${cleanPdfText(ficha.resp || "")}`, pageWidth - margin, y + 156, { align: "right" });
-      y += 174;
+      const headerFields = pdfFieldRows([
+        ["Bolo", ficha.nombre],
+        ["Fecha", ficha.fecha],
+        ["Hora llegada", ficha.horaLlegada],
+        ["Lugar", ficha.lugar],
+        ["Contacto lugar", ficha.contactoLugar],
+        ["Tel. lugar", ficha.telefonoLugar],
+        ["Responsable carga", ficha.resp]
+      ]);
+      let fieldY = y + 48;
+      headerFields.forEach(field => {
+        doc.text(field, pageWidth - margin, fieldY, { align: "right" });
+        fieldY += 18;
+      });
+      y = Math.max(y + 118, fieldY + 8);
 
       doc.setDrawColor(0);
       doc.setLineWidth(2);
@@ -5696,49 +6142,70 @@
         doc.setDrawColor(185);
         doc.setLineWidth(.6);
         doc.rect(margin, y, pageWidth - margin * 2, 28, "FD");
-        doc.text(cat.label, margin + 8, y + 19);
-        y += 42;
+        drawPdfCategoryIcon(cat.id, margin + 8, y + 6);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(15);
+        doc.setTextColor(0);
+        doc.text(cat.label, margin + 32, y + 19);
+        y += 40;
 
+        const tableWidth = pageWidth - margin * 2;
+        const materialW = Math.round(tableWidth * .34);
+        const modeloW = Math.round(tableWidth * .43);
+        const cantidadW = Math.round(tableWidth * .10);
+        const cargadoW = tableWidth - materialW - modeloW - cantidadW;
         const col = {
-          material: { x: margin, w: 175 },
-          modelo: { x: margin + 175, w: 230 },
-          cantidad: { x: margin + 405, w: 62 },
-          cargado: { x: margin + 467, w: pageWidth - margin * 2 - 467 }
+          material: { x: margin, w: materialW },
+          modelo: { x: margin + materialW, w: modeloW },
+          cantidad: { x: margin + materialW + modeloW, w: cantidadW },
+          cargado: { x: margin + materialW + modeloW + cantidadW, w: cargadoW }
         };
+        const headerH = 20;
+        const rowH = 20;
 
-        doc.setFillColor(239, 239, 239);
-        doc.rect(margin, y, pageWidth - margin * 2, 22, "F");
-        doc.setDrawColor(170);
-        doc.setLineWidth(.5);
-        doc.rect(margin, y, pageWidth - margin * 2, 22);
-        [col.modelo.x, col.cantidad.x, col.cargado.x].forEach(lineX => {
-          doc.line(lineX, y, lineX, y + 22);
-        });
-        doc.setFontSize(10);
-        doc.text("Material", col.material.x + 6, y + 15);
-        doc.text("Modelo", col.modelo.x + 6, y + 15);
-        doc.text("Cant.", col.cantidad.x + 6, y + 15);
-        doc.text("Cargado", col.cargado.x + 6, y + 15);
-        y += 22;
+        function drawPdfTableHeader() {
+          doc.setFillColor(239, 239, 239);
+          doc.setDrawColor(170);
+          doc.setLineWidth(.6);
+          [col.material, col.modelo, col.cantidad, col.cargado].forEach(cell => {
+            doc.rect(cell.x, y, cell.w, headerH, "FD");
+          });
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(9.5);
+          doc.setTextColor(0);
+          doc.text("MATERIAL", col.material.x + 6, y + 14);
+          doc.text("MODELO", col.modelo.x + 6, y + 14);
+          doc.text("CANTIDAD", col.cantidad.x + col.cantidad.w / 2, y + 14, { align: "center" });
+          doc.text("CARGADO", col.cargado.x + col.cargado.w / 2, y + 14, { align: "center" });
+          y += headerH;
+        }
+
+        drawPdfTableHeader();
 
         rows.forEach((row, rowIndex) => {
-          ensureSpace(34);
+          if (ensureSpace(rowH + 8)) drawPdfTableHeader();
           doc.setFont("helvetica", "normal");
-          doc.setFontSize(10);
-          doc.rect(margin, y, pageWidth - margin * 2, 24);
-          [col.modelo.x, col.cantidad.x, col.cargado.x].forEach(lineX => {
-            doc.line(lineX, y, lineX, y + 24);
+          doc.setFontSize(9.5);
+          doc.setDrawColor(170);
+          doc.setLineWidth(.6);
+          [col.material, col.modelo, col.cantidad, col.cargado].forEach(cell => {
+            doc.rect(cell.x, y, cell.w, rowH);
           });
-          doc.text(ellipsize(row.nombre, col.material.w - 12), col.material.x + 6, y + 16);
-          doc.text(ellipsize(row.modelo, col.modelo.w - 12), col.modelo.x + 6, y + 16);
-          doc.text(cleanPdfText(row.cantidad), col.cantidad.x + 6, y + 16);
-          addPdfChecklistBox(`cargado_${cleanPdfText(cat.id)}_${rowIndex}_${cleanPdfText(ficha.id)}`, col.cargado.x + 24, y + 6, Boolean(row.cargado));
-          y += 24;
+          doc.text(ellipsize(row.nombre, col.material.w - 12), col.material.x + 6, y + 13.5);
+          doc.text(ellipsize(row.modelo, col.modelo.w - 12), col.modelo.x + 6, y + 13.5);
+          doc.text(cleanPdfText(row.cantidad), col.cantidad.x + col.cantidad.w / 2, y + 13.5, { align: "center" });
+          addPdfChecklistBox(`cargado_${cleanPdfText(cat.id)}_${rowIndex}_${cleanPdfText(ficha.id)}`, col.cargado.x + col.cargado.w / 2 - 6, y + 4, Boolean(row.cargado));
+          y += rowH;
         });
-        y += 12;
+        doc.setDrawColor(170);
+        doc.line(margin, y, pageWidth - margin, y);
+        y += 20;
       });
 
       drawFooter();
+      if (options.autoPrint && typeof doc.autoPrint === "function") {
+        doc.autoPrint({ variant: "non-conform" });
+      }
       return doc.output("blob");
     }
 
@@ -5887,25 +6354,26 @@
         const date = formatFichaDateParts(f.fecha);
         const tags = buildCategoryTags(f);
         const meta = buildFichaCardMeta(f);
+        const stateClass = getFichaTimelineState(f);
         const safeId = JSON.stringify(f.id);
         return `
-          <article class="ficha" role="button" tabindex="0" onclick='openFichaDetail(${safeId})' onkeydown='handleFichaCardKey(event, ${safeId})'>
+          <article class="ficha ${stateClass}" role="button" tabindex="0" onclick='openFichaDetail(${safeId})' onkeydown='handleFichaCardKey(event, ${safeId})'>
             <div class="ficha-date">
               <span class="ficha-date-day">${date.day}</span>
               <span class="ficha-date-month">${date.month}</span>
               <span class="ficha-date-year">${date.year}</span>
             </div>
             <div class="ficha-main">
-              <div class="ficha-title">
-                <strong>${escapeHtml(f.nombre)}</strong>
-              </div>
+      <div class="ficha-title">
+        <strong>${escapeHtml(f.nombre)}</strong>
+        ${meta}
+      </div>
               <div class="ficha-place">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 <span>${escapeHtml(f.lugar || "Sin lugar")}</span>
               </div>
               ${tags}
             </div>
-            ${meta}
             <div class="saved-actions" aria-label="Acciones del bolo" onclick="event.stopPropagation()">
               <button class="saved-action copy" onclick='duplicateFicha(${safeId})' aria-label="Duplicar bolo" title="Duplicar">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M4 16V6a2 2 0 0 1 2-2h10"></path></svg>
@@ -5950,7 +6418,34 @@
           ficha.rider?.name,
           categories.flatMap(cat => (ficha.material?.[cat.id] || []).flatMap(row => [row.nombre, row.modelo, row.notas])).join(" ")
         ].join(" ")).includes(query);
-      });
+      }).sort(compareFichasByTimeline);
+    }
+
+    function compareFichasByTimeline(a, b) {
+      const aTime = getFichaSortTime(a);
+      const bTime = getFichaSortTime(b);
+      const aGroup = getFichaSortGroup(aTime);
+      const bGroup = getFichaSortGroup(bTime);
+      if (aGroup !== bGroup) return aGroup - bGroup;
+      if (aGroup === 0) return aTime - bTime;
+      if (aGroup === 1) return bTime - aTime;
+      return String(a.nombre || "").localeCompare(String(b.nombre || ""), "es", { sensitivity: "base" });
+    }
+
+    function getFichaSortTime(ficha) {
+      const date = parseFichaDateTime(ficha);
+      return date ? date.getTime() : null;
+    }
+
+    function getFichaSortGroup(time) {
+      if (!time) return 2;
+      return time >= Date.now() ? 0 : 1;
+    }
+
+    function getFichaTimelineState(ficha) {
+      const time = getFichaSortTime(ficha);
+      if (!time) return "nodate";
+      return time < Date.now() ? "past" : "upcoming";
     }
 
     function buildFichaCardMeta(ficha) {
@@ -6275,11 +6770,10 @@
       notify("Bolo eliminado", "La ficha se ha eliminado correctamente.", "success");
     }
 
-    function printFicha(id) {
+    async function printFicha(id) {
       const ficha = fichas.find(f => f.id === id);
       if (!ficha) return;
-      renderPrintArea(ficha);
-      window.print();
+      printFichaHtml(ficha);
     }
 
     async function shareFicha(id) {
@@ -6294,25 +6788,34 @@
     }
 
     function buildPrintMarkup(ficha) {
+      const printFields = [
+        ["Bolo", ficha.nombre],
+        ["Fecha", ficha.fecha],
+        ["Hora llegada", ficha.horaLlegada],
+        ["Lugar", ficha.lugar],
+        ["Contacto lugar", ficha.contactoLugar],
+        ["Tel. lugar", ficha.telefonoLugar],
+        ["Responsable carga", ficha.resp]
+      ].map(([label, value]) => printField(label, value)).join("");
       return `
         <div class="print-header">
-          <img src="logo-transparent.png" alt="SENORP">
+          <img src="pdf-logo.png" alt="SENORP">
           <div class="print-title">
             <h1>Ficha de carga del bolo</h1>
-            <div><b>Bolo:</b> ${escapeHtml(ficha.nombre)}</div>
-            <div><b>Fecha:</b> ${escapeHtml(ficha.fecha || "")}</div>
-            <div><b>Hora llegada:</b> ${escapeHtml(ficha.horaLlegada || "")}</div>
-            <div><b>Lugar:</b> ${escapeHtml(ficha.lugar || "")}</div>
-            <div><b>Contacto lugar:</b> ${escapeHtml(ficha.contactoLugar || "")}</div>
-            <div><b>Tel. lugar:</b> ${escapeHtml(ficha.telefonoLugar || "")}</div>
-            <div><b>Responsable carga:</b> ${escapeHtml(ficha.resp || "")}</div>
+            ${printFields}
           </div>
         </div>
         ${ficha.notas ? `<div class="print-notes"><b>Notas:</b> ${escapeHtml(ficha.notas)}</div>` : ""}
         ${ficha.rider ? `<div class="print-notes"><b>Rider técnico:</b> ${escapeHtml(ficha.rider.name || "PDF adjunto")}</div>` : ""}
         ${getUsedCategories(ficha).map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("") || `<section class="print-section"><h2>Sin material</h2></section>`}
-        <div class="print-footer">Fecha de generacion: ${new Date().toLocaleDateString("es-ES")}</div>
+        <div class="print-footer">Generado por SENORP &bull; ${new Date().toLocaleDateString("es-ES")}</div>
       `;
+    }
+
+    function printField(label, value) {
+      const text = String(value || "").trim();
+      if (!text) return "";
+      return `<div><b>${escapeHtml(label)}:</b> ${escapeHtml(text)}</div>`;
     }
 
     function printSection(cat, rows) {
@@ -6359,11 +6862,11 @@
         <div class="panel">
           <div class="panel-head">
             <div class="panel-title">${cat.label}</div>
-            ${inventoryEditMode ? `<button class="btn" onclick="addInventoryItem('${cat.id}')">Añadir</button>` : ""}
+            ${inventoryEditMode ? inventoryAddButton(cat.id) : ""}
           </div>
           ${inventoryEditMode ? renderInventoryEditList(cat.id) : renderInventoryReadTable(cat.id)}
           ${inventoryEditMode ? `<div class="inventory-actions">
-            <button class="btn" onclick="addInventoryItem('${cat.id}')">Añadir material</button>
+            ${inventoryAddButton(cat.id)}
           </div>` : ""}
         </div>
       `).join("");
@@ -6372,6 +6875,15 @@
     function setInventorySearch(value) {
       inventorySearch = value.trim();
       renderInventory();
+    }
+
+    function inventoryAddButton(tipo) {
+      return `
+        <button class="saved-action inventory-add-action save" type="button" onclick="addInventoryItem('${tipo}')" aria-label="Añadir material" title="Añadir material">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+          <span class="saved-action-label">Añadir</span>
+        </button>
+      `;
     }
 
     function showInventoryCategory(tipo) {
@@ -6396,6 +6908,7 @@
         modelo,
         itemIndex,
         modelIndex,
+        isNew: isNewInventoryDraft(tipo, itemIndex, modelIndex),
         searchable: normalizeText(`${item.nombre} ${modelo.nombre} ${modelo.stock} ${estadoLabel(modelo.estado)} ${modelo.estado}`)
       })))
         .filter(row => !query || row.searchable.includes(query))
@@ -6403,8 +6916,17 @@
     }
 
     function compareInventoryRows(a, b) {
+      if (a.isNew && !b.isNew) return 1;
+      if (b.isNew && !a.isNew) return -1;
       return inventoryCollator.compare(a.item.nombre || "", b.item.nombre || "")
         || inventoryCollator.compare(a.modelo.nombre || "", b.modelo.nombre || "");
+    }
+
+    function isNewInventoryDraft(tipo, itemIndex, modelIndex) {
+      return Boolean(newInventoryDraft
+        && newInventoryDraft.tipo === tipo
+        && newInventoryDraft.itemIndex === itemIndex
+        && newInventoryDraft.modelIndex === modelIndex);
     }
 
     function renderInventoryReadTable(tipo) {
@@ -6431,11 +6953,11 @@
       const rows = getInventoryRows(tipo);
       return `
         <div class="inventory-edit-list">
-          ${rows.length ? rows.map(({ item, modelo, itemIndex, modelIndex }) => `
-            <div class="inventory-edit-card">
+          ${rows.length ? rows.map(({ item, modelo, itemIndex, modelIndex, isNew }) => `
+            <div class="inventory-edit-card ${isNew ? "new" : ""}" ${isNew ? `id="new-inventory-card-${tipo}"` : ""}>
               <div class="field">
                 <label>Material</label>
-                <input value="${escapeAttr(item.nombre)}" oninput="updateInventoryItem('${tipo}', ${itemIndex}, ${modelIndex}, 'nombre', this.value)" placeholder="Material">
+                <input ${isNew ? `id="new-inventory-input-${tipo}"` : ""} value="${escapeAttr(item.nombre)}" oninput="updateInventoryItem('${tipo}', ${itemIndex}, ${modelIndex}, 'nombre', this.value)" placeholder="Material">
               </div>
               <div class="field">
                 <label>Modelo</label>
@@ -6458,7 +6980,10 @@
                 </select>
               </div>
               <div class="inventory-edit-footer">
-                <button class="btn btn-danger" onclick="deleteInventoryItem('${tipo}', ${itemIndex}, ${modelIndex})">Eliminar modelo</button>
+                <button class="btn btn-danger inventory-delete-btn" onclick="deleteInventoryItem('${tipo}', ${itemIndex}, ${modelIndex})" aria-label="Eliminar modelo" title="Eliminar modelo">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="m19 6-1 14H6L5 6"></path><path d="M10 11v5"></path><path d="M14 11v5"></path></svg>
+                  <span>Eliminar modelo</span>
+                </button>
               </div>
             </div>
           `).join("") : `<div class="empty">No hay modelos que coincidan con la busqueda.</div>`}
@@ -6507,21 +7032,25 @@
         cancelText: "Cancelar"
       });
       if (!ok) return false;
-      DB = normalizeInventory(DB);
-      persistInventory({ sync: false });
-      await saveInventoryToCloud({ silent: true });
-      inventoryEditSnapshot = cloneDb(DB);
-      inventoryEditMode = false;
-      renderInventory();
-      renderCategoryUi();
-      if (!options.silent) notify("Inventario guardado", "Los cambios se han guardado correctamente.", "success");
-      return true;
+      return withLoading("Guardando inventario", "Sincronizando cambios con Google Sheets...", async () => {
+        DB = normalizeInventory(DB);
+        persistInventory({ sync: false });
+        await saveInventoryToCloud({ silent: true });
+        newInventoryDraft = null;
+        inventoryEditSnapshot = cloneDb(DB);
+        inventoryEditMode = false;
+        renderInventory();
+        renderCategoryUi();
+        if (!options.silent) notify("Inventario guardado", "Los cambios se han guardado correctamente.", "success");
+        return true;
+      });
     }
 
     function discardInventoryChanges() {
       if (inventoryEditSnapshot) DB = cloneDb(inventoryEditSnapshot);
       inventoryEditMode = false;
       inventoryEditSnapshot = null;
+      newInventoryDraft = null;
       renderInventory();
       renderCategoryUi();
       notify("Cambios descartados", "El inventario vuelve al estado anterior.", "warning");
@@ -6544,9 +7073,21 @@
     }
 
     function addInventoryItem(tipo) {
+      if (!DB[tipo]) DB[tipo] = [];
+      const itemIndex = DB[tipo].length;
       DB[tipo].push({ nombre: "Nuevo material", modelos: [{ nombre: "Sin modelo", stock: 1, estado: "ok" }] });
+      newInventoryDraft = { tipo, itemIndex, modelIndex: 0 };
+      activeInventoryCategory = tipo;
+      inventorySearch = "";
       renderInventory();
       renderCategoryUi();
+      requestAnimationFrame(() => {
+        const card = document.getElementById(`new-inventory-card-${tipo}`);
+        const input = document.getElementById(`new-inventory-input-${tipo}`);
+        card?.scrollIntoView({ behavior: "smooth", block: "center" });
+        input?.focus({ preventScroll: true });
+        input?.select();
+      });
     }
 
     async function deleteInventoryItem(tipo, itemIndex, modelIndex) {
@@ -6561,6 +7102,7 @@
       const item = DB[tipo]?.[itemIndex];
       if (!item) return;
       item.modelos.splice(modelIndex, 1);
+      if (isNewInventoryDraft(tipo, itemIndex, modelIndex)) newInventoryDraft = null;
       if (item.modelos.length === 0) DB[tipo].splice(itemIndex, 1);
       if (DB[tipo].length === 0) {
         DB[tipo].push({ nombre: "Nuevo material", modelos: [{ nombre: "Sin modelo", stock: 1, estado: "ok" }] });
@@ -6582,18 +7124,20 @@
     }
 
     async function syncFromCloud(options = {}) {
+      const useLoader = !options.silent;
+      if (useLoader) showLoading("Cargando datos", "Leyendo inventario y bolos desde Google Sheets...");
       cloudUrl = getConfiguredCloudUrl();
-      if (!cloudUrl) {
-        DB = emptyInventory();
-        localStorage.removeItem(INVENTORY_KEY);
-        renderCategoryUi();
-        renderInventory();
-        updateCount();
-        if (!options.silent || options.startup) notify("Google Sheets sin configurar", "No se ha encontrado el enlace en senorp_config.js. El inventario queda vacío.", "warning", 6500);
-        return false;
-      }
-      renderCloudConfig();
       try {
+        if (!cloudUrl) {
+          DB = emptyInventory();
+          localStorage.removeItem(INVENTORY_KEY);
+          renderCategoryUi();
+          renderInventory();
+          updateCount();
+          if (!options.silent || options.startup) notify("Google Sheets sin configurar", "No se ha encontrado el enlace en senorp_config.js. El inventario queda vacío.", "warning", 6500);
+          return false;
+        }
+        renderCloudConfig();
         const response = await fetch(cloudUrl);
         if (!response.ok) throw new Error("No se pudo leer la hoja.");
         const data = await response.json();
@@ -6614,6 +7158,8 @@
         updateCount();
         if (!options.silent || options.startup) notify("No se pudo sincronizar", "Revisa la URL de Apps Script y que esté desplegada con acceso público. Se mantiene el último inventario guardado en este navegador.", "error", 7500);
         return false;
+      } finally {
+        if (useLoader) hideLoading();
       }
     }
 
@@ -6634,7 +7180,7 @@
     }
 
     async function forceSaveCloudData() {
-      await saveInventoryToCloud();
+      await withLoading("Guardando datos", "Enviando inventario a Google Sheets...", () => saveInventoryToCloud());
       if (cloudUrl) notify("Guardado solicitado", "La app ha enviado el inventario actual a Google Sheets.", "success");
     }
 
@@ -6671,7 +7217,7 @@
       cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) return;
       try {
-        await cloudPost({ action: "deleteBolo", id });
+        await withLoading("Eliminando bolo", "Sincronizando el borrado con Google Sheets...", () => cloudPost({ action: "deleteBolo", id }));
       } catch (error) {
         notify("Borrado no sincronizado", "No se pudo eliminar el bolo en Google Sheets.", "error");
       }
@@ -6711,10 +7257,33 @@
       stack.appendChild(toast);
       window.setTimeout(() => {
         toast.style.opacity = "0";
-        toast.style.transform = "translateY(8px)";
+        toast.style.transform = "translateY(-8px)";
         toast.style.transition = "opacity .2s ease, transform .2s ease";
         window.setTimeout(() => toast.remove(), 220);
       }, duration);
+    }
+
+    function showLoading(title = "Trabajando", message = "Espera un momento...") {
+      const backdrop = document.getElementById("loadingBackdrop");
+      document.getElementById("loadingTitle").textContent = title;
+      document.getElementById("loadingMessage").textContent = message;
+      backdrop?.classList.add("active");
+      backdrop?.setAttribute("aria-hidden", "false");
+    }
+
+    function hideLoading() {
+      const backdrop = document.getElementById("loadingBackdrop");
+      backdrop?.classList.remove("active");
+      backdrop?.setAttribute("aria-hidden", "true");
+    }
+
+    async function withLoading(title, message, task) {
+      showLoading(title, message);
+      try {
+        return await task();
+      } finally {
+        hideLoading();
+      }
     }
 
     function confirmDialog({ title, message, confirmText = "Aceptar", cancelText = "Cancelar", discardText = "", danger = false }) {
@@ -6778,7 +7347,16 @@
 
     init();
 
-    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+    const canUsePwaAssets = location.protocol === "http:" || location.protocol === "https:";
+
+    if (canUsePwaAssets) {
+      const manifestLink = document.createElement("link");
+      manifestLink.rel = "manifest";
+      manifestLink.href = "manifest.webmanifest";
+      document.head.appendChild(manifestLink);
+    }
+
+    if (canUsePwaAssets && "serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("service-worker.js").catch(() => {});
       });
