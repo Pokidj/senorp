@@ -1,21 +1,24 @@
 const SHEETS = {
   inventory: "Inventario",
   bolos: "Bolos",
+  settings: "Configuracion",
 };
 
 function doGet() {
   return jsonResponse({
+    apiVersion: 3,
+    capabilities: ["inventory", "bolos", "technicians", "technician-specialties-v2", "riders"],
     inventory: readInventory(),
     bolos: readBolos(),
+    tecnicos: readTechnicians(),
   });
 }
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
-  const payload = JSON.parse(e.postData.contents || "{}");
-
   try {
+    const payload = JSON.parse((e && e.postData && e.postData.contents) || "{}");
     if (payload.action === "saveInventory") {
       writeInventory(payload.inventory || {});
       return jsonResponse({ ok: true });
@@ -24,6 +27,11 @@ function doPost(e) {
     if (payload.action === "saveBolo") {
       saveBolo(payload.bolo);
       return jsonResponse({ ok: true });
+    }
+
+    if (payload.action === "saveTechnicians") {
+      writeTechnicians(payload.tecnicos || payload.technicians || []);
+      return jsonResponse({ ok: true, tecnicos: readTechnicians() });
     }
 
     if (payload.action === "uploadRider") {
@@ -36,6 +44,12 @@ function doPost(e) {
     }
 
     return jsonResponse({ ok: false, error: "Unknown action" });
+  } catch (error) {
+    console.error(error && error.stack ? error.stack : error);
+    return jsonResponse({
+      ok: false,
+      error: error && error.message ? error.message : String(error || "Error interno")
+    });
   } finally {
     lock.releaseLock();
   }
@@ -166,6 +180,62 @@ function deleteBolo(id) {
   compactSheetRows(sheet);
 }
 
+function readTechnicians() {
+  const sheet = getSheet(SHEETS.settings, ["clave", "json"]);
+  const values = readSheetValues(sheet, 2);
+  const row = values.slice(1).find(entry => String(entry[0] || "").trim() === "tecnicos");
+  if (!row) return [];
+  try {
+    return normalizeTechnicians(JSON.parse(row[1] || "[]"));
+  } catch (error) {
+    return [];
+  }
+}
+
+function writeTechnicians(values) {
+  const sheet = getSheet(SHEETS.settings, ["clave", "json"]);
+  const rows = readSheetValues(sheet, 2);
+  const rowIndex = rows.findIndex((row, index) => index > 0 && String(row[0] || "").trim() === "tecnicos");
+  const json = JSON.stringify(normalizeTechnicians(values));
+  if (rowIndex >= 0) {
+    sheet.getRange(rowIndex + 1, 1, 1, 2).setValues([["tecnicos", json]]);
+  } else {
+    sheet.appendRow(["tecnicos", json]);
+  }
+  compactSheetRows(sheet);
+}
+
+function normalizeTechnicians(values) {
+  const seen = {};
+  return (Array.isArray(values) ? values : [])
+    .map(value => {
+      const source = value && typeof value === "object" ? value : { nombre: value };
+      const nombre = String(source.nombre || source.name || "").trim();
+      const rawSpecialty = String(source.especialidad || source.specialty || "")
+        .trim()
+        .toUpperCase()
+        .replace(/\s+/g, "")
+        .replace(/[ÓÒÖÔÕ]/g, "O");
+      const especialidad = rawSpecialty === "SONIDO"
+        ? "SONIDO"
+        : (rawSpecialty === "ILUMINACION"
+          ? "ILUMINACION"
+          : (rawSpecialty === "SONIDO+ILUMINACION" || rawSpecialty === "SONIDOILUMINACION"
+            ? "SONIDO+ILUMINACION"
+            : "AUXILIAR"));
+      const rawColor = String(source.color || "").trim();
+      const color = /^#[0-9a-f]{6}$/i.test(rawColor) ? rawColor.toLowerCase() : "#e0001b";
+      return { nombre, especialidad, color };
+    })
+    .filter(technician => {
+      const key = technician.nombre.toLowerCase();
+      if (!technician.nombre || seen[key]) return false;
+      seen[key] = true;
+      return true;
+    })
+    .sort((a, b) => a.nombre.localeCompare(b.nombre));
+}
+
 function uploadRider(rider, boloId) {
   if (!rider || !rider.dataUrl) throw new Error("Missing rider");
   const match = String(rider.dataUrl).match(/^data:application\/pdf;base64,(.+)$/);
@@ -176,14 +246,24 @@ function uploadRider(rider, boloId) {
   const folder = getOrCreateFolder("SENORP Riders");
   const blob = Utilities.newBlob(bytes, "application/pdf", fileName);
   const file = folder.createFile(blob);
-  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  let shared = true;
+  let sharingWarning = "";
+  try {
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  } catch (error) {
+    shared = false;
+    sharingWarning = "El archivo se ha subido, pero la cuenta de Google no permite compartirlo públicamente.";
+    console.warn(sharingWarning + " " + (error && error.message ? error.message : error));
+  }
   return {
     name: safeName,
     type: "application/pdf",
     size: Number(rider.size) || bytes.length,
     fileId: file.getId(),
     url: file.getUrl(),
-    downloadUrl: `https://drive.google.com/uc?export=download&id=${file.getId()}`
+    downloadUrl: shared ? `https://drive.google.com/uc?export=download&id=${file.getId()}` : file.getUrl(),
+    shared,
+    sharingWarning
   };
 }
 

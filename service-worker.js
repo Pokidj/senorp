@@ -1,4 +1,4 @@
-const CACHE_NAME = "senorp-pwa-v1";
+const CACHE_NAME = "senorp-pwa-v35";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -14,7 +14,14 @@ const APP_ASSETS = [
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_ASSETS))
+      .then(cache => Promise.all(APP_ASSETS.map(async asset => {
+        try {
+          const response = await fetch(asset, { cache: "reload" });
+          if (response.ok) await cache.put(asset, response);
+        } catch {
+          // One optional asset must not prevent the PWA from installing.
+        }
+      })))
       .then(() => self.skipWaiting())
   );
 });
@@ -36,10 +43,14 @@ self.addEventListener("fetch", event => {
     caches.match(event.request).then(cached => {
       if (cached) return cached;
       return fetch(event.request).then(response => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        if (response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        }
         return response;
-      });
+      }).catch(() => event.request.mode === "navigate"
+        ? caches.match("./index.html")
+        : Response.error());
     })
   );
 });

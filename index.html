@@ -72,6 +72,24 @@
       font: inherit;
     }
 
+    button {
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: default;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--red) 72%, #fff);
+      outline-offset: 3px;
+    }
+
     button,
     .btn,
     .home-card,
@@ -181,6 +199,14 @@
     }
 
     .sidebar {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100vh;
+      max-height: 100dvh;
+      box-sizing: border-box;
       background: var(--paper);
       border-right: 1px solid var(--line);
       padding: 18px 14px;
@@ -188,7 +214,9 @@
       flex-direction: column;
       gap: 18px;
       min-width: 0;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
       transition: padding .22s ease, opacity .18s ease;
     }
 
@@ -957,6 +985,342 @@
       stroke-linejoin: round;
     }
 
+    .contact-pair {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .technician-selector {
+      display: grid;
+      gap: 9px;
+      min-height: 0;
+    }
+
+    .technician-selector-summary {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      min-width: 0;
+      width: fit-content;
+      max-width: 100%;
+      justify-self: start;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+    }
+
+    .technician-selector-action {
+      min-height: 40px;
+      width: fit-content;
+      max-width: 100%;
+      justify-self: start;
+      padding: 6px 10px;
+      border: 1px solid rgba(224, 0, 27, .28);
+      border-radius: var(--radius);
+      background: var(--soft-red);
+      color: var(--ink);
+      display: grid;
+      grid-template-columns: 22px auto auto;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+      font-weight: 900;
+    }
+
+    .technician-selector-action svg {
+      width: 20px;
+      height: 20px;
+      color: var(--red);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .technician-selector-action small {
+      display: block;
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 8px;
+      text-transform: uppercase;
+    }
+
+    .technician-selector-count {
+      min-width: 25px;
+      min-height: 25px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      display: inline-grid;
+      place-items: center;
+      font-size: 10px;
+    }
+
+    .technician-choice {
+      min-height: 52px;
+      padding: 11px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: var(--ink);
+      font-weight: 900;
+      display: inline-grid;
+      grid-template-columns: 12px minmax(0, 1fr);
+      grid-template-areas: "color name";
+      align-items: center;
+      column-gap: 13px;
+      text-align: left;
+    }
+
+    .technician-summary-chip {
+      min-height: 34px;
+      padding: 5px 10px 5px 8px;
+      border: 1px solid color-mix(in srgb, var(--technician-color, var(--red)) 45%, var(--line));
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--technician-color, var(--red)) 10%, var(--paper));
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .technician-dialog {
+      width: min(720px, 100%);
+    }
+
+    .technician-picker {
+      display: grid;
+      gap: 20px;
+      padding: 12px 18px 24px;
+      max-height: min(68vh, 650px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .technician-specialty-group {
+      display: grid;
+      gap: 11px;
+      padding-block: 3px;
+    }
+
+    .technician-specialty-heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0;
+      color: var(--ink);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .technician-specialty-heading svg {
+      width: 20px;
+      height: 20px;
+      color: var(--red);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .technician-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+      gap: 8px;
+    }
+
+    .technician-picker-empty {
+      padding: 13px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .technician-choice.selected {
+      color: var(--ink);
+      border-color: var(--technician-color, var(--red));
+      background: color-mix(in srgb, var(--technician-color, var(--red)) 12%, var(--paper));
+      box-shadow: inset 0 -2px 0 var(--technician-color, var(--red));
+    }
+
+    .technician-color-dot {
+      grid-area: color;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--technician-color, var(--red));
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--technician-color, var(--red)) 17%, transparent);
+    }
+
+    .technician-choice-name {
+      grid-area: name;
+      line-height: 1.2;
+    }
+
+    .technician-detail-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      margin-top: 9px;
+      padding: 3px 1px;
+    }
+
+    .technician-detail-field {
+      grid-column: 1 / -1;
+      padding-top: 14px;
+      padding-bottom: 15px;
+    }
+
+    .technician-detail-chip {
+      display: inline-grid;
+      grid-template-columns: 11px auto;
+      grid-template-areas:
+        "dot name"
+        "dot specialty";
+      align-items: center;
+      column-gap: 9px;
+      min-height: 42px;
+      padding: 7px 13px 7px 10px;
+      border: 1px solid color-mix(in srgb, var(--technician-color, var(--red)) 45%, var(--line));
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--technician-color, var(--red)) 10%, var(--paper));
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .technician-detail-chip .technician-color-dot {
+      grid-area: dot;
+    }
+
+    .technician-detail-chip > span:not(.technician-color-dot) {
+      grid-area: name;
+    }
+
+    .technician-detail-chip small {
+      grid-area: specialty;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .technician-settings-add {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(138px, .78fr) 52px 68px;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+    }
+
+    .technician-settings-add > input[type="text"],
+    .technician-settings-add > select,
+    .technician-settings-add > .btn {
+      width: 100%;
+      min-width: 0;
+      min-height: 48px;
+      height: 48px;
+      box-sizing: border-box;
+    }
+
+    .technician-settings-add > .btn {
+      width: 68px;
+      padding-inline: 7px;
+      font-size: 11px;
+    }
+
+    .technician-color-input {
+      width: 52px;
+      min-height: 48px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+      cursor: pointer;
+    }
+
+    .technician-settings-list {
+      display: grid;
+      gap: 8px;
+      width: 100%;
+      min-width: 0;
+      margin-top: 12px;
+    }
+
+    .technician-settings-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(138px, .78fr) 52px 46px;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      min-height: 62px;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+      font-weight: 900;
+    }
+
+    .technician-settings-item .technician-specialty-select {
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .technician-settings-name {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      padding-left: 5px;
+    }
+
+    .technician-settings-name span:last-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .technician-remove {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(179, 38, 30, .36);
+      border-radius: var(--radius);
+      background: rgba(179, 38, 30, .09);
+      color: var(--bad);
+    }
+
+    .technician-remove svg {
+      width: 21px;
+      height: 21px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .rider-field {
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -1010,21 +1374,221 @@
       flex: 0 0 auto;
     }
 
-    .rider-actions {
+    .band-manager {
+      display: grid;
+      gap: 16px;
+    }
+
+    .band-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--paper) 92%, var(--soft));
+    }
+
+    .band-form .full {
+      grid-column: 1 / -1;
+    }
+
+    .binary-choice {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      min-height: 48px;
+      padding: 5px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+    }
+
+    .binary-choice button {
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .binary-choice button.active {
+      border-color: rgba(224, 0, 27, .38);
+      background: var(--soft-red);
+      color: var(--red);
+    }
+
+    .band-save-button {
+      grid-column: 1 / -1;
+      min-height: 50px;
+    }
+
+    .band-list {
+      display: grid;
+      gap: 10px;
+      padding: 0 16px 16px;
+    }
+
+    .band-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+    }
+
+    .band-item.ordered {
+      grid-template-columns: 54px minmax(0, 1fr) auto;
+    }
+
+    .band-order {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(224, 0, 27, .3);
+      border-radius: var(--radius);
+      background: var(--soft-red);
+      color: var(--red);
+      font-size: 24px;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .band-item-main {
+      min-width: 0;
+      display: grid;
+      gap: 7px;
+    }
+
+    .band-item-main strong {
+      font-size: 16px;
+    }
+
+    .band-item-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
+    }
+
+    .band-chip {
+      display: inline-flex;
       align-items: center;
-    }
-
-    .rider-actions .btn {
-      min-height: 42px;
-      padding-inline: 13px;
-    }
-
-    .rider-status {
+      gap: 6px;
+      min-height: 27px;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
       color: var(--muted);
+      background: var(--soft);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .band-chip-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 15px;
+      height: 15px;
+      flex: 0 0 15px;
+      color: currentColor;
+    }
+
+    .band-chip-icon svg {
+      display: block;
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .band-chip.required {
+      color: var(--red);
+      border-color: rgba(224, 0, 27, .3);
+      background: var(--soft-red);
+    }
+
+    .band-details {
+      margin-top: 9px;
+      padding: 9px 11px;
+      border-left: 3px solid var(--red);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--soft);
+      color: var(--ink);
       font-size: 12px;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .band-details strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-size: 9px;
+      text-transform: uppercase;
+    }
+
+    .band-item-actions {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .band-order-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 44px);
+      gap: 6px;
+    }
+
+    .band-order-actions button:disabled {
+      opacity: .28;
+      cursor: default;
+    }
+
+    .band-item-actions button {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .band-item-actions button.danger {
+      color: var(--bad);
+      border-color: rgba(179, 38, 30, .32);
+      background: rgba(179, 38, 30, .08);
+    }
+
+    .band-item-actions svg {
+      width: 21px;
+      height: 21px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .band-empty {
+      padding: 18px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      color: var(--muted);
+      text-align: center;
       font-weight: 800;
     }
 
@@ -1052,7 +1616,11 @@
       stroke-linejoin: round;
     }
 
-    textarea { resize: vertical; }
+    textarea {
+      resize: none;
+      overflow-y: hidden;
+      field-sizing: content;
+    }
     input:focus, select:focus, textarea:focus {
       outline: 2px solid rgba(224, 0, 27, .18);
       border-color: var(--red);
@@ -1265,8 +1833,159 @@
       font-weight: 800;
     }
 
-    .summary-table .muted-cell {
+    .summary-table {
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    .summary-table th,
+    .summary-table td {
+      vertical-align: middle;
+      overflow-wrap: anywhere;
+    }
+
+    .summary-table th:nth-child(1),
+    .summary-table td:nth-child(1) {
+      width: 34%;
+    }
+
+    .summary-table th:nth-child(2),
+    .summary-table td:nth-child(2) {
+      width: 50%;
+    }
+
+    .summary-table th:nth-child(3),
+    .summary-table td:nth-child(3) {
+      width: 16%;
+      text-align: center;
+    }
+
+    .new-bolo-summary-switcher {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .new-bolo-summary-panel {
+      display: none;
+    }
+
+    .new-bolo-summary-panel.active {
+      display: block;
+    }
+
+    .roadmap-panel {
+      overflow: hidden;
+    }
+
+    .roadmap-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .roadmap-head svg {
+      width: 24px;
+      height: 24px;
+      color: var(--red);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .roadmap-head strong {
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    .roadmap-list {
+      display: grid;
+    }
+
+    .roadmap-row {
+      display: grid;
+      grid-template-columns: 58px minmax(170px, 1.2fr) repeat(4, minmax(92px, .55fr)) minmax(170px, .9fr);
+      align-items: stretch;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .roadmap-row:last-child {
+      border-bottom: 0;
+    }
+
+    .roadmap-order,
+    .roadmap-artist,
+    .roadmap-time,
+    .roadmap-support {
+      min-width: 0;
+      padding: 12px;
+      border-right: 1px solid var(--line);
+    }
+
+    .roadmap-order {
+      display: grid;
+      place-items: center;
+      color: var(--red);
+      background: var(--soft-red);
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    .roadmap-artist,
+    .roadmap-time {
+      display: grid;
+      align-content: center;
+      gap: 5px;
+    }
+
+    .roadmap-artist strong,
+    .roadmap-time strong {
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .roadmap-artist small,
+    .roadmap-time span,
+    .roadmap-support > span {
       color: var(--muted);
+      font-size: 9px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .roadmap-support {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      gap: 6px;
+      border-right: 0;
+    }
+
+    .roadmap-support .band-chip,
+    .roadmap-support .rider-link {
+      margin: 0;
+    }
+
+    .roadmap-details {
+      grid-column: 1 / -1;
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      background: color-mix(in srgb, var(--soft) 54%, transparent);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    .roadmap-empty {
+      padding: 28px 18px;
+      color: var(--muted);
+      text-align: center;
       font-weight: 800;
     }
 
@@ -2247,7 +2966,7 @@
     }
 
     .rider-dialog {
-      width: min(620px, 100%);
+      width: min(1040px, 100%);
     }
 
     .detail-dialog {
@@ -2386,7 +3105,7 @@
       min-width: 0;
     }
 
-    .detail-field span {
+    .detail-field > span {
       display: block;
       color: var(--muted);
       font-size: 11px;
@@ -2441,6 +3160,117 @@
       stroke-linejoin: round;
     }
 
+    .detail-content-switcher {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding-top: 2px;
+    }
+
+    .detail-content-tab {
+      min-height: 62px;
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--field);
+      color: var(--muted);
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      font-weight: 900;
+      touch-action: manipulation;
+      transition: border-color .18s ease, background .18s ease, color .18s ease, transform .15s ease;
+    }
+
+    .detail-content-tab:hover {
+      border-color: rgba(224, 0, 27, .34);
+      color: var(--ink);
+    }
+
+    .detail-content-tab:active {
+      transform: scale(.985);
+    }
+
+    .detail-content-tab.active {
+      color: var(--ink);
+      border-color: var(--red);
+      background: var(--soft-red);
+      box-shadow: inset 0 -3px 0 var(--red);
+    }
+
+    .detail-content-tab svg {
+      width: 26px;
+      height: 26px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .detail-content-tab-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .detail-content-tab-copy strong {
+      font-size: 15px;
+      line-height: 1.1;
+    }
+
+    .detail-content-tab-copy small {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .detail-content-count {
+      min-width: 30px;
+      min-height: 30px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      display: inline-grid;
+      place-items: center;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .detail-content-panel {
+      display: none;
+      gap: 12px;
+    }
+
+    .detail-content-panel.active {
+      display: grid;
+    }
+
+    .detail-content-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .detail-content-heading svg {
+      width: 24px;
+      height: 24px;
+      color: var(--red);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .detail-section {
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -2458,6 +3288,7 @@
 
     .detail-table {
       width: 100%;
+      table-layout: fixed;
       border-collapse: collapse;
       font-size: 13px;
     }
@@ -2467,7 +3298,30 @@
       padding: 9px 10px;
       border-bottom: 1px solid var(--line);
       text-align: left;
-      vertical-align: top;
+      vertical-align: middle;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-table th:nth-child(1),
+    .detail-table td:nth-child(1) {
+      width: 31%;
+    }
+
+    .detail-table th:nth-child(2),
+    .detail-table td:nth-child(2) {
+      width: 45%;
+    }
+
+    .detail-table th:nth-child(3),
+    .detail-table td:nth-child(3) {
+      width: 12%;
+      text-align: center;
+    }
+
+    .detail-table th:nth-child(4),
+    .detail-table td:nth-child(4) {
+      width: 12%;
+      text-align: center;
     }
 
     .detail-table th {
@@ -2998,6 +3852,9 @@
       .sidebar {
         position: sticky;
         top: 0;
+        height: auto;
+        max-height: none;
+        overflow: visible;
         z-index: 3;
         border-right: 0;
         border-bottom: 1px solid var(--line);
@@ -3275,6 +4132,54 @@
         width: 18%;
         text-align: center;
       }
+
+      .new-bolo-summary-switcher {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .new-bolo-summary-switcher .detail-content-tab {
+        min-height: 62px;
+        grid-template-columns: 24px minmax(0, 1fr) auto;
+        padding: 8px;
+      }
+
+      .new-bolo-summary-switcher .detail-content-tab-copy strong {
+        font-size: 12px;
+      }
+
+      .new-bolo-summary-switcher .detail-content-tab-copy small {
+        font-size: 8px;
+      }
+
+      .roadmap-row {
+        grid-template-columns: 46px repeat(2, minmax(0, 1fr));
+      }
+
+      .roadmap-order {
+        grid-row: 1 / span 4;
+        padding: 8px;
+        font-size: 19px;
+      }
+
+      .roadmap-artist {
+        grid-column: 2 / -1;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .roadmap-time {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .roadmap-time:nth-of-type(even) {
+        border-right: 0;
+      }
+
+      .roadmap-support {
+        grid-column: 2 / -1;
+        min-height: 48px;
+      }
+
       .inventory-table {
         display: table;
         table-layout: fixed;
@@ -3476,6 +4381,32 @@
       }
       .detail-summary {
         grid-template-columns: 1fr;
+      }
+
+      .detail-content-tab {
+        min-height: 58px;
+        grid-template-columns: 24px minmax(0, 1fr) auto;
+        gap: 8px;
+        padding: 8px 10px;
+      }
+
+      .detail-content-tab svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .detail-content-tab-copy strong {
+        font-size: 13px;
+      }
+
+      .detail-content-tab-copy small {
+        font-size: 8px;
+      }
+
+      .detail-content-count {
+        min-width: 27px;
+        min-height: 27px;
+        padding: 0 6px;
       }
       .ficha-date {
         min-height: 76px;
@@ -3704,13 +4635,18 @@
         order: 2;
       }
 
-      #categorySections {
+      .new-bolo-summary-switcher {
         order: 3;
+      }
+
+      #new-bolo-material-summary,
+      #new-bolo-roadmap-summary {
+        order: 4;
       }
 
       #mobile-save-slot {
         display: block;
-        order: 4;
+        order: 5;
         position: sticky;
         bottom: 0;
         z-index: 12;
@@ -3946,9 +4882,9 @@
       }
 
       #riderBackdrop .rider-dialog {
-        width: min(420px, 100%);
-        height: auto;
-        max-height: calc(100dvh - 54px);
+        width: min(1040px, 100%);
+        height: calc(100dvh - 28px);
+        max-height: calc(100dvh - 28px);
         margin: auto;
       }
 
@@ -3957,13 +4893,47 @@
       }
 
       #riderBackdrop .bulk-form {
-        flex: 0 1 auto;
-        overflow: visible;
+        flex: 1 1 auto;
+        overflow-y: auto;
         padding-bottom: 0;
       }
 
       #riderBackdrop .dialog-actions {
         padding: 10px 18px 18px;
+      }
+
+      .band-form {
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+
+      .band-form .full,
+      .band-save-button {
+        grid-column: auto;
+      }
+
+      .band-list {
+        padding: 0 12px 12px;
+      }
+
+      .band-item {
+        grid-template-columns: 1fr;
+      }
+
+      .band-item.ordered {
+        grid-template-columns: 48px minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .band-item-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+      }
+
+      .band-order {
+        width: 48px;
+        height: 48px;
+        font-size: 21px;
       }
 
       .dialog-head {
@@ -4302,6 +5272,68 @@
         gap: 8px;
       }
 
+      .contact-pair {
+        grid-template-columns: 1fr;
+      }
+
+      .technician-settings-add {
+        grid-template-columns: minmax(0, 1fr) 54px;
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .technician-picker {
+        padding: 2px 12px 18px;
+      }
+
+      .technician-picker-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .technician-picker-grid .technician-choice {
+        min-height: 54px;
+        padding-inline: 11px;
+        column-gap: 10px;
+      }
+
+      .technician-settings-add input[type="text"],
+      .technician-settings-add select {
+        grid-column: 1;
+      }
+
+      .technician-settings-add .technician-color-input {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      .technician-settings-add .btn {
+        grid-column: 2;
+        grid-row: 2;
+        width: 54px;
+        min-width: 54px;
+        padding-inline: 8px;
+      }
+
+      .technician-settings-item {
+        grid-template-columns: minmax(0, 1fr) 54px 46px;
+        min-height: 112px;
+        padding: 9px;
+      }
+
+      .technician-settings-item .technician-specialty-select {
+        grid-column: 1;
+      }
+
+      .technician-settings-item .technician-color-input {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+      }
+
+      .technician-settings-item .technician-remove {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+      }
+
     }
 
     @media print {
@@ -4580,27 +5612,86 @@
       </div>
     </div>
   </div>
-  <input class="file-input-hidden" id="evento-rider" type="file" accept="application/pdf,.pdf" onchange="handleRiderFile(this.files?.[0])">
+  <div class="dialog-backdrop" id="technicianBackdrop" role="dialog" aria-modal="true" aria-labelledby="technicianPickerTitle" onclick="if (event.target === this) closeTechnicianDialog()">
+    <div class="dialog technician-dialog">
+      <div class="dialog-head bulk-head">
+        <div class="bulk-head-copy">
+          <strong id="technicianPickerTitle">Técnicos</strong>
+          <span>Selecciona el equipo del bolo por especialidad.</span>
+        </div>
+        <button class="saved-action save" type="button" onclick="closeTechnicianDialog()" aria-label="Terminar selección" title="Terminar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
+          <span class="saved-action-label">Terminar</span>
+        </button>
+      </div>
+      <div class="technician-picker" id="technician-picker"></div>
+    </div>
+  </div>
   <div class="dialog-backdrop" id="riderBackdrop" role="dialog" aria-modal="true" aria-labelledby="riderTitle" onclick="if (event.target === this) closeRiderDialog()">
     <div class="dialog rider-dialog">
-      <div class="dialog-head">
-        <strong id="riderTitle">Rider técnico</strong>
-        <span>Adjunta el PDF del bolo para guardarlo con la ficha y descargarlo cuando haga falta.</span>
-      </div>
-      <div class="bulk-form">
-        <div class="rider-field">
-          <label class="rider-upload" for="evento-rider">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 12v6"></path><path d="m9 15 3 3 3-3"></path></svg>
-            <span>Adjuntar rider técnico</span>
-          </label>
-          <div class="rider-actions" id="rider-actions"></div>
+      <div class="dialog-head bulk-head">
+        <div>
+          <strong id="riderTitle">Bandas / artistas</strong>
+          <span>Gestiona horarios, técnicos necesarios y riders del bolo.</span>
         </div>
-      </div>
-      <div class="dialog-actions">
-        <button class="saved-action close" type="button" onclick="closeRiderDialog()" aria-label="Cerrar rider" title="Cerrar">
+        <button class="saved-action close" type="button" onclick="closeRiderDialog()" aria-label="Cerrar gestión de bandas" title="Cerrar">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
           <span class="saved-action-label">Cerrar</span>
         </button>
+      </div>
+      <div class="bulk-form band-manager">
+        <div class="band-form">
+          <div class="field full">
+            <label for="band-name">Nombre de la banda / artista</label>
+            <input id="band-name" type="text" placeholder="Nombre artístico" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="band-arrival">Horario de llegada</label>
+            <input id="band-arrival" type="time">
+          </div>
+          <div class="field">
+            <label for="band-soundcheck">Horario de la prueba</label>
+            <input id="band-soundcheck" type="time">
+          </div>
+          <div class="field">
+            <label for="band-performance-start">Inicio de actuación</label>
+            <input id="band-performance-start" type="time">
+          </div>
+          <div class="field">
+            <label for="band-performance-duration">Duración de actuación</label>
+            <input id="band-performance-duration" type="time" step="60" value="01:00">
+          </div>
+          <div class="field">
+            <label>¿Trae técnico de sonido propio?</label>
+            <div class="binary-choice">
+              <button type="button" data-band-field="sound" data-value="false" onclick="setBandTechnicalNeed('sound', false)">No</button>
+              <button type="button" data-band-field="sound" data-value="true" onclick="setBandTechnicalNeed('sound', true)">Sí</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>¿Trae técnico de iluminación propio?</label>
+            <div class="binary-choice">
+              <button type="button" data-band-field="lights" data-value="false" onclick="setBandTechnicalNeed('lights', false)">No</button>
+              <button type="button" data-band-field="lights" data-value="true" onclick="setBandTechnicalNeed('lights', true)">Sí</button>
+            </div>
+          </div>
+          <div class="field full">
+            <label for="band-details">Otros detalles / particularidades</label>
+            <textarea id="band-details" rows="3" placeholder="Necesidades especiales, montaje, accesos, instrumentos, observaciones..."></textarea>
+          </div>
+          <div class="field full">
+            <label>Rider técnico</label>
+            <input class="file-input-hidden" id="band-rider-file" type="file" accept="application/pdf,.pdf" onchange="handleBandRiderFile(this.files?.[0])">
+            <label class="rider-upload" for="band-rider-file">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 12v6"></path><path d="m9 15 3 3 3-3"></path></svg>
+              <span id="band-rider-label">Adjuntar rider técnico</span>
+            </label>
+          </div>
+          <button class="btn btn-primary band-save-button" type="button" onclick="saveBandEntry()">
+            <span id="band-save-label">Añadir banda / artista</span>
+          </button>
+        </div>
+        <div class="band-list" id="band-list"></div>
       </div>
     </div>
   </div>
@@ -4725,7 +5816,7 @@
                 <input id="evento-nombre" type="text" placeholder="Festival de verano">
               </div>
               <div class="field">
-                <label for="evento-fecha">Fecha del evento</label>
+                <label for="evento-fecha">Fecha</label>
                 <input id="evento-fecha" type="date">
               </div>
               <div class="field">
@@ -4733,7 +5824,7 @@
                 <input id="evento-hora-llegada" type="time">
               </div>
               <div class="field">
-                <label for="evento-lugar">Lugar del evento</label>
+                <label for="evento-lugar">Recinto / ubicación</label>
                 <div class="field-control">
                   <input id="evento-lugar" type="text" placeholder="Polideportivo municipal" autocomplete="street-address">
                   <button class="field-tool" type="button" onclick="openEventLocationMap()" aria-label="Abrir ubicación en Google Maps" title="Abrir en Google Maps">
@@ -4741,22 +5832,21 @@
                   </button>
                 </div>
               </div>
-              <div class="field">
-                <label for="evento-telefono-lugar">Teléfono responsable del lugar</label>
-                <div class="field-control">
-                  <input id="evento-telefono-lugar" type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000">
-                  <button class="field-tool" type="button" onclick="pickPlaceContact()" aria-label="Elegir contacto o pegar teléfono" title="Elegir contacto o pegar teléfono">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M4 8h16"></path><rect x="4" y="4" width="16" height="18" rx="2"></rect><circle cx="12" cy="14" r="2"></circle><path d="M8 20a4 4 0 0 1 8 0"></path></svg>
-                  </button>
+              <div class="field full">
+                <label>Responsable del recinto</label>
+                <div class="contact-pair">
+                  <input id="evento-contacto-lugar" type="text" placeholder="Nombre" autocomplete="name" aria-label="Nombre del responsable del recinto">
+                  <div class="field-control">
+                    <input id="evento-telefono-lugar" type="tel" inputmode="tel" autocomplete="tel" placeholder="Teléfono" aria-label="Teléfono del responsable del recinto">
+                    <button class="field-tool" type="button" onclick="pickPlaceContact()" aria-label="Elegir contacto o pegar teléfono" title="Elegir contacto o pegar teléfono">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M4 8h16"></path><rect x="4" y="4" width="16" height="18" rx="2"></rect><circle cx="12" cy="14" r="2"></circle><path d="M8 20a4 4 0 0 1 8 0"></path></svg>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div class="field">
-                <label for="evento-contacto-lugar">Nombre del contacto del lugar</label>
-                <input id="evento-contacto-lugar" type="text" placeholder="Nombre de quien atiende" autocomplete="name">
-              </div>
-              <div class="field">
-                <label for="evento-resp">Responsable de carga</label>
-                <input id="evento-resp" type="text" placeholder="Nombre del técnico" autocomplete="name">
+              <div class="field full">
+                <input id="evento-resp" type="hidden">
+                <div class="technician-selector" id="evento-tecnicos" aria-label="Seleccionar técnicos asociados"></div>
               </div>
               <div class="field full">
                 <label for="evento-notas">Notas / detalles adicionales</label>
@@ -4774,12 +5864,35 @@
             </button>
             <button class="add-material-card" onclick="openRiderDialog()">
               <span class="add-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 12v6"></path><path d="m9 15 3 3 3-3"></path></svg></span>
-              <span><strong>Añadir rider técnico</strong><small id="rider-card-status">Sin adjuntar</small></span>
+              <span><strong>Bandas / artistas</strong><small id="rider-card-status">Sin añadir</small></span>
             </button>
           </div>
         </div>
         <div id="mobile-save-slot"></div>
-        <div id="categorySections"></div>
+        <div class="new-bolo-summary-switcher" role="tablist" aria-label="Resumen del bolo">
+          <button class="detail-content-tab active" id="new-bolo-material-tab" type="button" role="tab" aria-selected="true" onclick="switchNewBoloSummary('material', this)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+            <span class="detail-content-tab-copy"><strong>Resumen de carga</strong><small>Material del bolo</small></span>
+            <span class="detail-content-count" id="new-bolo-material-count">0</span>
+          </button>
+          <button class="detail-content-tab" id="new-bolo-roadmap-tab" type="button" role="tab" aria-selected="false" onclick="switchNewBoloSummary('roadmap', this)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M7 3v6"></path><path d="M17 3v6"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 13h4"></path><path d="M7 17h7"></path></svg>
+            <span class="detail-content-tab-copy"><strong>Hoja de ruta</strong><small>Bandas / artistas</small></span>
+            <span class="detail-content-count" id="new-bolo-band-count">0</span>
+          </button>
+        </div>
+        <div class="new-bolo-summary-panel active" id="new-bolo-material-summary" role="tabpanel">
+          <div id="categorySections"></div>
+        </div>
+        <div class="new-bolo-summary-panel" id="new-bolo-roadmap-summary" role="tabpanel">
+          <div class="panel roadmap-panel">
+            <div class="roadmap-head">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M7 3v6"></path><path d="M17 3v6"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 13h4"></path><path d="M7 17h7"></path></svg>
+              <strong>Hoja de ruta</strong>
+            </div>
+            <div class="roadmap-list" id="new-bolo-roadmap-list"></div>
+          </div>
+        </div>
       </section>
 
       <section class="page" id="page-fichas">
@@ -4888,8 +6001,8 @@
                 <div class="cloud-status-main">
                   <span class="cloud-dot" id="cloud-status-dot"></span>
                   <div>
-                    <strong id="cloud-status-title">Comprobando conexion</strong>
-                    <span id="cloud-status-note">Leyendo configuracion externa.</span>
+                    <strong id="cloud-status-title">Comprobando conexión</strong>
+                    <span id="cloud-status-note">Leyendo configuración externa.</span>
                   </div>
                 </div>
                 <div class="cloud-source" id="cloud-source">Archivo: senorp_config.js</div>
@@ -4898,7 +6011,28 @@
                 <button class="btn btn-primary" onclick="syncFromCloud()">Forzar carga de datos</button>
                 <button class="btn" onclick="forceSaveCloudData()">Guardar inventario ahora</button>
               </div>
-              <p>La conexion se define en <strong>senorp_config.js</strong>. El HTML solo muestra el estado y permite forzar lectura o guardado.</p>
+              <p>La conexión se define en <strong>senorp_config.js</strong>. El HTML solo muestra el estado y permite forzar lectura o guardado.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+                <div class="panel-title">Técnicos</div>
+            </div>
+            <div class="panel-body sheet-help">
+              <div class="technician-settings-add">
+                <input id="technician-name-input" type="text" placeholder="Nombre del técnico" autocomplete="off" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addTechnician(); }">
+                <select id="technician-specialty-input" aria-label="Especialidad del técnico">
+                  <option value="SONIDO">SONIDO</option>
+                  <option value="ILUMINACION">ILUMINACIÓN</option>
+                  <option value="SONIDO+ILUMINACION">SONIDO + ILUMINACIÓN</option>
+                  <option value="AUXILIAR" selected>AUXILIAR</option>
+                </select>
+                <input class="technician-color-input" id="technician-color-input" type="color" value="#e0001b" aria-label="Color identificativo">
+                <button class="btn btn-primary" type="button" onclick="addTechnician()">Añadir</button>
+              </div>
+              <div class="technician-settings-list" id="technician-settings-list"></div>
+              <p>Estos nombres aparecen en Nuevo bolo y se guardan en Google Sheets para todos los dispositivos.</p>
             </div>
           </div>
         </div>
@@ -4912,6 +6046,7 @@
     const STORAGE_KEY = "senorp_fichas_v2";
     const THEME_KEY = "senorp_theme";
     const INVENTORY_KEY = "senorp_inventory_v1";
+    const TECHNICIANS_KEY = "senorp_technicians_v1";
     const SIDEBAR_KEY = "senorp_sidebar_collapsed";
 
     const categories = [
@@ -4970,7 +6105,16 @@
     let boloMaterial = {};
     let bulkDraft = {};
     let bulkSearch = "";
-    let currentRider = null;
+    let currentBands = [];
+    let editingBandId = null;
+    let pendingBandRider = null;
+    let bandTechnicalNeeds = { sound: false, lights: false };
+    let technicians = [];
+    let selectedTechnicians = [];
+    let technicianSyncRevision = 0;
+    let technicianSyncedRevision = 0;
+    let technicianSyncPromise = null;
+    let cloudSupportsCombinedTechnicians = false;
     let editingBoloId = null;
     let cloudUrl = "";
     let inventorySyncTimer = null;
@@ -4979,25 +6123,299 @@
     async function init() {
       applyTheme(localStorage.getItem(THEME_KEY) || "light");
       applySidebarState(true);
+      document.addEventListener("input", event => {
+        if (event.target instanceof HTMLTextAreaElement) autoGrowTextarea(event.target);
+      });
       categories.forEach(c => rowCounters[c.id] = 0);
       boloMaterial = emptyBoloMaterial();
       fichas = readLocalFichas();
+      technicians = readLocalTechnicians();
       cloudUrl = getConfiguredCloudUrl();
       DB = cloudUrl ? readLocalInventory() : emptyInventory();
       renderCloudConfig();
       renderCategoryUi();
-      renderRiderUi();
+      renderBandsUi();
+      renderTechnicianSettings();
+      renderTechnicianSelector();
       lastSavedBoloSignature = getBoloSignature();
       placeBoloActions();
       window.addEventListener("resize", placeBoloActions);
       renderInventory();
       updateCount();
+      autoGrowAllTextareas();
       if (cloudUrl) {
         syncFromCloud({ startup: true, silent: true });
       } else {
         localStorage.removeItem(INVENTORY_KEY);
         notify("Google Sheets sin configurar", "No se ha encontrado el enlace en senorp_config.js. El inventario queda vacío hasta conectar la hoja.", "warning", 6500);
       }
+    }
+
+    function normalizeTechnicianSpecialty(value) {
+      const normalized = String(value || "").trim().toLocaleUpperCase("es").replace(/\s+/g, "");
+      if (normalized === "SONIDO") return "SONIDO";
+      if (normalized === "ILUMINACION" || normalized === "ILUMINACIÓN") return "ILUMINACION";
+      if (
+        normalized === "SONIDO+ILUMINACION"
+        || normalized === "SONIDO+ILUMINACIÓN"
+        || normalized === "SONIDOILUMINACION"
+        || normalized === "SONIDOILUMINACIÓN"
+      ) return "SONIDO+ILUMINACION";
+      return "AUXILIAR";
+    }
+
+    function technicianSpecialtyLabel(value) {
+      const specialty = normalizeTechnicianSpecialty(value);
+      if (specialty === "ILUMINACION") return "ILUMINACIÓN";
+      if (specialty === "SONIDO+ILUMINACION") return "SONIDO + ILUMINACIÓN";
+      return specialty;
+    }
+
+    function autoGrowTextarea(textarea) {
+      if (!(textarea instanceof HTMLTextAreaElement)) return;
+      textarea.style.height = "auto";
+      textarea.style.height = `${Math.max(textarea.scrollHeight, 50)}px`;
+    }
+
+    function autoGrowAllTextareas(scope = document) {
+      requestAnimationFrame(() => {
+        scope.querySelectorAll("textarea").forEach(autoGrowTextarea);
+      });
+    }
+
+    function normalizeTechnicianColor(value) {
+      const color = String(value || "").trim();
+      return /^#[0-9a-f]{6}$/i.test(color) ? color.toLowerCase() : "#e0001b";
+    }
+
+    function normalizeTechnician(value) {
+      const source = value && typeof value === "object" ? value : { nombre: value };
+      const nombre = String(source.nombre || source.name || "").trim();
+      if (!nombre) return null;
+      return {
+        nombre,
+        especialidad: normalizeTechnicianSpecialty(source.especialidad || source.specialty),
+        color: normalizeTechnicianColor(source.color)
+      };
+    }
+
+    function technicianKey(value) {
+      const technician = normalizeTechnician(value);
+      return technician ? technician.nombre.toLocaleLowerCase("es") : "";
+    }
+
+    function technicianNames(values) {
+      return normalizeTechnicians(values).map(item => item.nombre);
+    }
+
+    function enrichTechnicians(values) {
+      const catalog = new Map(technicians.map(item => [technicianKey(item), item]));
+      return normalizeTechnicians((Array.isArray(values) ? values : []).map(value => {
+        const normalized = normalizeTechnician(value);
+        return catalog.get(technicianKey(normalized)) || normalized;
+      }));
+    }
+
+    function normalizeTechnicians(values) {
+      const seen = new Set();
+      return (Array.isArray(values) ? values : [])
+        .map(normalizeTechnician)
+        .filter(item => {
+          const key = technicianKey(item);
+          if (!key || seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .sort((a, b) => a.nombre.localeCompare(b.nombre, "es", { sensitivity: "base" }));
+    }
+
+    function readLocalTechnicians() {
+      try {
+        return normalizeTechnicians(JSON.parse(localStorage.getItem(TECHNICIANS_KEY) || "[]"));
+      } catch {
+        return [];
+      }
+    }
+
+    function persistTechnicians() {
+      technicians = normalizeTechnicians(technicians);
+      localStorage.setItem(TECHNICIANS_KEY, JSON.stringify(technicians));
+    }
+
+    function renderTechnicianSelector() {
+      const box = document.getElementById("evento-tecnicos");
+      if (!box) return;
+      const selected = enrichTechnicians(selectedTechnicians);
+      const summary = selected.length
+        ? `<div class="technician-selector-summary">${selected.map(technician => `
+          <span class="technician-summary-chip" style="--technician-color:${escapeAttr(technician.color)}">
+            <span class="technician-color-dot" aria-hidden="true"></span>
+            ${escapeHtml(technician.nombre)}
+          </span>
+        `).join("")}</div>`
+        : "";
+      box.innerHTML = `
+        <button class="technician-selector-action" type="button" onclick="openTechnicianDialog()">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M19 8v6"></path><path d="M22 11h-6"></path></svg>
+          <span>Añadir técnicos</span>
+          <span class="technician-selector-count">${selected.length}</span>
+        </button>
+        ${summary}
+      `;
+      renderTechnicianPicker();
+    }
+
+    function technicianSpecialtyIcon(specialty) {
+      if (specialty === "SONIDO") {
+        return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14h3l4 4V6L7 10H4Z"></path><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>`;
+      }
+      if (specialty === "ILUMINACION") {
+        return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12.75V17h8v-2.25A7 7 0 0 0 12 2Z"></path></svg>`;
+      }
+      if (specialty === "SONIDO+ILUMINACION") {
+        return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 14h3l3 3V7l-3 3H3Z"></path><path d="M14 18h5"></path><path d="M15 21h3"></path><path d="M16.5 2a4.5 4.5 0 0 0-2.5 8.25V15h5v-4.75A4.5 4.5 0 0 0 16.5 2Z"></path></svg>`;
+      }
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18"></path><path d="M3 12h18"></path><circle cx="12" cy="12" r="9"></circle></svg>`;
+    }
+
+    function renderTechnicianPicker() {
+      const box = document.getElementById("technician-picker");
+      if (!box) return;
+      const selectedKeys = new Set(selectedTechnicians.map(technicianKey));
+      const groups = [
+        { id: "SONIDO", label: "SONIDO" },
+        { id: "ILUMINACION", label: "ILUMINACIÓN" },
+        { id: "SONIDO+ILUMINACION", label: "SONIDO + ILUMINACIÓN" },
+        { id: "AUXILIAR", label: "AUXILIAR" }
+      ];
+      box.innerHTML = groups.map(group => {
+        const items = technicians.filter(item => item.especialidad === group.id);
+        return `
+          <section class="technician-specialty-group">
+            <h3 class="technician-specialty-heading">${technicianSpecialtyIcon(group.id)}${group.label}</h3>
+            <div class="technician-picker-grid">
+              ${items.length ? items.map(technician => {
+                const selected = selectedKeys.has(technicianKey(technician));
+                return `<button class="technician-choice ${selected ? "selected" : ""}" style="--technician-color:${escapeAttr(technician.color)}" type="button" onclick="toggleTechnician(${escapeAttr(JSON.stringify(technician.nombre))})" aria-pressed="${selected}">
+          <span class="technician-color-dot" aria-hidden="true"></span>
+          <span class="technician-choice-name">${escapeHtml(technician.nombre)}</span>
+                </button>`;
+              }).join("") : `<div class="technician-picker-empty">No hay técnicos de ${escapeHtml(group.label.toLowerCase())} configurados.</div>`}
+            </div>
+          </section>
+        `;
+      }).join("");
+    }
+
+    function openTechnicianDialog() {
+      renderTechnicianPicker();
+      openModal(document.getElementById("technicianBackdrop"));
+    }
+
+    function closeTechnicianDialog() {
+      closeModal(document.getElementById("technicianBackdrop"));
+    }
+
+    function toggleTechnician(name) {
+      const key = technicianKey(name);
+      if (selectedTechnicians.some(item => technicianKey(item) === key)) {
+        selectedTechnicians = selectedTechnicians.filter(item => technicianKey(item) !== key);
+      } else {
+        const technician = technicians.find(item => technicianKey(item) === key) || normalizeTechnician(name);
+        if (technician) selectedTechnicians = normalizeTechnicians([...selectedTechnicians, technician]);
+      }
+      document.getElementById("evento-resp").value = technicianNames(selectedTechnicians).join(", ");
+      renderTechnicianSelector();
+      renderTechnicianPicker();
+    }
+
+    function renderTechnicianSettings() {
+      const box = document.getElementById("technician-settings-list");
+      if (!box) return;
+      if (!technicians.length) {
+        box.innerHTML = `<div class="empty">Todavía no hay técnicos configurados.</div>`;
+        return;
+      }
+      box.innerHTML = technicians.map(technician => `
+        <div class="technician-settings-item">
+          <div class="technician-settings-name" style="--technician-color:${escapeAttr(technician.color)}">
+            <span class="technician-color-dot" aria-hidden="true"></span>
+            <span>${escapeHtml(technician.nombre)}</span>
+          </div>
+          <select class="technician-specialty-select" aria-label="Especialidad de ${escapeAttr(technician.nombre)}" onchange="updateTechnician(${escapeAttr(JSON.stringify(technician.nombre))}, 'especialidad', this.value)">
+            <option value="SONIDO"${technician.especialidad === "SONIDO" ? " selected" : ""}>SONIDO</option>
+            <option value="ILUMINACION"${technician.especialidad === "ILUMINACION" ? " selected" : ""}>ILUMINACIÓN</option>
+            <option value="SONIDO+ILUMINACION"${technician.especialidad === "SONIDO+ILUMINACION" ? " selected" : ""}>SONIDO + ILUMINACIÓN</option>
+            <option value="AUXILIAR"${technician.especialidad === "AUXILIAR" ? " selected" : ""}>AUXILIAR</option>
+          </select>
+          <input class="technician-color-input" type="color" value="${escapeAttr(technician.color)}" aria-label="Color de ${escapeAttr(technician.nombre)}" onchange="updateTechnician(${escapeAttr(JSON.stringify(technician.nombre))}, 'color', this.value)">
+          <button class="technician-remove" type="button" onclick="removeTechnician(${escapeAttr(JSON.stringify(technician.nombre))})" aria-label="Eliminar ${escapeAttr(technician.nombre)}" title="Eliminar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="m19 6-1 14H6L5 6"></path><path d="M10 11v5"></path><path d="M14 11v5"></path></svg>
+          </button>
+        </div>
+      `).join("");
+    }
+
+    async function addTechnician() {
+      const input = document.getElementById("technician-name-input");
+      const name = String(input?.value || "").trim();
+      if (!name) {
+        input?.focus();
+        return;
+      }
+      if (technicians.some(item => technicianKey(item) === technicianKey(name))) {
+        notify("Técnico existente", "Ese nombre ya está configurado.", "warning");
+        return;
+      }
+      const technician = normalizeTechnician({
+        nombre: name,
+        especialidad: document.getElementById("technician-specialty-input")?.value,
+        color: document.getElementById("technician-color-input")?.value
+      });
+      technicians = normalizeTechnicians([...technicians, technician]);
+      persistTechnicians();
+      if (input) input.value = "";
+      renderTechnicianSettings();
+      renderTechnicianSelector();
+      const synced = await saveTechniciansToCloud();
+      notify(synced ? "Técnico añadido" : "Técnico añadido localmente", synced ? `${name} ya está disponible en todos los dispositivos.` : `${name} está disponible en este dispositivo, pero Google no confirmó el guardado.`, synced ? "success" : "warning");
+    }
+
+    async function updateTechnician(name, field, value) {
+      const key = technicianKey(name);
+      technicians = technicians.map(item => {
+        if (technicianKey(item) !== key) return item;
+        return normalizeTechnician({
+          ...item,
+          [field]: value
+        });
+      });
+      const updated = technicians.find(item => technicianKey(item) === key);
+      selectedTechnicians = selectedTechnicians.map(item => technicianKey(item) === key ? { ...updated } : item);
+      persistTechnicians();
+      renderTechnicianSettings();
+      renderTechnicianSelector();
+      const synced = await saveTechniciansToCloud();
+      notify(synced ? "Técnico actualizado" : "Cambio guardado localmente", synced ? `${name} se ha actualizado en Google Sheets.` : "Google no confirmó la sincronización.", synced ? "success" : "warning");
+    }
+
+    async function removeTechnician(name) {
+      const ok = await confirmDialog({
+        title: "Eliminar técnico",
+        message: `${name} dejará de aparecer en nuevos bolos. Los bolos guardados conservarán el nombre.`,
+        confirmText: "Eliminar",
+        cancelText: "Conservar",
+        danger: true
+      });
+      if (!ok) return;
+      const key = technicianKey(name);
+      technicians = technicians.filter(item => technicianKey(item) !== key);
+      selectedTechnicians = selectedTechnicians.filter(item => technicianKey(item) !== key);
+      persistTechnicians();
+      renderTechnicianSettings();
+      renderTechnicianSelector();
+      await saveTechniciansToCloud();
+      notify("Técnico eliminado", `${name} se ha quitado de la configuración.`, "success");
     }
 
     function toggleSidebar() {
@@ -5218,6 +6636,7 @@
       if (page === "home") renderHomeStats();
       if (page === "fichas") renderFichas();
       if (page === "inventario") renderInventory();
+      if (page === "configuracion") renderTechnicianSettings();
     }
 
     function hasUnsavedBolo() {
@@ -5225,11 +6644,15 @@
     }
 
     function getBoloSignature() {
-      const fieldIds = ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"];
+      const fieldIds = ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-notas"];
       return JSON.stringify({
         fields: Object.fromEntries(fieldIds.map(id => [id, document.getElementById(id).value.trim()])),
+        technicians: selectedTechnicians,
         material: Object.fromEntries(categories.map(cat => [cat.id, getRows(cat.id)])),
-        rider: currentRider ? { name: currentRider.name, size: currentRider.size, url: currentRider.url || "" } : null
+        bands: currentBands.map(band => ({
+          ...band,
+          rider: band.rider ? { name: band.rider.name, size: band.rider.size, url: band.rider.url || "" } : null
+        }))
       });
     }
 
@@ -5398,18 +6821,305 @@
     }
 
     function openRiderDialog() {
-      openRiderFilePicker();
-    }
-
-    function openRiderFilePicker() {
-      const input = document.getElementById("evento-rider");
-      if (!input) return;
-      input.value = "";
-      input.click();
+      resetBandEditor();
+      renderBandsUi();
+      openModal(document.getElementById("riderBackdrop"));
+      autoGrowAllTextareas(document.getElementById("riderBackdrop"));
     }
 
     function closeRiderDialog() {
       closeModal(document.getElementById("riderBackdrop"));
+    }
+
+    function normalizeBand(band = {}, index = 0) {
+      const order = Number(band.orden ?? band.order);
+      return {
+        id: band.id || `band-${Date.now()}-${index}`,
+        orden: Number.isFinite(order) && order > 0 ? Math.floor(order) : index + 1,
+        nombre: String(band.nombre || band.name || "Banda / artista").trim(),
+        horaLlegada: String(band.horaLlegada || band.arrival || ""),
+        horaPrueba: String(band.horaPrueba || band.soundcheck || ""),
+        inicioActuacion: String(band.inicioActuacion || band.performanceStart || ""),
+        duracionActuacion: String(band.duracionActuacion || band.performanceDuration || ""),
+        tecnicoSonido: Boolean(band.tecnicoSonido ?? band.soundTechnician),
+        tecnicoLuces: Boolean(band.tecnicoLuces ?? band.lightTechnician),
+        detalles: String(band.detalles || band.details || band.observaciones || "").trim(),
+        rider: band.rider ? { ...band.rider } : null
+      };
+    }
+
+    function normalizeBands(values, legacyRider = null) {
+      const bands = (Array.isArray(values) ? values : [])
+        .map(normalizeBand)
+        .sort((a, b) => a.orden - b.orden)
+        .map((band, index) => ({ ...band, orden: index + 1 }));
+      if (!bands.length && legacyRider) {
+        bands.push(normalizeBand({
+          id: "legacy-rider",
+          nombre: "Rider técnico",
+          rider: legacyRider
+        }));
+      }
+      return bands;
+    }
+
+    function resetBandEditor() {
+      editingBandId = null;
+      pendingBandRider = null;
+      bandTechnicalNeeds = { sound: false, lights: false };
+      ["band-name", "band-arrival", "band-soundcheck", "band-performance-start", "band-performance-duration", "band-details"].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) input.value = "";
+      });
+      const durationInput = document.getElementById("band-performance-duration");
+      if (durationInput) durationInput.value = "01:00";
+      const fileInput = document.getElementById("band-rider-file");
+      if (fileInput) fileInput.value = "";
+      autoGrowTextarea(document.getElementById("band-details"));
+      renderBandEditorState();
+    }
+
+    function renderBandEditorState() {
+      document.querySelectorAll("[data-band-field]").forEach(button => {
+        const field = button.dataset.bandField;
+        const value = button.dataset.value === "true";
+        button.classList.toggle("active", Boolean(bandTechnicalNeeds[field]) === value);
+        button.setAttribute("aria-pressed", String(Boolean(bandTechnicalNeeds[field]) === value));
+      });
+      const riderLabel = document.getElementById("band-rider-label");
+      if (riderLabel) riderLabel.textContent = pendingBandRider?.name || "Adjuntar rider técnico";
+      const saveLabel = document.getElementById("band-save-label");
+      if (saveLabel) saveLabel.textContent = editingBandId ? "Actualizar banda / artista" : "Añadir banda / artista";
+    }
+
+    function setBandTechnicalNeed(field, value) {
+      bandTechnicalNeeds[field] = Boolean(value);
+      renderBandEditorState();
+    }
+
+    function handleBandRiderFile(file) {
+      if (!file) return;
+      if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+        notify("Archivo no válido", "Adjunta un PDF como rider técnico.", "warning");
+        document.getElementById("band-rider-file").value = "";
+        return;
+      }
+      if (file.size > 12 * 1024 * 1024) {
+        notify("PDF demasiado grande", "Usa riders de hasta 12 MB.", "warning", 5200);
+        document.getElementById("band-rider-file").value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        pendingBandRider = {
+          name: file.name,
+          type: "application/pdf",
+          size: file.size,
+          dataUrl: reader.result
+        };
+        renderBandEditorState();
+        notify("Rider adjuntado", file.name, "success");
+      };
+      reader.onerror = () => notify("No se pudo leer el PDF", "Prueba a seleccionarlo de nuevo.", "error");
+      reader.readAsDataURL(file);
+    }
+
+    function saveBandEntry() {
+      const nameInput = document.getElementById("band-name");
+      const nombre = String(nameInput?.value || "").trim();
+      if (!nombre) {
+        notify("Falta el nombre", "Indica el nombre de la banda o artista.", "warning");
+        nameInput?.focus();
+        return;
+      }
+      const band = normalizeBand({
+        id: editingBandId || `band-${Date.now()}`,
+        orden: editingBandId
+          ? currentBands.find(item => item.id === editingBandId)?.orden
+          : currentBands.length + 1,
+        nombre,
+        horaLlegada: document.getElementById("band-arrival").value,
+        horaPrueba: document.getElementById("band-soundcheck").value,
+        inicioActuacion: document.getElementById("band-performance-start").value,
+        duracionActuacion: document.getElementById("band-performance-duration").value,
+        tecnicoSonido: bandTechnicalNeeds.sound,
+        tecnicoLuces: bandTechnicalNeeds.lights,
+        detalles: document.getElementById("band-details").value.trim(),
+        rider: pendingBandRider
+      });
+      const index = currentBands.findIndex(item => item.id === editingBandId);
+      if (index >= 0) currentBands[index] = band;
+      else currentBands.push(band);
+      currentBands = normalizeBands(currentBands);
+      resetBandEditor();
+      renderBandsUi();
+      notify(index >= 0 ? "Banda actualizada" : "Banda añadida", nombre, "success");
+    }
+
+    function editBandEntry(id) {
+      const band = currentBands.find(item => item.id === id);
+      if (!band) return;
+      editingBandId = band.id;
+      pendingBandRider = band.rider ? { ...band.rider } : null;
+      bandTechnicalNeeds = { sound: band.tecnicoSonido, lights: band.tecnicoLuces };
+      document.getElementById("band-name").value = band.nombre || "";
+      document.getElementById("band-arrival").value = band.horaLlegada || "";
+      document.getElementById("band-soundcheck").value = band.horaPrueba || "";
+      document.getElementById("band-performance-start").value = band.inicioActuacion || "";
+      document.getElementById("band-performance-duration").value = band.duracionActuacion || "01:00";
+      document.getElementById("band-details").value = band.detalles || "";
+      autoGrowTextarea(document.getElementById("band-details"));
+      renderBandEditorState();
+      document.getElementById("band-name")?.focus();
+    }
+
+    async function removeBandEntry(id) {
+      const band = currentBands.find(item => item.id === id);
+      if (!band) return;
+      const ok = await confirmDialog({
+        title: "Eliminar banda / artista",
+        message: `${band.nombre} y sus datos se quitarán de este bolo.`,
+        confirmText: "Eliminar",
+        cancelText: "Conservar",
+        danger: true
+      });
+      if (!ok) return;
+      currentBands = currentBands.filter(item => item.id !== id);
+      currentBands = normalizeBands(currentBands);
+      if (editingBandId === id) resetBandEditor();
+      renderBandsUi();
+    }
+
+    function moveBandEntry(id, direction) {
+      const index = currentBands.findIndex(item => item.id === id);
+      const target = index + Number(direction);
+      if (index < 0 || target < 0 || target >= currentBands.length) return;
+      const reordered = [...currentBands];
+      [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+      currentBands = reordered.map((band, bandIndex) => ({ ...band, orden: bandIndex + 1 }));
+      renderBandsUi();
+    }
+
+    function downloadBandRider(id) {
+      const band = currentBands.find(item => item.id === id);
+      downloadRider(band?.rider);
+    }
+
+    function bandMetaIcon(type) {
+      const icons = {
+        arrival: `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>`,
+        soundcheck: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>`,
+        performance: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"></path></svg>`,
+        duration: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2h6"></path><path d="M12 14V9"></path><circle cx="12" cy="14" r="8"></circle></svg>`,
+        sound: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14h3l4 4V6L7 10H4Z"></path><path d="M15 9a5 5 0 0 1 0 6"></path><path d="M18 6a9 9 0 0 1 0 12"></path></svg>`,
+        lights: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12.75V17h8v-2.25A7 7 0 0 0 12 2Z"></path></svg>`,
+        rider: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M9 15h6"></path></svg>`
+      };
+      const icon = icons[type] || "";
+      return icon ? `<span class="band-chip-icon">${icon}</span>` : "";
+    }
+
+    function buildBandMetaChips(band) {
+      return [
+        band.horaLlegada ? `<span class="band-chip">${bandMetaIcon("arrival")}Llegada ${escapeHtml(band.horaLlegada)}</span>` : "",
+        band.horaPrueba ? `<span class="band-chip">${bandMetaIcon("soundcheck")}Prueba ${escapeHtml(band.horaPrueba)}</span>` : "",
+        band.inicioActuacion ? `<span class="band-chip">${bandMetaIcon("performance")}Actuación ${escapeHtml(band.inicioActuacion)}</span>` : "",
+        band.duracionActuacion ? `<span class="band-chip">${bandMetaIcon("duration")}Duración ${escapeHtml(band.duracionActuacion)}</span>` : "",
+        band.tecnicoSonido ? `<span class="band-chip required">${bandMetaIcon("sound")}Trae técnico de sonido</span>` : "",
+        band.tecnicoLuces ? `<span class="band-chip required">${bandMetaIcon("lights")}Trae técnico de iluminación</span>` : "",
+        band.rider ? `<span class="band-chip">${bandMetaIcon("rider")}Rider PDF</span>` : ""
+      ].join("");
+    }
+
+    function buildBandDetailsMarkup(band) {
+      if (!band.detalles) return "";
+      return `<div class="band-details"><strong>Otros detalles</strong>${escapeHtml(band.detalles)}</div>`;
+    }
+
+    function buildBandsRoadmapMarkup(bands) {
+      return bands.map((band, index) => {
+        const support = [
+          band.tecnicoSonido ? `<span class="band-chip required">${bandMetaIcon("sound")}Técnico de sonido propio</span>` : "",
+          band.tecnicoLuces ? `<span class="band-chip required">${bandMetaIcon("lights")}Técnico de iluminación propio</span>` : "",
+          buildRiderDetailLink(band.rider, "Rider")
+        ].filter(Boolean).join("");
+        return `
+          <article class="roadmap-row">
+            <div class="roadmap-order" aria-label="Orden ${index + 1}">${index + 1}</div>
+            <div class="roadmap-artist">
+              <small>Banda / artista</small>
+              <strong>${escapeHtml(band.nombre)}</strong>
+            </div>
+            <div class="roadmap-time"><span>Llegada</span><strong>${escapeHtml(band.horaLlegada || "—")}</strong></div>
+            <div class="roadmap-time"><span>Prueba</span><strong>${escapeHtml(band.horaPrueba || "—")}</strong></div>
+            <div class="roadmap-time"><span>Actuación</span><strong>${escapeHtml(band.inicioActuacion || "—")}</strong></div>
+            <div class="roadmap-time"><span>Duración</span><strong>${escapeHtml(band.duracionActuacion || "—")}</strong></div>
+            <div class="roadmap-support">${support || `<span>Sin técnico propio ni rider</span>`}</div>
+            ${band.detalles ? `<div class="roadmap-details"><strong>Detalles:</strong> ${escapeHtml(band.detalles)}</div>` : ""}
+          </article>
+        `;
+      }).join("");
+    }
+
+    function switchNewBoloSummary(panel, button) {
+      const selected = panel === "roadmap" ? "roadmap" : "material";
+      document.querySelectorAll(".new-bolo-summary-switcher .detail-content-tab").forEach(tab => {
+        const active = tab === button;
+        tab.classList.toggle("active", active);
+        tab.setAttribute("aria-selected", String(active));
+      });
+      document.getElementById("new-bolo-material-summary")?.classList.toggle("active", selected === "material");
+      document.getElementById("new-bolo-roadmap-summary")?.classList.toggle("active", selected === "roadmap");
+    }
+
+    function renderNewBoloRoadmap() {
+      const list = document.getElementById("new-bolo-roadmap-list");
+      const count = document.getElementById("new-bolo-band-count");
+      if (count) count.textContent = String(currentBands.length);
+      if (!list) return;
+      if (!currentBands.length) {
+        list.innerHTML = `<div class="roadmap-empty">Añade bandas o artistas para crear la hoja de ruta del bolo.</div>`;
+        return;
+      }
+      list.innerHTML = buildBandsRoadmapMarkup(currentBands);
+    }
+
+    function renderBandsUi() {
+      const list = document.getElementById("band-list");
+      const cardStatus = document.getElementById("rider-card-status");
+      if (cardStatus) {
+        const count = currentBands.length;
+        cardStatus.textContent = count ? `${count} ${count === 1 ? "banda / artista" : "bandas / artistas"}` : "Sin añadir";
+      }
+      renderNewBoloRoadmap();
+      if (!list) return;
+      if (!currentBands.length) {
+        list.innerHTML = `<div class="band-empty">Todavía no hay bandas o artistas añadidos.</div>`;
+        renderBandEditorState();
+        return;
+      }
+      list.innerHTML = currentBands.map((band, index) => `
+        <div class="band-item ordered">
+          <div class="band-order" aria-label="Orden ${index + 1}">${index + 1}</div>
+          <div class="band-item-main">
+            <strong>${escapeHtml(band.nombre)}</strong>
+            <div class="band-item-meta">
+              ${buildBandMetaChips(band)}
+            </div>
+            ${buildBandDetailsMarkup(band)}
+          </div>
+          <div class="band-item-actions">
+            <div class="band-order-actions" aria-label="Cambiar orden de ${escapeAttr(band.nombre)}">
+              <button type="button" onclick="moveBandEntry('${escapeAttr(band.id)}', -1)" aria-label="Subir ${escapeAttr(band.nombre)}" title="Subir" ${index === 0 ? "disabled" : ""}><svg viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"></path></svg></button>
+              <button type="button" onclick="moveBandEntry('${escapeAttr(band.id)}', 1)" aria-label="Bajar ${escapeAttr(band.nombre)}" title="Bajar" ${index === currentBands.length - 1 ? "disabled" : ""}><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></button>
+            </div>
+            ${band.rider ? `<button type="button" onclick="downloadBandRider('${escapeAttr(band.id)}')" aria-label="Descargar rider" title="Descargar rider"><svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg></button>` : ""}
+            <button type="button" onclick="editBandEntry('${escapeAttr(band.id)}')" aria-label="Editar banda" title="Editar"><svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path></svg></button>
+            <button class="danger" type="button" onclick="removeBandEntry('${escapeAttr(band.id)}')" aria-label="Eliminar banda" title="Eliminar"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="m19 6-1 14H6L5 6"></path></svg></button>
+          </div>
+        </div>
+      `).join("");
+      renderBandEditorState();
     }
 
     function addBulkRows() {
@@ -5578,11 +7288,13 @@
     }
 
     function renderBoloSummary() {
+      let materialTotal = 0;
       categories.forEach(cat => {
         const section = document.getElementById("section-" + cat.id);
         const tbody = document.getElementById("tbody-" + cat.id);
         if (!tbody) return;
         const rows = boloMaterial[cat.id] || [];
+        materialTotal += rows.reduce((total, row) => total + (Number(row.cantidad) || 0), 0);
         if (section) section.classList.toggle("active", rows.length > 0);
         if (!rows.length) {
           tbody.innerHTML = "";
@@ -5596,6 +7308,8 @@
           </tr>
         `).join("");
       });
+      const count = document.getElementById("new-bolo-material-count");
+      if (count) count.textContent = String(materialTotal);
     }
 
 
@@ -5625,64 +7339,6 @@
       notify("Material completo seleccionado", "Se han marcado todas las unidades disponibles.", "success");
     }
 
-    function handleRiderFile(file) {
-      if (!file) return;
-      if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
-        notify("Archivo no válido", "Adjunta un PDF como rider técnico.", "warning");
-        document.getElementById("evento-rider").value = "";
-        return;
-      }
-      const maxSize = 12 * 1024 * 1024;
-      if (file.size > maxSize) {
-        notify("PDF demasiado grande", "Para guardar en Drive desde la app usa riders de hasta 12 MB.", "warning", 5200);
-        document.getElementById("evento-rider").value = "";
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        currentRider = {
-          name: file.name,
-          type: "application/pdf",
-          size: file.size,
-          dataUrl: reader.result
-        };
-        renderRiderUi();
-        notify("Rider adjuntado", file.name, "success");
-      };
-      reader.onerror = () => notify("No se pudo leer el PDF", "Prueba a seleccionarlo de nuevo.", "error");
-      reader.readAsDataURL(file);
-    }
-
-    function renderRiderUi() {
-      const box = document.getElementById("rider-actions");
-      const cardStatus = document.getElementById("rider-card-status");
-      if (cardStatus) {
-        cardStatus.textContent = currentRider ? currentRider.name || "PDF adjunto" : "Sin adjuntar";
-      }
-      if (!box) return;
-      if (!currentRider) {
-        box.innerHTML = `<span class="rider-status">Sin rider adjunto.</span>`;
-        return;
-      }
-      const size = formatFileSize(currentRider.size);
-      box.innerHTML = `
-        <span class="rider-status">${escapeHtml(currentRider.name)}${size ? ` · ${size}` : ""}</span>
-        <button class="btn" type="button" onclick="downloadCurrentRider()">Descargar</button>
-        <button class="btn btn-danger" type="button" onclick="removeCurrentRider()">Quitar</button>
-      `;
-    }
-
-    function removeCurrentRider() {
-      currentRider = null;
-      const input = document.getElementById("evento-rider");
-      if (input) input.value = "";
-      renderRiderUi();
-    }
-
-    function downloadCurrentRider() {
-      downloadRider(currentRider);
-    }
-
     function downloadRider(rider) {
       if (!rider) return;
       if (rider.downloadUrl || rider.url) {
@@ -5697,12 +7353,6 @@
         link.click();
         link.remove();
       }
-    }
-
-    function formatFileSize(bytes) {
-      if (!bytes) return "";
-      if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
-      return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
     }
 
     function getRows(tipo) {
@@ -5779,6 +7429,8 @@
     }
 
     function buildCurrentFicha(status = "guardada") {
+      const associatedTechnicians = normalizeTechnicians(selectedTechnicians);
+      const associatedTechnicianNames = technicianNames(associatedTechnicians);
       const ficha = {
         id: editingBoloId || Date.now(),
         status,
@@ -5788,9 +7440,10 @@
         lugar: document.getElementById("evento-lugar").value.trim(),
         telefonoLugar: document.getElementById("evento-telefono-lugar").value.trim(),
         contactoLugar: document.getElementById("evento-contacto-lugar").value.trim(),
-        resp: document.getElementById("evento-resp").value.trim(),
+        tecnicos: associatedTechnicians,
+        resp: associatedTechnicianNames.join(", "),
         notas: document.getElementById("evento-notas").value.trim(),
-        rider: currentRider ? { ...currentRider } : null,
+        bandas: currentBands.map(band => normalizeBand(band)),
         material: {}
       };
 
@@ -5800,16 +7453,38 @@
 
     function normalizeBoloFicha(ficha = {}) {
       if (!ficha) return null;
+      const normalizedTechnicians = enrichTechnicians(
+        Array.isArray(ficha.tecnicos)
+          ? ficha.tecnicos
+          : String(ficha.resp || ficha.responsableCarga || "").split(",")
+      );
+      const normalizedBands = normalizeBands(ficha.bandas || ficha.bands, ficha.rider);
       return {
         ...ficha,
         horaLlegada: ficha.horaLlegada || ficha.hora_llegada || ficha.hora || "",
         telefonoLugar: ficha.telefonoLugar || ficha.telefono_lugar || ficha.telefonoResponsableLugar || ficha.telefono || "",
         contactoLugar: ficha.contactoLugar || ficha.contacto_lugar || ficha.nombreContactoLugar || ficha.contacto || "",
+        tecnicos: normalizedTechnicians,
+        resp: technicianNames(normalizedTechnicians).join(", "),
+        bandas: normalizedBands,
+        rider: null,
         material: Object.fromEntries(categories.map(cat => [
           cat.id,
           (ficha.material?.[cat.id] || []).map(normalizeBoloRow)
         ]))
       };
+    }
+
+    function buildTechnicianDetailMarkup(values) {
+      const items = enrichTechnicians(values);
+      if (!items.length) return `<strong>Sin técnicos</strong>`;
+      return `<div class="technician-detail-list">${items.map(item => `
+        <span class="technician-detail-chip" style="--technician-color:${escapeAttr(item.color)}">
+          <span class="technician-color-dot" aria-hidden="true"></span>
+          <span>${escapeHtml(item.nombre)}</span>
+          <small>${escapeHtml(technicianSpecialtyLabel(item.especialidad))}</small>
+        </span>
+      `).join("")}</div>`;
     }
 
     async function saveFicha(status, options = {}) {
@@ -5903,8 +7578,13 @@
         } catch (error) {
           notify("Bolo guardado en este navegador", "No se pudo sincronizar con Google Sheets, pero voy a generar el PDF igualmente.", "warning", 5200);
         }
-        if (ficha.rider?.dataUrl && !cloudSaved) {
-          ficha.rider = { name: ficha.rider.name, type: ficha.rider.type, size: ficha.rider.size };
+        if (!cloudSaved) {
+          ficha.bandas = (ficha.bandas || []).map(band => ({
+            ...band,
+            rider: band.rider?.dataUrl
+              ? { name: band.rider.name, type: band.rider.type, size: band.rider.size }
+              : band.rider
+          }));
         }
         persistFichas();
       }
@@ -6088,10 +7768,10 @@
         ["Bolo", ficha.nombre],
         ["Fecha", ficha.fecha],
         ["Hora llegada", ficha.horaLlegada],
-        ["Lugar", ficha.lugar],
-        ["Contacto lugar", ficha.contactoLugar],
-        ["Tel. lugar", ficha.telefonoLugar],
-        ["Responsable carga", ficha.resp]
+        ["Recinto / ubicación", ficha.lugar],
+        ["Responsable del recinto", ficha.contactoLugar],
+        ["Tel. recinto", ficha.telefonoLugar],
+        ["Técnicos", ficha.resp]
       ]);
       let fieldY = y + 48;
       headerFields.forEach(field => {
@@ -6295,15 +7975,17 @@
 
     function resetForm() {
       ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
-      currentRider = null;
-      const riderInput = document.getElementById("evento-rider");
-      if (riderInput) riderInput.value = "";
-      renderRiderUi();
+      selectedTechnicians = [];
+      renderTechnicianSelector();
+      currentBands = [];
+      resetBandEditor();
+      renderBandsUi();
       boloMaterial = emptyBoloMaterial();
       categories.forEach(cat => rowCounters[cat.id] = 0);
       renderBoloSummary();
       editingBoloId = null;
       lastSavedBoloSignature = getBoloSignature();
+      autoGrowAllTextareas();
     }
 
     function loadFichaIntoForm(ficha, options = {}) {
@@ -6316,13 +7998,15 @@
         document.getElementById("evento-lugar").value = ficha.lugar || "";
         document.getElementById("evento-telefono-lugar").value = ficha.telefonoLugar || "";
         document.getElementById("evento-contacto-lugar").value = ficha.contactoLugar || "";
-        document.getElementById("evento-resp").value = ficha.resp || "";
         document.getElementById("evento-notas").value = ficha.notas || "";
       }
-      currentRider = ficha.rider ? { ...ficha.rider } : null;
-      const riderInput = document.getElementById("evento-rider");
-      if (riderInput) riderInput.value = "";
-      renderRiderUi();
+      selectedTechnicians = normalizeTechnicians(ficha.tecnicos || []);
+      document.getElementById("evento-resp").value = technicianNames(selectedTechnicians).join(", ");
+      renderTechnicianSelector();
+      autoGrowAllTextareas();
+      currentBands = normalizeBands(ficha.bandas, ficha.rider);
+      resetBandEditor();
+      renderBandsUi();
       boloMaterial = emptyBoloMaterial();
       categories.forEach(cat => {
         rowCounters[cat.id] = 0;
@@ -6341,12 +8025,12 @@
       if (count) count.textContent = `${filtered.length} de ${fichas.length} bolo${fichas.length === 1 ? "" : "s"}`;
       if (fichas.length === 0) {
         box.className = "";
-        box.innerHTML = `<div class="empty">No hay bolos guardados todavia.</div>`;
+        box.innerHTML = `<div class="empty">No hay bolos guardados todavía.</div>`;
         return;
       }
       if (filtered.length === 0) {
         box.className = "";
-        box.innerHTML = `<div class="empty">No hay bolos que coincidan con la busqueda o filtros.</div>`;
+        box.innerHTML = `<div class="empty">No hay bolos que coincidan con la búsqueda o los filtros.</div>`;
         return;
       }
       box.className = "saved-list";
@@ -6415,7 +8099,7 @@
           ficha.contactoLugar,
           ficha.resp,
           ficha.notas,
-          ficha.rider?.name,
+          (ficha.bandas || []).flatMap(band => [band.nombre, band.horaLlegada, band.horaPrueba, band.inicioActuacion, band.duracionActuacion, band.rider?.name]).join(" "),
           categories.flatMap(cat => (ficha.material?.[cat.id] || []).flatMap(row => [row.nombre, row.modelo, row.notas])).join(" ")
         ].join(" ")).includes(query);
       }).sort(compareFichasByTimeline);
@@ -6569,12 +8253,6 @@
       };
     }
 
-    function countFichaItems(ficha) {
-      return categories.reduce((sum, cat) => {
-        return sum + (ficha.material?.[cat.id] || []).reduce((total, row) => total + (Number(row.cantidad) || 0), 0);
-      }, 0);
-    }
-
     function getUsedCategories(ficha) {
       return categories.filter(cat => (ficha.material?.[cat.id] || []).length > 0);
     }
@@ -6582,9 +8260,9 @@
     function buildCategoryTags(ficha) {
       const used = getUsedCategories(ficha);
       const tags = used.map(cat => ({ label: cat.label, icon: categoryIcon(cat.id) }));
-      if (ficha.rider) {
+      if ((ficha.bandas || []).length) {
         tags.push({
-          label: "Rider",
+          label: "Bandas / artistas",
           icon: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M9 15h6"></path><path d="M9 18h4"></path></svg>`
         });
       }
@@ -6634,6 +8312,10 @@
     }
 
     function buildFichaDetailMarkup(ficha) {
+      const usedCategories = getUsedCategories(ficha);
+      const materialCount = usedCategories.reduce((total, cat) => total + (ficha.material?.[cat.id] || []).length, 0);
+      const bandCount = (ficha.bandas || []).length;
+      const defaultPanel = materialCount ? "material" : "bands";
       return `
         <div class="detail-print-card">
           <div class="detail-print-header">
@@ -6645,19 +8327,56 @@
           <div class="detail-print-content">
             ${buildFichaDetailQuickActions(ficha)}
             <div class="detail-summary">
-              <div class="detail-field"><span>Fecha del evento</span><strong>${escapeHtml(ficha.fecha || "Sin fecha")}</strong></div>
+              <div class="detail-field"><span>Fecha</span><strong>${escapeHtml(ficha.fecha || "Sin fecha")}</strong></div>
               <div class="detail-field"><span>Hora de llegada</span><strong>${escapeHtml(ficha.horaLlegada || "Sin hora")}</strong></div>
-              <div class="detail-field"><span>Lugar del evento</span><strong>${escapeHtml(ficha.lugar || "Sin lugar")}</strong></div>
-              <div class="detail-field"><span>Contacto lugar</span><strong>${escapeHtml(ficha.contactoLugar || "Sin contacto")}</strong></div>
-              <div class="detail-field"><span>Teléfono lugar</span><strong>${escapeHtml(ficha.telefonoLugar || "Sin teléfono")}</strong></div>
-              <div class="detail-field"><span>Responsable carga</span><strong>${escapeHtml(ficha.resp || "Sin responsable")}</strong></div>
+              <div class="detail-field"><span>Recinto / ubicación</span><strong>${escapeHtml(ficha.lugar || "Sin ubicación")}</strong></div>
+              <div class="detail-field"><span>Responsable del recinto</span><strong>${escapeHtml(ficha.contactoLugar || "Sin contacto")}</strong></div>
+              <div class="detail-field"><span>Teléfono del recinto</span><strong>${escapeHtml(ficha.telefonoLugar || "Sin teléfono")}</strong></div>
+              <div class="detail-field technician-detail-field"><span>Técnicos</span>${buildTechnicianDetailMarkup(ficha.tecnicos || [])}</div>
             </div>
             ${ficha.notas ? `<div class="detail-field"><span>Notas generales</span><strong>${escapeHtml(ficha.notas)}</strong></div>` : ""}
-            ${buildRiderDetailLink(ficha.rider)}
-            ${getUsedCategories(ficha).length ? getUsedCategories(ficha).map(cat => buildFichaDetailSection(ficha, cat, ficha.material?.[cat.id] || [])).join("") : `<div class="detail-empty">Sin material asignado.</div>`}
+            <div class="detail-content-switcher" role="tablist" aria-label="Contenido del bolo">
+              <button class="detail-content-tab ${defaultPanel === "material" ? "active" : ""}" type="button" role="tab" aria-selected="${defaultPanel === "material"}" onclick="switchFichaDetailPanel('material', this)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+                <span class="detail-content-tab-copy"><strong>Material</strong><small>Lista de carga</small></span>
+                <span class="detail-content-count">${materialCount}</span>
+              </button>
+              <button class="detail-content-tab ${defaultPanel === "bands" ? "active" : ""}" type="button" role="tab" aria-selected="${defaultPanel === "bands"}" onclick="switchFichaDetailPanel('bands', this)">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                <span class="detail-content-tab-copy"><strong>Bandas / artistas</strong><small>Horarios y riders</small></span>
+                <span class="detail-content-count">${bandCount}</span>
+              </button>
+            </div>
+            <div class="detail-content-panel detail-material-panel ${defaultPanel === "material" ? "active" : ""}" data-detail-panel="material" role="tabpanel">
+              <h3 class="detail-content-heading">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+                Material del bolo
+              </h3>
+              ${usedCategories.length ? usedCategories.map(cat => buildFichaDetailSection(ficha, cat, ficha.material?.[cat.id] || [])).join("") : `<div class="detail-empty">Sin material asignado.</div>`}
+            </div>
+            <div class="detail-content-panel detail-bands-panel ${defaultPanel === "bands" ? "active" : ""}" data-detail-panel="bands" role="tabpanel">
+              <h3 class="detail-content-heading">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                Bandas / artistas
+              </h3>
+              ${buildBandsDetailMarkup(ficha.bandas || [])}
+            </div>
           </div>
         </div>
       `;
+    }
+
+    function switchFichaDetailPanel(panel, button) {
+      const body = document.getElementById("fichaDetailBody");
+      if (!body) return;
+      body.querySelectorAll(".detail-content-tab").forEach(tab => {
+        const active = tab === button;
+        tab.classList.toggle("active", active);
+        tab.setAttribute("aria-selected", String(active));
+      });
+      body.querySelectorAll("[data-detail-panel]").forEach(content => {
+        content.classList.toggle("active", content.dataset.detailPanel === panel);
+      });
     }
 
     function buildFichaDetailQuickActions(ficha) {
@@ -6682,7 +8401,7 @@
       return actions.length ? `<div class="detail-quick-actions">${actions.join("")}</div>` : "";
     }
 
-    function buildRiderDetailLink(rider) {
+    function buildRiderDetailLink(rider, label = "Rider técnico") {
       if (!rider) return "";
       const href = rider.downloadUrl || rider.url || rider.dataUrl || "";
       if (!href) return "";
@@ -6690,9 +8409,14 @@
       return `
         <a class="rider-link" href="${escapeAttr(href)}"${download}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 18v-6"></path><path d="m9 15 3 3 3-3"></path></svg>
-          Rider técnico: ${escapeHtml(rider.name || "PDF")}
+          ${escapeHtml(label)}: ${escapeHtml(rider.name || "PDF")}
         </a>
       `;
+    }
+
+    function buildBandsDetailMarkup(bands) {
+      if (!bands.length) return `<div class="detail-empty">No hay bandas o artistas añadidos.</div>`;
+      return `<div class="roadmap-list">${buildBandsRoadmapMarkup(normalizeBands(bands))}</div>`;
     }
 
     function buildFichaDetailSection(ficha, cat, rows) {
@@ -6792,10 +8516,10 @@
         ["Bolo", ficha.nombre],
         ["Fecha", ficha.fecha],
         ["Hora llegada", ficha.horaLlegada],
-        ["Lugar", ficha.lugar],
-        ["Contacto lugar", ficha.contactoLugar],
-        ["Tel. lugar", ficha.telefonoLugar],
-        ["Responsable carga", ficha.resp]
+        ["Recinto / ubicación", ficha.lugar],
+        ["Responsable del recinto", ficha.contactoLugar],
+        ["Tel. recinto", ficha.telefonoLugar],
+        ["Técnicos", ficha.resp]
       ].map(([label, value]) => printField(label, value)).join("");
       return `
         <div class="print-header">
@@ -6806,7 +8530,7 @@
           </div>
         </div>
         ${ficha.notas ? `<div class="print-notes"><b>Notas:</b> ${escapeHtml(ficha.notas)}</div>` : ""}
-        ${ficha.rider ? `<div class="print-notes"><b>Rider técnico:</b> ${escapeHtml(ficha.rider.name || "PDF adjunto")}</div>` : ""}
+        ${(ficha.bandas || []).length ? `<div class="print-notes"><b>Bandas / artistas:</b> ${escapeHtml(ficha.bandas.map(band => band.nombre).join(", "))}</div>` : ""}
         ${getUsedCategories(ficha).map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("") || `<section class="print-section"><h2>Sin material</h2></section>`}
         <div class="print-footer">Generado por SENORP &bull; ${new Date().toLocaleDateString("es-ES")}</div>
       `;
@@ -6986,7 +8710,7 @@
                 </button>
               </div>
             </div>
-          `).join("") : `<div class="empty">No hay modelos que coincidan con la busqueda.</div>`}
+          `).join("") : `<div class="empty">No hay modelos que coincidan con la búsqueda.</div>`}
         </div>
       `;
     }
@@ -7141,14 +8865,30 @@
         const response = await fetch(cloudUrl);
         if (!response.ok) throw new Error("No se pudo leer la hoja.");
         const data = await response.json();
+        const supportsTechnicians = Number(data.apiVersion || 0) >= 2
+          || (Array.isArray(data.capabilities) && data.capabilities.includes("technicians"))
+          || Object.prototype.hasOwnProperty.call(data, "tecnicos")
+          || Object.prototype.hasOwnProperty.call(data, "technicians");
+        cloudSupportsCombinedTechnicians = Number(data.apiVersion || 0) >= 3
+          || (Array.isArray(data.capabilities) && data.capabilities.includes("technician-specialties-v2"));
         DB = normalizeInventory(data.inventory || emptyInventory());
+        const cloudTechnicians = data.tecnicos || data.technicians;
+        if (Array.isArray(cloudTechnicians)) {
+          technicians = normalizeTechnicians(cloudTechnicians);
+          persistTechnicians();
+        }
         fichas = (Array.isArray(data.bolos) ? data.bolos : []).map(ficha => normalizeBoloFicha({ ...ficha, status: "guardada" }));
         persistFichas();
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(DB));
         resetForm();
         renderCategoryUi();
         renderInventory();
+        renderTechnicianSettings();
+        renderTechnicianSelector();
         updateCount();
+        if (!supportsTechnicians) {
+          notify("Apps Script sin actualizar", "La implementación publicada todavía no admite técnicos. Actualiza google_apps_script_senorp.js y crea una nueva implementación.", "warning", 9000);
+        }
         if (!options.silent) notify("Datos sincronizados", "Inventario y bolos guardados se han recargado desde Google Sheets.", "success");
         return true;
       } catch (error) {
@@ -7166,7 +8906,7 @@
     async function saveInventoryToCloud(options = {}) {
       cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) {
-        if (!options.silent) notify("Sin conexion", "Configura la URL en senorp_config.js antes de guardar en Google Sheets.", "warning");
+        if (!options.silent) notify("Sin conexión", "Configura la URL en senorp_config.js antes de guardar en Google Sheets.", "warning");
         return;
       }
       try {
@@ -7184,33 +8924,113 @@
       if (cloudUrl) notify("Guardado solicitado", "La app ha enviado el inventario actual a Google Sheets.", "success");
     }
 
+    async function saveTechniciansToCloud(options = {}) {
+      persistTechnicians();
+      const requestedRevision = ++technicianSyncRevision;
+      cloudUrl = getConfiguredCloudUrl();
+      if (!cloudUrl) {
+        if (!options.silent) notify("Sin conexión", "Los técnicos se han guardado en este navegador, pero falta configurar Google Sheets.", "warning");
+        return false;
+      }
+      if (technicians.some(item => item.especialidad === "SONIDO+ILUMINACION") && !cloudSupportsCombinedTechnicians) {
+        if (!options.silent) {
+          notify(
+            "Apps Script pendiente de actualizar",
+            "Google todavía no admite SONIDO + ILUMINACIÓN. Publica la nueva versión de google_apps_script_senorp.js antes de guardar esta especialidad.",
+            "warning",
+            8500
+          );
+        }
+        return false;
+      }
+
+      if (!technicianSyncPromise) {
+        technicianSyncPromise = (async () => {
+          while (technicianSyncedRevision < technicianSyncRevision) {
+            const targetRevision = technicianSyncRevision;
+            const snapshot = normalizeTechnicians(technicians);
+            const data = await cloudPost({
+              action: "saveTechnicians",
+              tecnicos: snapshot
+            });
+            if (Array.isArray(data?.tecnicos)) {
+              const saved = normalizeTechnicians(data.tecnicos);
+              if (JSON.stringify(saved) !== JSON.stringify(snapshot)) {
+                throw new Error("Google devolvió una lista de técnicos diferente a la enviada.");
+              }
+            }
+            technicianSyncedRevision = targetRevision;
+          }
+          return true;
+        })().finally(() => {
+          technicianSyncPromise = null;
+        });
+      }
+
+      try {
+        await withLoading("Guardando técnicos", "Sincronizando la lista con Google Sheets...", () => technicianSyncPromise);
+        return technicianSyncedRevision >= requestedRevision;
+      } catch (error) {
+        console.error("Error guardando técnicos:", error);
+        if (!options.silent) notify("Técnicos no sincronizados", "Google no confirmó correctamente la lista. Los cambios siguen guardados en este navegador.", "error", 7000);
+        return false;
+      }
+    }
+
     async function saveBoloToCloud(ficha, options = {}) {
       cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) {
         throw new Error("Sin Google Sheets");
       }
       try {
-        await prepareRiderForCloud(ficha);
+        const riderWarnings = await prepareBandRidersForCloud(ficha);
         await cloudPost({ action: "saveBolo", bolo: ficha });
+        if (riderWarnings.length && !options.silent) {
+          notify("Bolo guardado sin algún rider", riderWarnings.join(" · "), "warning", 6500);
+        }
       } catch (error) {
-        if (!options.silent) notify("Bolo no sincronizado", "No se pudo guardar el bolo en Google Sheets.", "error");
+        console.error("Error guardando bolo:", error);
+        if (!options.silent) {
+          const localFileHint = location.protocol === "file:"
+            ? " Abre la app desde GitHub Pages o un servidor local http:// para evitar bloqueos de seguridad de Chrome."
+            : "";
+          notify("Bolo no sincronizado", `No se pudo guardar en Google Sheets.${localFileHint}`, "error", 7500);
+        }
         throw error;
       }
     }
 
-    async function prepareRiderForCloud(ficha) {
-      if (!ficha?.rider?.dataUrl) return;
-      const data = await cloudPost({
-        action: "uploadRider",
-        boloId: ficha.id,
-        rider: ficha.rider
-      });
-      ficha.rider = data.rider || {
-        name: ficha.rider.name,
-        type: ficha.rider.type,
-        size: ficha.rider.size
-      };
-      currentRider = { ...ficha.rider };
+    async function prepareBandRidersForCloud(ficha) {
+      const warnings = [];
+      if (!Array.isArray(ficha?.bandas)) return warnings;
+      for (const band of ficha.bandas) {
+        if (!band.rider?.dataUrl) continue;
+        try {
+          const data = await cloudPost({
+            action: "uploadRider",
+            boloId: `${ficha.id}-${band.id}`,
+            rider: band.rider
+          });
+          if (!data.rider?.url && !data.rider?.downloadUrl) {
+            throw new Error("Google Drive no devolvió el enlace del rider.");
+          }
+          band.rider = data.rider;
+          if (data.rider.sharingWarning) {
+            warnings.push(`${band.nombre}: ${data.rider.sharingWarning}`);
+          }
+        } catch (error) {
+          console.error(`No se pudo subir el rider de ${band.nombre}:`, error);
+          warnings.push(`Rider de ${band.nombre} no subido: ${error.message || "error desconocido"}`);
+          band.rider = {
+            name: band.rider.name,
+            type: band.rider.type,
+            size: band.rider.size
+          };
+        }
+      }
+      currentBands = ficha.bandas.map(band => normalizeBand(band));
+      renderBandsUi();
+      return warnings;
     }
 
     async function deleteBoloFromCloud(id) {
@@ -7224,22 +9044,26 @@
     }
 
     async function cloudPost(payload) {
-      const response = await fetch(cloudUrl, {
+      const targetUrl = String(cloudUrl || "").trim();
+      if (!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:[?#].*)?$/i.test(targetUrl)) {
+        throw new Error("La URL de Google Apps Script no es válida.");
+      }
+      const response = await fetch(targetUrl, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
+        redirect: "follow",
         body: JSON.stringify(payload)
       });
       if (!response.ok) throw new Error("Error en Google Sheets");
-      const data = await response.json();
+      const responseText = await response.text();
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        throw new Error(responseText.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 220) || "Google no devolvió una respuesta válida.");
+      }
       if (data && data.ok === false) throw new Error(data.error || "Error en Google Sheets");
       return data;
-    }
-
-    function normalizeCategory(value) {
-      const clean = String(value || "").trim().toLowerCase();
-      if (clean.startsWith("ilu")) return "iluminacion";
-      if (clean.startsWith("son")) return "sonido";
-      return "otros";
     }
 
     function normalizeEstado(value) {
