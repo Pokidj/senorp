@@ -94,13 +94,12 @@
     .btn,
     .home-card,
     .saved-action,
-    .add-material-card,
     .field-tool,
     .bulk-choice-btn,
     .stepper-btn,
     .max-btn,
     .load-check,
-    .detail-quick-action,
+    .detail-field-action,
     .saved-filter-btn,
     .inventory-tabs button,
     .theme-toggle button,
@@ -113,13 +112,12 @@
     .btn:active,
     .home-card:active,
     .saved-action:active,
-    .add-material-card:active,
     .field-tool:active,
     .bulk-choice-btn:active,
     .stepper-btn:active,
     .max-btn:active,
     .load-check:active,
-    .detail-quick-action:active,
+    .detail-field-action:active,
     .saved-filter-btn:active,
     .inventory-tabs button:active,
     .theme-toggle button:active,
@@ -133,13 +131,12 @@
       .btn,
       .home-card,
       .saved-action,
-      .add-material-card,
       .field-tool,
       .bulk-choice-btn,
       .stepper-btn,
       .max-btn,
       .load-check,
-      .detail-quick-action,
+      .detail-field-action,
       .saved-filter-btn,
       .inventory-tabs button,
       .theme-toggle button,
@@ -153,13 +150,12 @@
       .btn,
       .home-card,
       .saved-action,
-      .add-material-card,
       .field-tool,
       .bulk-choice-btn,
       .stepper-btn,
       .max-btn,
       .load-check,
-      .detail-quick-action,
+      .detail-field-action,
       .saved-filter-btn,
       .inventory-tabs button,
       .theme-toggle button,
@@ -171,13 +167,12 @@
       .btn:active,
       .home-card:active,
       .saved-action:active,
-      .add-material-card:active,
       .field-tool:active,
       .bulk-choice-btn:active,
       .stepper-btn:active,
       .max-btn:active,
       .load-check:active,
-      .detail-quick-action:active,
+      .detail-field-action:active,
       .saved-filter-btn:active,
       .inventory-tabs button:active,
       .theme-toggle button:active,
@@ -1738,57 +1733,6 @@
       font-weight: 800;
     }
 
-    .add-material-card {
-      display: grid;
-      grid-template-columns: 38px auto;
-      align-items: center;
-      gap: 10px;
-      min-height: 64px;
-      border: 1px solid rgba(224, 0, 27, .32);
-      border-radius: var(--radius);
-      background: rgba(224, 0, 27, .1);
-      color: var(--action-fg);
-      padding: 10px 12px;
-      cursor: pointer;
-      font-weight: 900;
-      touch-action: manipulation;
-      transition: transform .15s ease, border-color .15s ease, background .15s ease;
-    }
-
-    .add-material-card:hover {
-      transform: translateY(-1px);
-      border-color: rgba(224, 0, 27, .48);
-    }
-
-    .add-material-card span:last-child {
-      display: grid;
-      gap: 2px;
-      text-align: left;
-    }
-
-    .add-material-card small {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .main-material-toolbar {
-      grid-template-columns: repeat(2, minmax(230px, 330px));
-      justify-content: start;
-    }
-
-    .main-material-toolbar .add-material-card {
-      min-height: 82px;
-      border-color: rgba(98, 98, 98, .35);
-      background: color-mix(in srgb, var(--paper) 72%, var(--soft));
-      box-shadow: none;
-    }
-
-    .main-material-toolbar .add-card-icon {
-      background: rgba(224, 0, 27, .08);
-    }
-
     .summary-toolbar {
       grid-template-columns: minmax(0, 1fr);
     }
@@ -1865,6 +1809,84 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin: 14px 0;
+    }
+
+    .new-bolo-tab-group {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--paper);
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .new-bolo-tab-group.active {
+      border-color: var(--red);
+      box-shadow: inset 0 -2px 0 var(--red);
+    }
+
+    .new-bolo-tab-group .detail-content-tab {
+      border: 0;
+      border-radius: 0;
+      min-width: 0;
+    }
+
+    .new-bolo-tab-group .detail-content-tab.active {
+      box-shadow: none;
+    }
+
+    .new-bolo-tab-action {
+      min-width: 132px;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 0;
+      border-left: 1px solid var(--line);
+      background: color-mix(in srgb, var(--red) 7%, var(--paper));
+      color: var(--ink);
+      text-align: left;
+      font: inherit;
+    }
+
+    .new-bolo-tab-action:hover {
+      background: color-mix(in srgb, var(--red) 14%, var(--paper));
+    }
+
+    .new-bolo-tab-action svg {
+      width: 24px;
+      height: 24px;
+      padding: 5px;
+      border-radius: 7px;
+      background: color-mix(in srgb, var(--red) 12%, transparent);
+      color: var(--red);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .new-bolo-tab-action span {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .new-bolo-tab-action strong {
+      font-size: 12px;
+      line-height: 1.1;
+    }
+
+    .new-bolo-tab-action small {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
     }
 
     .new-bolo-summary-panel {
@@ -2256,6 +2278,11 @@
       line-height: 1;
       font-weight: 900;
       color: var(--red);
+      white-space: nowrap;
+    }
+
+    .ficha-date-day.range {
+      font-size: 27px;
     }
 
     .ficha-date-month {
@@ -2263,6 +2290,11 @@
       line-height: 1;
       font-weight: 900;
       text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .ficha-date-month.range {
+      font-size: 11px;
     }
 
     .ficha-date-year {
@@ -2270,6 +2302,14 @@
       line-height: 1;
       color: var(--muted);
       font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .ficha-date-empty {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
     }
 
     .ficha-main {
@@ -2895,7 +2935,9 @@
     }
 
     .loading-card {
-      width: min(320px, 100%);
+      width: fit-content;
+      min-width: 210px;
+      max-width: 100%;
       border: 1px solid var(--line);
       border-radius: 16px;
       background: color-mix(in srgb, var(--paper) 88%, transparent);
@@ -2919,12 +2961,6 @@
 
     .loading-card strong {
       font-size: 16px;
-    }
-
-    .loading-card span {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.35;
     }
 
     @keyframes spin {
@@ -3012,6 +3048,65 @@
       padding: 14px 18px 18px;
       border-top: 1px solid var(--line);
       background: var(--soft);
+    }
+
+    .dialog.print-choice-dialog {
+      width: min(680px, 100%);
+    }
+
+    .print-scope-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .print-scope-option {
+      min-width: 0;
+      min-height: 112px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 7px;
+      padding: 14px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      color: var(--ink);
+      text-align: center;
+      font: inherit;
+      font-weight: 800;
+    }
+
+    .print-scope-option:hover {
+      border-color: var(--red);
+      background: var(--soft-red);
+    }
+
+    .print-scope-option svg {
+      width: 28px;
+      height: 28px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .print-scope-option small {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .print-scope-option:disabled {
+      opacity: .38;
+      filter: grayscale(1);
+    }
+
+    .print-scope-cancel {
+      grid-column: 1 / -1;
+      justify-self: end;
     }
 
     .bulk-top-actions {
@@ -3121,43 +3216,208 @@
       word-break: break-word;
     }
 
-    .detail-quick-actions {
+    .detail-field-value {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-    }
-
-    .detail-quick-action {
-      min-height: 58px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--field);
-      color: var(--ink);
-      display: inline-flex;
+      grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px 12px;
-      font-weight: 900;
-      text-decoration: none;
-      touch-action: manipulation;
-      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+      gap: 8px;
     }
 
-    .detail-quick-action:hover {
-      border-color: rgba(224, 0, 27, .34);
+    .detail-field-action {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(224, 0, 27, .3);
+      border-radius: var(--radius);
+      color: var(--red);
       background: var(--soft-red);
-      transform: translateY(-1px);
+      touch-action: manipulation;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease;
     }
 
-    .detail-quick-action svg {
-      width: 22px;
-      height: 22px;
+    .detail-field-action:hover {
+      border-color: var(--red);
+      background: rgba(224, 0, 27, .15);
+    }
+
+    .detail-field-action:active {
+      transform: scale(.94);
+    }
+
+    .detail-field-action svg {
+      width: 20px;
+      height: 20px;
       fill: none;
       stroke: currentColor;
-      stroke-width: 2.2;
+      stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+
+    .distance-panel {
+      display: grid;
+      gap: 8px;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+    }
+
+    .distance-panel-head {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .distance-panel-head svg {
+      width: 22px;
+      height: 22px;
+      color: var(--red);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .distance-panel-head strong {
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .distance-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .distance-row {
+      display: grid;
+      grid-template-columns: minmax(150px, 1fr) auto auto;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 6px 7px 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+    }
+
+    .distance-origin {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .distance-value {
+      color: var(--red);
+      font-size: 15px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .distance-metrics {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .distance-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 28px;
+      padding: 4px 7px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--muted);
+      background: var(--paper);
+      font-size: 11px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .distance-time svg {
+      width: 15px;
+      height: 15px;
+      flex: 0 0 auto;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .distance-time.van {
+      color: var(--ink);
+    }
+
+    .distance-map-button {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    .distance-map-button svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .base-location-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .base-location-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+    }
+
+    .base-location-item span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 800;
+    }
+
+    .base-location-item button {
+      width: 38px;
+      height: 38px;
+    }
+
+    .base-location-item .danger {
+      color: var(--danger);
+      border-color: rgba(224, 0, 27, .28);
+      background: rgba(224, 0, 27, .08);
+    }
+
+    .distance-message {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .detail-content-switcher {
@@ -3964,7 +4224,6 @@
       .inventory-result-count { text-align: left; }
       .tabs { grid-template-columns: 1fr; }
       .material-toolbar,
-      .main-material-toolbar,
       .bulk-picker-grid {
         grid-template-columns: 1fr;
       }
@@ -3975,9 +4234,6 @@
         width: 100%;
         min-width: 0;
         white-space: normal;
-      }
-      .add-material-card {
-        width: 100%;
       }
       .inventory-tabs {
         grid-template-columns: 1fr;
@@ -4149,6 +4405,34 @@
 
       .new-bolo-summary-switcher .detail-content-tab-copy small {
         font-size: 8px;
+      }
+
+      .new-bolo-tab-group {
+        grid-template-columns: 1fr;
+      }
+
+      .new-bolo-tab-action {
+        min-width: 0;
+        min-height: 48px;
+        grid-template-columns: 22px minmax(0, 1fr);
+        gap: 6px;
+        padding: 7px 8px;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .new-bolo-tab-action svg {
+        width: 21px;
+        height: 21px;
+        padding: 4px;
+      }
+
+      .new-bolo-tab-action strong {
+        font-size: 10px;
+      }
+
+      .new-bolo-tab-action small {
+        font-size: 7px;
       }
 
       .roadmap-row {
@@ -4383,6 +4667,19 @@
         grid-template-columns: 1fr;
       }
 
+      .distance-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      .distance-origin {
+        grid-column: 1 / -1;
+      }
+
+      .distance-metrics {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
       .detail-content-tab {
         min-height: 58px;
         grid-template-columns: 24px minmax(0, 1fr) auto;
@@ -4417,9 +4714,14 @@
         font-size: 32px;
       }
 
+      .ficha-date-day.range {
+        font-size: 25px;
+      }
+
       .ficha-date-month {
         font-size: 13px;
       }
+
     }
 
     @media (max-width: 820px), (max-height: 480px) and (max-width: 950px) {
@@ -4507,11 +4809,14 @@
 
       .nav-label,
       .settings-button .nav-label {
-        display: block;
+        display: -webkit-box;
         max-width: 100%;
         overflow: hidden;
         text-wrap: balance;
         word-break: normal;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
       }
 
       .app.sidebar-collapsed .nav-label,
@@ -4631,22 +4936,18 @@
         order: 1;
       }
 
-      #bolo-material-panel {
-        order: 2;
-      }
-
       .new-bolo-summary-switcher {
-        order: 3;
+        order: 2;
       }
 
       #new-bolo-material-summary,
       #new-bolo-roadmap-summary {
-        order: 4;
+        order: 3;
       }
 
       #mobile-save-slot {
         display: block;
-        order: 5;
+        order: 4;
         position: sticky;
         bottom: 0;
         z-index: 12;
@@ -4815,10 +5116,6 @@
         height: 28px;
       }
 
-      .main-material-toolbar .add-material-card {
-        min-height: 74px;
-      }
-
       .dialog-backdrop {
         padding: 8px;
         align-items: center;
@@ -4872,6 +5169,23 @@
         border-radius: 12px;
         font-size: 15px;
         font-weight: 900;
+      }
+
+      #dialogBackdrop .print-scope-actions {
+        grid-template-columns: 1fr;
+      }
+
+      #dialogBackdrop .print-scope-option {
+        min-height: 76px;
+        grid-template-columns: 42px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        place-items: center start;
+        text-align: left;
+        padding: 12px 16px;
+      }
+
+      #dialogBackdrop .print-scope-option svg {
+        grid-row: 1 / span 2;
       }
 
       #riderBackdrop {
@@ -5099,8 +5413,16 @@
         font-size: 42px;
       }
 
+      .ficha-date-day.range {
+        font-size: 30px;
+      }
+
       .ficha-date-month {
         font-size: 15px;
+      }
+
+      .ficha-date-month.range {
+        font-size: 11px;
       }
 
       .ficha-date-year {
@@ -5336,6 +5658,43 @@
 
     }
 
+    .ficha,
+    .inventory-edit-card {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 130px;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      button,
+      a,
+      input,
+      select,
+      textarea {
+        touch-action: manipulation;
+      }
+
+      .saved-filter-btn,
+      .inventory-tabs button,
+      .bulk-choice-btn,
+      .detail-content-tab,
+      .detail-field-action,
+      .distance-map-button {
+        min-height: 46px;
+      }
+
+      .detail-field-action,
+      .distance-map-button {
+        width: 46px;
+      }
+
+      .dialog,
+      .dialog-body,
+      .ficha-detail-body {
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
     @media print {
       @page {
         size: A4 portrait;
@@ -5492,6 +5851,32 @@
       .print-table tbody tr:last-child td {
         border-bottom: 1px solid #aaa;
       }
+      .print-roadmap-table th,
+      .print-roadmap-table td {
+        padding: 5px 4px;
+        font-size: 9px;
+      }
+      .print-roadmap-table th:nth-child(1),
+      .print-roadmap-table td:nth-child(1) { width: 6%; text-align: center; }
+      .print-roadmap-table th:nth-child(2),
+      .print-roadmap-table td:nth-child(2) { width: 25%; }
+      .print-roadmap-table th:nth-child(3),
+      .print-roadmap-table td:nth-child(3),
+      .print-roadmap-table th:nth-child(4),
+      .print-roadmap-table td:nth-child(4),
+      .print-roadmap-table th:nth-child(5),
+      .print-roadmap-table td:nth-child(5),
+      .print-roadmap-table th:nth-child(6),
+      .print-roadmap-table td:nth-child(6) { width: 11%; text-align: center; }
+      .print-roadmap-table th:nth-child(7),
+      .print-roadmap-table td:nth-child(7) { width: 25%; }
+      .print-roadmap-table .print-roadmap-details td {
+        width: auto;
+        padding: 6px 8px;
+        background: #fafafa;
+        text-align: left;
+        font-style: italic;
+      }
       .print-check {
         display: inline-block;
         width: 12px;
@@ -5518,7 +5903,6 @@
     <div class="loading-card">
       <div class="loading-spinner" aria-hidden="true"></div>
       <strong id="loadingTitle">Trabajando</strong>
-      <span id="loadingMessage">Espera un momento...</span>
     </div>
   </div>
   <div class="dialog-backdrop" id="dialogBackdrop" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
@@ -5811,16 +6195,20 @@
           </div>
           <div class="panel-body">
             <div class="form-grid">
-              <div class="field">
+              <div class="field full">
                 <label for="evento-nombre">Nombre del bolo</label>
                 <input id="evento-nombre" type="text" placeholder="Festival de verano">
               </div>
               <div class="field">
-                <label for="evento-fecha">Fecha</label>
-                <input id="evento-fecha" type="date">
+                <label for="evento-fecha">Fecha de inicio</label>
+                <input id="evento-fecha" type="date" onchange="syncEventDateRange('start')">
               </div>
               <div class="field">
-                <label for="evento-hora-llegada">Hora de llegada</label>
+                <label for="evento-fecha-fin">Fecha de fin</label>
+                <input id="evento-fecha-fin" type="date" onchange="syncEventDateRange('end')">
+              </div>
+              <div class="field">
+                <label for="evento-hora-llegada">Llegada del equipo técnico</label>
                 <input id="evento-hora-llegada" type="time">
               </div>
               <div class="field">
@@ -5856,30 +6244,30 @@
           </div>
         </div>
 
-        <div class="panel" id="bolo-material-panel">
-          <div class="material-toolbar main-material-toolbar">
-            <button class="add-material-card" onclick="openAddMaterial()">
-              <span class="add-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
-              <span><strong>Añadir / editar material</strong><small>Elegir y editar</small></span>
-            </button>
-            <button class="add-material-card" onclick="openRiderDialog()">
-              <span class="add-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><path d="M14 2v6h6"></path><path d="M12 12v6"></path><path d="m9 15 3 3 3-3"></path></svg></span>
-              <span><strong>Bandas / artistas</strong><small id="rider-card-status">Sin añadir</small></span>
-            </button>
-          </div>
-        </div>
         <div id="mobile-save-slot"></div>
         <div class="new-bolo-summary-switcher" role="tablist" aria-label="Resumen del bolo">
-          <button class="detail-content-tab active" id="new-bolo-material-tab" type="button" role="tab" aria-selected="true" onclick="switchNewBoloSummary('material', this)">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
-            <span class="detail-content-tab-copy"><strong>Resumen de carga</strong><small>Material del bolo</small></span>
-            <span class="detail-content-count" id="new-bolo-material-count">0</span>
-          </button>
-          <button class="detail-content-tab" id="new-bolo-roadmap-tab" type="button" role="tab" aria-selected="false" onclick="switchNewBoloSummary('roadmap', this)">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M7 3v6"></path><path d="M17 3v6"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 13h4"></path><path d="M7 17h7"></path></svg>
-            <span class="detail-content-tab-copy"><strong>Hoja de ruta</strong><small>Bandas / artistas</small></span>
-            <span class="detail-content-count" id="new-bolo-band-count">0</span>
-          </button>
+          <div class="new-bolo-tab-group active" role="presentation">
+            <button class="detail-content-tab active" id="new-bolo-material-tab" type="button" role="tab" aria-selected="true" onclick="switchNewBoloSummary('material', this)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+              <span class="detail-content-tab-copy"><strong>Resumen de carga</strong><small>Material del bolo</small></span>
+              <span class="detail-content-count" id="new-bolo-material-count">0</span>
+            </button>
+            <button class="new-bolo-tab-action" type="button" onclick="switchNewBoloSummary('material'); openAddMaterial()" aria-label="Añadir o editar material">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+              <span><strong>Añadir / editar</strong><small>Material</small></span>
+            </button>
+          </div>
+          <div class="new-bolo-tab-group" role="presentation">
+            <button class="detail-content-tab" id="new-bolo-roadmap-tab" type="button" role="tab" aria-selected="false" onclick="switchNewBoloSummary('roadmap', this)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M7 3v6"></path><path d="M17 3v6"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 13h4"></path><path d="M7 17h7"></path></svg>
+              <span class="detail-content-tab-copy"><strong>Hoja de ruta</strong><small>Bandas / artistas</small></span>
+              <span class="detail-content-count" id="new-bolo-band-count">0</span>
+            </button>
+            <button class="new-bolo-tab-action" type="button" onclick="switchNewBoloSummary('roadmap'); openRiderDialog()" aria-label="Añadir o editar bandas y artistas">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+              <span><strong>Añadir / editar</strong><small id="rider-card-status">Bandas / artistas</small></span>
+            </button>
+          </div>
         </div>
         <div class="new-bolo-summary-panel active" id="new-bolo-material-summary" role="tabpanel">
           <div id="categorySections"></div>
@@ -6017,6 +6405,28 @@
 
           <div class="panel">
             <div class="panel-head">
+              <div class="panel-title">Puntos de salida</div>
+            </div>
+            <div class="panel-body sheet-help">
+              <div class="field">
+                <label for="base-location-input">Añadir punto de salida</label>
+                <div class="field-control">
+                  <input id="base-location-input" type="text" placeholder="Dirección de nave, almacén u otro origen" autocomplete="street-address" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addBaseLocation(); }">
+                  <button class="field-tool" type="button" onclick="openBaseLocationMap()" aria-label="Abrir ubicación base en Google Maps" title="Abrir en Google Maps">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="actions" style="justify-content:flex-start">
+                <button class="btn btn-primary" type="button" onclick="addBaseLocation()">Añadir punto</button>
+              </div>
+              <div class="base-location-list" id="base-location-list"></div>
+              <p>En cada bolo se mostrará la distancia de ida desde cada punto configurado.</p>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
                 <div class="panel-title">Técnicos</div>
             </div>
             <div class="panel-body sheet-help">
@@ -6047,6 +6457,7 @@
     const THEME_KEY = "senorp_theme";
     const INVENTORY_KEY = "senorp_inventory_v1";
     const TECHNICIANS_KEY = "senorp_technicians_v1";
+    const BASE_LOCATION_KEY = "senorp_base_location_v1";
     const SIDEBAR_KEY = "senorp_sidebar_collapsed";
 
     const categories = [
@@ -6088,7 +6499,6 @@
     };
 
     let fichas = [];
-    let rowCounters = {};
     let currentPage = "home";
     let lastSavedBoloSignature = "";
     let inventoryEditMode = false;
@@ -6115,10 +6525,14 @@
     let technicianSyncedRevision = 0;
     let technicianSyncPromise = null;
     let cloudSupportsCombinedTechnicians = false;
+    let cloudSupportsBaseLocations = false;
+    let cloudSupportsStoredDistances = false;
+    let baseLocations = normalizeBaseLocations(readJson(BASE_LOCATION_KEY, localStorage.getItem(BASE_LOCATION_KEY) || ""));
     let editingBoloId = null;
     let cloudUrl = "";
     let inventorySyncTimer = null;
     let scrollLockY = 0;
+    const scheduledRenders = {};
 
     async function init() {
       applyTheme(localStorage.getItem(THEME_KEY) || "light");
@@ -6126,21 +6540,15 @@
       document.addEventListener("input", event => {
         if (event.target instanceof HTMLTextAreaElement) autoGrowTextarea(event.target);
       });
-      categories.forEach(c => rowCounters[c.id] = 0);
       boloMaterial = emptyBoloMaterial();
       fichas = readLocalFichas();
       technicians = readLocalTechnicians();
       cloudUrl = getConfiguredCloudUrl();
       DB = cloudUrl ? readLocalInventory() : emptyInventory();
       renderCloudConfig();
-      renderCategoryUi();
-      renderBandsUi();
-      renderTechnicianSettings();
-      renderTechnicianSelector();
       lastSavedBoloSignature = getBoloSignature();
       placeBoloActions();
-      window.addEventListener("resize", placeBoloActions);
-      renderInventory();
+      window.addEventListener("resize", () => scheduleRender("layout", placeBoloActions), { passive: true });
       updateCount();
       autoGrowAllTextareas();
       if (cloudUrl) {
@@ -6162,6 +6570,14 @@
         || normalized === "SONIDOILUMINACIÓN"
       ) return "SONIDO+ILUMINACION";
       return "AUXILIAR";
+    }
+
+    function scheduleRender(key, callback) {
+      if (scheduledRenders[key]) cancelAnimationFrame(scheduledRenders[key]);
+      scheduledRenders[key] = requestAnimationFrame(() => {
+        scheduledRenders[key] = 0;
+        callback();
+      });
     }
 
     function technicianSpecialtyLabel(value) {
@@ -6485,6 +6901,100 @@
       source.textContent = "Archivo: senorp_config.js";
     }
 
+    function normalizeBaseLocations(value) {
+      const values = Array.isArray(value) ? value : [value];
+      const seen = new Set();
+      return values
+        .map(item => String(item || "").trim())
+        .filter(item => {
+          const key = normalizeText(item);
+          if (!key || seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+    }
+
+    function persistBaseLocations() {
+      baseLocations = normalizeBaseLocations(baseLocations);
+      localStorage.setItem(BASE_LOCATION_KEY, JSON.stringify(baseLocations));
+    }
+
+    function renderBaseLocationSettings() {
+      const input = document.getElementById("base-location-input");
+      const list = document.getElementById("base-location-list");
+      if (input) input.value = "";
+      if (!list) return;
+      list.innerHTML = baseLocations.length
+        ? baseLocations.map((location, index) => `
+          <div class="base-location-item">
+            <span title="${escapeAttr(location)}">${escapeHtml(location)}</span>
+            <button class="field-tool" type="button" onclick="openBaseLocationMap(${index})" aria-label="Abrir en Google Maps" title="Abrir en Google Maps">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </button>
+            <button class="field-tool danger" type="button" onclick="removeBaseLocation(${index})" aria-label="Eliminar punto de salida" title="Eliminar">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v5"></path><path d="M14 11v5"></path></svg>
+            </button>
+          </div>
+        `).join("")
+        : `<div class="distance-message">Todavía no hay puntos de salida configurados.</div>`;
+    }
+
+    function openBaseLocationMap(index = null) {
+      const value = Number.isInteger(index)
+        ? String(baseLocations[index] || "").trim()
+        : String(document.getElementById("base-location-input")?.value || "").trim();
+      if (!value) {
+        notify("Falta la ubicación", "Escribe una dirección antes de abrir Google Maps.", "warning");
+        return;
+      }
+      window.open(getGoogleMapsUrl(value), "_blank", "noopener");
+    }
+
+    async function addBaseLocation() {
+      const input = document.getElementById("base-location-input");
+      const value = String(input?.value || "").trim();
+      if (!value) {
+        input?.focus();
+        notify("Falta el punto de salida", "Escribe la dirección de la nave, almacén u otro origen.", "warning");
+        return;
+      }
+      const nextLocations = normalizeBaseLocations([...baseLocations, value]);
+      if (nextLocations.length === baseLocations.length) {
+        notify("Punto ya añadido", "Esa ubicación ya está en la lista.", "warning");
+        return;
+      }
+      await saveBaseLocations(nextLocations, "Punto de salida añadido");
+    }
+
+    async function removeBaseLocation(index) {
+      const nextLocations = baseLocations.filter((_, itemIndex) => itemIndex !== index);
+      await saveBaseLocations(nextLocations, "Punto de salida eliminado");
+    }
+
+    async function saveBaseLocations(nextLocations, successTitle) {
+      cloudUrl = getConfiguredCloudUrl();
+      if (!cloudUrl) {
+        notify("Sin conexión", "Los puntos de salida deben guardarse en Google Sheets para compartirlos entre dispositivos.", "warning");
+        return;
+      }
+      if (!cloudSupportsBaseLocations) {
+        notify("Apps Script sin actualizar", "Publica la nueva versión de google_apps_script_senorp.js antes de modificar los puntos de salida.", "warning", 8000);
+        return;
+      }
+      try {
+        const data = await withLoading("Guardando ubicaciones", () => cloudPost({
+          action: "saveBaseLocation",
+          baseLocations: nextLocations
+        }));
+        baseLocations = normalizeBaseLocations(data?.baseLocations || nextLocations);
+        persistBaseLocations();
+        renderBaseLocationSettings();
+        notify(successTitle, `${baseLocations.length} punto${baseLocations.length === 1 ? "" : "s"} configurado${baseLocations.length === 1 ? "" : "s"}.`, "success");
+      } catch (error) {
+        notify("No se pudo guardar", "Actualiza y vuelve a desplegar google_apps_script_senorp.js para gestionar varios puntos de salida.", "error", 7500);
+      }
+    }
+
     function cloneDb(db) {
       return JSON.parse(JSON.stringify(db));
     }
@@ -6608,11 +7118,13 @@
         const canLeave = await handleInventoryEditExit();
         if (!canLeave) return;
       }
-      if (currentPage === "nueva" && page !== "nueva" && hasUnsavedBolo()) {
+      const isLeavingBoloEditor = currentPage === "nueva" && page !== "nueva";
+      const hasOpenBolo = Boolean(editingBoloId) || hasUnsavedBolo();
+      if (isLeavingBoloEditor && hasOpenBolo) {
         const leaveAction = await confirmDialog({
-          title: editingBoloId ? "Cambios sin guardar" : "Bolo sin guardar",
+          title: editingBoloId ? "¿Salir de la edición?" : "Bolo sin guardar",
           message: editingBoloId
-            ? "Hay cambios en este bolo. Puedes guardarlos antes de salir."
+            ? "Estás editando este bolo. Puedes guardar los cambios antes de salir o descartarlos."
             : "Hay cambios en el nuevo bolo. Puedes guardarlo antes de salir o descartarlo.",
           confirmText: editingBoloId ? "Guardar cambios" : "Guardar bolo",
           discardText: "Salir sin guardar",
@@ -6620,7 +7132,8 @@
         });
         if (leaveAction === "cancel") return;
         if (leaveAction === "confirm") {
-          await saveFicha("guardada", { silent: true, reset: true });
+          const saved = await saveFicha("guardada", { silent: true, reset: true });
+          if (!saved) return;
         } else {
           resetForm();
         }
@@ -6634,9 +7147,17 @@
       placeBoloActions();
       currentPage = page;
       if (page === "home") renderHomeStats();
+      if (page === "nueva") {
+        renderCategoryUi();
+        renderBandsUi();
+        renderTechnicianSelector();
+      }
       if (page === "fichas") renderFichas();
       if (page === "inventario") renderInventory();
-      if (page === "configuracion") renderTechnicianSettings();
+      if (page === "configuracion") {
+        renderTechnicianSettings();
+        renderBaseLocationSettings();
+      }
     }
 
     function hasUnsavedBolo() {
@@ -6644,7 +7165,7 @@
     }
 
     function getBoloSignature() {
-      const fieldIds = ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-notas"];
+      const fieldIds = ["evento-nombre", "evento-fecha", "evento-fecha-fin", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-notas"];
       return JSON.stringify({
         fields: Object.fromEntries(fieldIds.map(id => [id, document.getElementById(id).value.trim()])),
         technicians: selectedTechnicians,
@@ -6723,9 +7244,11 @@
           currentBulkMaterial = "";
         }
       }
-      renderBulkCategories();
-      renderBulkMaterials();
-      renderBulkModels();
+      scheduleRender("bulk-search", () => {
+        renderBulkCategories();
+        renderBulkMaterials();
+        renderBulkModels();
+      });
     }
 
     function renderBulkCategories() {
@@ -7063,9 +7586,11 @@
 
     function switchNewBoloSummary(panel, button) {
       const selected = panel === "roadmap" ? "roadmap" : "material";
+      const selectedButton = button || document.getElementById(selected === "roadmap" ? "new-bolo-roadmap-tab" : "new-bolo-material-tab");
       document.querySelectorAll(".new-bolo-summary-switcher .detail-content-tab").forEach(tab => {
-        const active = tab === button;
+        const active = tab === selectedButton;
         tab.classList.toggle("active", active);
+        tab.closest(".new-bolo-tab-group")?.classList.toggle("active", active);
         tab.setAttribute("aria-selected", String(active));
       });
       document.getElementById("new-bolo-material-summary")?.classList.toggle("active", selected === "material");
@@ -7373,6 +7898,10 @@
       return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place || "")}`;
     }
 
+    function getGoogleMapsDirectionsUrl(origin, destination) {
+      return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin || "")}&destination=${encodeURIComponent(destination || "")}&travelmode=driving`;
+    }
+
     function getPhoneHref(phone) {
       return `tel:${String(phone || "").replace(/[^\d+]/g, "")}`;
     }
@@ -7428,14 +7957,31 @@
       return match[0].replace(/[^\d+]/g, "").replace(/(?!^)\+/g, "");
     }
 
+    function syncEventDateRange(changedField = "start") {
+      const startInput = document.getElementById("evento-fecha");
+      const endInput = document.getElementById("evento-fecha-fin");
+      if (!startInput || !endInput) return;
+      endInput.min = startInput.value || "";
+      if (changedField === "start" && startInput.value && (!endInput.value || endInput.value < startInput.value)) {
+        endInput.value = startInput.value;
+      }
+      if (changedField === "end" && endInput.value && (!startInput.value || endInput.value < startInput.value)) {
+        startInput.value = endInput.value;
+        endInput.min = startInput.value;
+      }
+    }
+
     function buildCurrentFicha(status = "guardada") {
       const associatedTechnicians = normalizeTechnicians(selectedTechnicians);
       const associatedTechnicianNames = technicianNames(associatedTechnicians);
+      const existingFicha = editingBoloId ? fichas.find(item => String(item.id) === String(editingBoloId)) : null;
+      syncEventDateRange("start");
       const ficha = {
         id: editingBoloId || Date.now(),
         status,
         nombre: document.getElementById("evento-nombre").value.trim() || "Sin nombre",
         fecha: document.getElementById("evento-fecha").value,
+        fechaFin: document.getElementById("evento-fecha-fin").value || document.getElementById("evento-fecha").value,
         horaLlegada: document.getElementById("evento-hora-llegada").value,
         lugar: document.getElementById("evento-lugar").value.trim(),
         telefonoLugar: document.getElementById("evento-telefono-lugar").value.trim(),
@@ -7444,6 +7990,7 @@
         resp: associatedTechnicianNames.join(", "),
         notas: document.getElementById("evento-notas").value.trim(),
         bandas: currentBands.map(band => normalizeBand(band)),
+        distancias: normalizeStoredDistances(existingFicha?.distancias),
         material: {}
       };
 
@@ -7459,14 +8006,19 @@
           : String(ficha.resp || ficha.responsableCarga || "").split(",")
       );
       const normalizedBands = normalizeBands(ficha.bandas || ficha.bands, ficha.rider);
+      const startDate = normalizeDateStorageValue(ficha.fecha || ficha.fechaInicio || ficha.fecha_inicio || "");
+      const endDate = normalizeDateStorageValue(ficha.fechaFin || ficha.fecha_fin || ficha.fechaFinal || ficha.endDate || startDate);
       return {
         ...ficha,
+        fecha: startDate,
+        fechaFin: endDate && (!startDate || endDate >= startDate) ? endDate : startDate,
         horaLlegada: ficha.horaLlegada || ficha.hora_llegada || ficha.hora || "",
         telefonoLugar: ficha.telefonoLugar || ficha.telefono_lugar || ficha.telefonoResponsableLugar || ficha.telefono || "",
         contactoLugar: ficha.contactoLugar || ficha.contacto_lugar || ficha.nombreContactoLugar || ficha.contacto || "",
         tecnicos: normalizedTechnicians,
         resp: technicianNames(normalizedTechnicians).join(", "),
         bandas: normalizedBands,
+        distancias: normalizeStoredDistances(ficha.distancias || ficha.distances),
         rider: null,
         material: Object.fromEntries(categories.map(cat => [
           cat.id,
@@ -7500,7 +8052,7 @@
       lastSavedBoloSignature = getBoloSignature();
 
       try {
-        await withLoading("Guardando bolo", "Enviando la ficha a Google Sheets...", () => saveBoloToCloud(ficha));
+        await withLoading("Guardando bolo", () => saveBoloToCloud(ficha, { refreshDistances: true }));
       } catch {
         fichas = fichas.filter(f => f.id !== ficha.id);
         return false;
@@ -7515,6 +8067,8 @@
 
     async function printCurrentBolo() {
       const ficha = buildCurrentFicha("guardada");
+      const printScope = await choosePrintScope(ficha);
+      if (!printScope) return;
       const action = await confirmDialog({
         title: "Imprimir bolo",
         message: "Puedes guardar el bolo antes de imprimirlo o imprimir solo esta hoja sin guardarla.",
@@ -7531,7 +8085,7 @@
           return;
         }
         try {
-          await withLoading("Guardando bolo", "Preparando la ficha antes de imprimir...", () => saveBoloToCloud(ficha));
+          await withLoading("Guardando bolo", () => saveBoloToCloud(ficha, { refreshDistances: true }));
           if (editingBoloId) fichas = fichas.filter(f => f.id !== editingBoloId);
           fichas.unshift(ficha);
           persistFichas();
@@ -7543,7 +8097,7 @@
         }
       }
 
-      printFichaHtml(ficha);
+      printFichaHtml(ficha, printScope);
 
       if (action === "confirm") {
         resetForm();
@@ -7553,6 +8107,8 @@
 
     async function shareCurrentBolo() {
       const ficha = buildCurrentFicha("guardada");
+      const shareScope = await choosePrintScope(ficha, "share");
+      if (!shareScope) return;
       const action = await confirmDialog({
         title: "Compartir bolo",
         message: "La app preparará la misma hoja que se imprime y generará un PDF para compartirlo desde el móvil o el navegador.",
@@ -7572,7 +8128,7 @@
 
         try {
           if (cloudUrl) {
-            await withLoading("Guardando bolo", "Sincronizando antes de compartir...", () => saveBoloToCloud(ficha, { silent: true }));
+            await withLoading("Guardando bolo", () => saveBoloToCloud(ficha, { silent: true, refreshDistances: true }));
           }
           cloudSaved = true;
         } catch (error) {
@@ -7589,9 +8145,10 @@
         persistFichas();
       }
 
-      renderPrintArea(ficha);
-      await withLoading("Preparando PDF", "Generando la ficha para compartir...", () => shareFichaBlob(ficha, {
+      renderPrintArea(ficha, shareScope);
+      await withLoading("Preparando PDF", () => shareFichaBlob(ficha, {
         cloudSaved,
+        scope: shareScope,
         afterDone: () => {
           resetForm();
           showPage("fichas");
@@ -7600,15 +8157,18 @@
     }
 
     async function shareFichaBlob(ficha, options = {}) {
+      const scope = ["all", "material", "roadmap"].includes(options.scope) ? options.scope : "material";
       let pdfBlob;
       try {
-        pdfBlob = await buildBoloPdf(ficha);
+        pdfBlob = await buildBoloPdf(ficha, { scope });
       } catch (error) {
         console.error("Error generando PDF para compartir:", error);
         notify("Bolo guardado", "No se pudo generar el PDF. Revisa que jspdf.umd.min.js esté junto a index.html y recarga la página.", "error", 6500);
         return;
       }
-      const fileName = `${slugify(ficha.nombre || "bolo")}-material.pdf`;
+      const suffix = scope === "roadmap" ? "hoja-de-ruta" : scope === "all" ? "completo" : "material";
+      const shareLabel = scope === "roadmap" ? "Hoja de ruta" : scope === "all" ? "Ficha completa" : "Ficha de material";
+      const fileName = `${slugify(ficha.nombre || "bolo")}-${suffix}.pdf`;
       const file = typeof File !== "undefined"
         ? new File([pdfBlob], fileName, { type: "application/pdf" })
         : null;
@@ -7617,8 +8177,8 @@
       try {
         if (canShareFile) {
           await navigator.share({
-            title: `Ficha de material - ${ficha.nombre}`,
-            text: `Ficha de salida de material: ${ficha.nombre}`,
+            title: `${shareLabel} - ${ficha.nombre}`,
+            text: `${shareLabel}: ${ficha.nombre}`,
             files: [file]
           });
           notify(options.cloudSaved ? "Bolo guardado y PDF listo" : "PDF listo", "La ficha se ha enviado al menú de compartir.", options.cloudSaved ? "success" : "warning");
@@ -7638,13 +8198,21 @@
       options.afterDone?.();
     }
 
-    function printFichaHtml(ficha) {
-      renderPrintArea(ficha);
+    function printFichaHtml(ficha, scope = "material") {
+      renderPrintArea(ficha, scope);
       window.setTimeout(() => window.print(), 50);
     }
 
     async function buildBoloPdf(ficha, options = {}) {
       await loadJsPdf();
+      const scope = ["all", "material", "roadmap"].includes(options.scope) ? options.scope : "material";
+      const includesMaterial = scope === "all" || scope === "material";
+      const includesRoadmap = scope === "all" || scope === "roadmap";
+      const documentTitle = scope === "roadmap"
+        ? "Hoja de ruta del bolo"
+        : scope === "all"
+          ? "Ficha técnica del bolo"
+          : "Ficha de carga del bolo";
       const { jsPDF, AcroFormCheckBox } = window.jspdf;
       const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
       const pageWidth = doc.internal.pageSize.getWidth();
@@ -7689,7 +8257,7 @@
         doc.setFont("helvetica", "normal");
         doc.setFontSize(9);
         doc.setTextColor(85);
-        doc.text(`Generado por SENORP - ${new Date().toLocaleDateString("es-ES")}`, pageWidth - margin, footerY, { align: "right" });
+        doc.text(`Generado por SENORP - ${formatDate(new Date())}`, pageWidth - margin, footerY, { align: "right" });
         doc.setTextColor(0);
       }
 
@@ -7761,13 +8329,13 @@
 
       doc.setFont("helvetica", "bold");
       doc.setFontSize(22);
-      doc.text("Ficha de carga del bolo", pageWidth - margin, y + 22, { align: "right" });
+      doc.text(documentTitle, pageWidth - margin, y + 22, { align: "right" });
       doc.setFont("helvetica", "normal");
       doc.setFontSize(12);
       const headerFields = pdfFieldRows([
         ["Bolo", ficha.nombre],
-        ["Fecha", ficha.fecha],
-        ["Hora llegada", ficha.horaLlegada],
+        ["Fecha", formatFichaDateRange(ficha)],
+        ["Llegada equipo técnico", ficha.horaLlegada],
         ["Recinto / ubicación", ficha.lugar],
         ["Responsable del recinto", ficha.contactoLugar],
         ["Tel. recinto", ficha.telefonoLugar],
@@ -7799,8 +8367,105 @@
         y += 58;
       }
 
-      const usedCategories = getUsedCategories(ficha);
-      if (!usedCategories.length) {
+      const normalizedBands = normalizeBands(ficha.bandas || []);
+      if (includesRoadmap) {
+        ensureSpace(86);
+        if (y > 90) y += 10;
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(15);
+        doc.setFillColor(245, 245, 245);
+        doc.setDrawColor(185);
+        doc.setLineWidth(.6);
+        doc.rect(margin, y, pageWidth - margin * 2, 28, "FD");
+        doc.text("Hoja de ruta - Bandas / artistas", margin + 8, y + 19);
+        y += 40;
+
+        if (!normalizedBands.length) {
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(10);
+          doc.text("Sin bandas o artistas.", margin + 8, y + 14);
+          y += 30;
+        } else {
+          const tableWidth = pageWidth - margin * 2;
+          const widths = [30, 124, 54, 54, 58, 54, tableWidth - 374];
+          const headers = ["ORD.", "ARTISTA", "LLEGADA", "PRUEBA", "ACTUACIÓN", "DURACIÓN", "TÉCNICO / RIDER"];
+          const rowH = 22;
+          const headerH = 20;
+
+          function drawRoadmapHeader() {
+            let x = margin;
+            headers.forEach((header, index) => {
+              doc.setFillColor(239, 239, 239);
+              doc.setDrawColor(170, 170, 170);
+              doc.setTextColor(0, 0, 0);
+              doc.setLineWidth(.6);
+              doc.rect(x, y, widths[index], headerH, "FD");
+              doc.setFont("helvetica", "bold");
+              doc.setFontSize(7.8);
+              doc.setTextColor(0, 0, 0);
+              doc.text(header, index === 0 || index >= 2 && index <= 5 ? x + widths[index] / 2 : x + 5, y + 13.5, {
+                align: index === 0 || index >= 2 && index <= 5 ? "center" : "left"
+              });
+              x += widths[index];
+            });
+            y += headerH;
+          }
+
+          drawRoadmapHeader();
+          normalizedBands.forEach((band, index) => {
+            const support = [
+              band.tecnicoSonido ? "Téc. sonido" : "",
+              band.tecnicoLuces ? "Téc. luces" : "",
+              band.rider ? "Rider" : ""
+            ].filter(Boolean).join(" / ") || "-";
+            const details = cleanPdfText(band.detalles).trim();
+            const detailsLines = details ? doc.splitTextToSize(`Detalles: ${details}`, tableWidth - 12) : [];
+            const detailsH = detailsLines.length ? Math.max(20, detailsLines.length * 10 + 8) : 0;
+            if (ensureSpace(rowH + detailsH + 8)) drawRoadmapHeader();
+
+            const values = [
+              String(index + 1),
+              band.nombre,
+              band.horaLlegada || "-",
+              band.horaPrueba || "-",
+              band.inicioActuacion || "-",
+              band.duracionActuacion || "-",
+              support
+            ];
+            let x = margin;
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(8);
+            doc.setDrawColor(170);
+            widths.forEach((width, columnIndex) => {
+              doc.rect(x, y, width, rowH);
+              const centered = columnIndex === 0 || columnIndex >= 2 && columnIndex <= 5;
+              doc.text(
+                ellipsize(values[columnIndex], width - 8),
+                centered ? x + width / 2 : x + 4,
+                y + 14,
+                { align: centered ? "center" : "left" }
+              );
+              x += width;
+            });
+            y += rowH;
+
+            if (detailsLines.length) {
+              doc.setFillColor(250, 250, 250);
+              doc.rect(margin, y, tableWidth, detailsH, "FD");
+              doc.setFont("helvetica", "italic");
+              doc.setFontSize(8);
+              doc.text(detailsLines, margin + 6, y + 12);
+              y += detailsH;
+            }
+          });
+          doc.setDrawColor(170);
+          doc.line(margin, y, pageWidth - margin, y);
+          y += 20;
+        }
+      }
+
+      const usedCategories = includesMaterial ? getUsedCategories(ficha) : [];
+      if (includesMaterial && !usedCategories.length) {
         ensureSpace(44);
         doc.setFont("helvetica", "bold");
         doc.setFontSize(15);
@@ -7974,15 +8639,15 @@
     }
 
     function resetForm() {
-      ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
+      ["evento-nombre", "evento-fecha", "evento-fecha-fin", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
+      syncEventDateRange();
       selectedTechnicians = [];
       renderTechnicianSelector();
       currentBands = [];
       resetBandEditor();
       renderBandsUi();
       boloMaterial = emptyBoloMaterial();
-      categories.forEach(cat => rowCounters[cat.id] = 0);
-      renderBoloSummary();
+        renderBoloSummary();
       editingBoloId = null;
       lastSavedBoloSignature = getBoloSignature();
       autoGrowAllTextareas();
@@ -7990,16 +8655,18 @@
 
     function loadFichaIntoForm(ficha, options = {}) {
       ficha = normalizeBoloFicha(ficha);
-      ["evento-nombre", "evento-fecha", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
+      ["evento-nombre", "evento-fecha", "evento-fecha-fin", "evento-hora-llegada", "evento-lugar", "evento-telefono-lugar", "evento-contacto-lugar", "evento-resp", "evento-notas"].forEach(id => document.getElementById(id).value = "");
       if (!options.duplicate) {
         document.getElementById("evento-nombre").value = ficha.nombre || "";
         document.getElementById("evento-fecha").value = ficha.fecha || "";
+        document.getElementById("evento-fecha-fin").value = ficha.fechaFin || ficha.fecha || "";
         document.getElementById("evento-hora-llegada").value = ficha.horaLlegada || "";
         document.getElementById("evento-lugar").value = ficha.lugar || "";
         document.getElementById("evento-telefono-lugar").value = ficha.telefonoLugar || "";
         document.getElementById("evento-contacto-lugar").value = ficha.contactoLugar || "";
         document.getElementById("evento-notas").value = ficha.notas || "";
       }
+      syncEventDateRange();
       selectedTechnicians = normalizeTechnicians(ficha.tecnicos || []);
       document.getElementById("evento-resp").value = technicianNames(selectedTechnicians).join(", ");
       renderTechnicianSelector();
@@ -8009,7 +8676,6 @@
       renderBandsUi();
       boloMaterial = emptyBoloMaterial();
       categories.forEach(cat => {
-        rowCounters[cat.id] = 0;
         (ficha.material?.[cat.id] || []).forEach(row => setBoloMaterialRow(cat.id, row));
       });
       renderBoloSummary();
@@ -8035,7 +8701,7 @@
       }
       box.className = "saved-list";
       box.innerHTML = filtered.map(f => {
-        const date = formatFichaDateParts(f.fecha);
+        const cardDate = formatFichaCardDate(f);
         const tags = buildCategoryTags(f);
         const meta = buildFichaCardMeta(f);
         const stateClass = getFichaTimelineState(f);
@@ -8043,9 +8709,11 @@
         return `
           <article class="ficha ${stateClass}" role="button" tabindex="0" onclick='openFichaDetail(${safeId})' onkeydown='handleFichaCardKey(event, ${safeId})'>
             <div class="ficha-date">
-              <span class="ficha-date-day">${date.day}</span>
-              <span class="ficha-date-month">${date.month}</span>
-              <span class="ficha-date-year">${date.year}</span>
+              ${cardDate
+                ? `<span class="ficha-date-day ${cardDate.isRange ? "range" : ""}">${escapeHtml(cardDate.day)}</span>
+                   <span class="ficha-date-month ${cardDate.crossMonth ? "range" : ""}">${escapeHtml(cardDate.month)}</span>
+                   <span class="ficha-date-year">${escapeHtml(cardDate.year)}</span>`
+                : `<span class="ficha-date-empty">Sin fecha</span>`}
             </div>
             <div class="ficha-main">
       <div class="ficha-title">
@@ -8082,18 +8750,20 @@
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       return fichas.filter(ficha => {
+        const startDate = getFichaStartDate(ficha);
+        const endDate = getFichaEndDate(ficha);
         if (fichasDateFilter !== "all") {
-          const date = parseFichaDate(ficha.fecha);
-          if (fichasDateFilter === "nodate" && date) return false;
-          if (fichasDateFilter === "upcoming" && (!date || date < today)) return false;
-          if (fichasDateFilter === "past" && (!date || date >= today)) return false;
+          if (fichasDateFilter === "nodate" && startDate) return false;
+          if (fichasDateFilter === "upcoming" && (!endDate || endDate < today)) return false;
+          if (fichasDateFilter === "past" && (!endDate || endDate >= today)) return false;
         }
-        if (fichasMonthFilter !== "all" && getFichaMonthNumber(ficha.fecha) !== fichasMonthFilter) return false;
-        if (fichasYearFilter !== "all" && getFichaYear(ficha.fecha) !== fichasYearFilter) return false;
+        if (!fichaMatchesMonthYear(ficha, fichasMonthFilter, fichasYearFilter)) return false;
         if (!query) return true;
         return normalizeText([
           ficha.nombre,
           ficha.fecha,
+          ficha.fechaFin,
+          formatFichaDateRange(ficha),
           ficha.horaLlegada,
           ficha.lugar,
           ficha.contactoLugar,
@@ -8108,8 +8778,8 @@
     function compareFichasByTimeline(a, b) {
       const aTime = getFichaSortTime(a);
       const bTime = getFichaSortTime(b);
-      const aGroup = getFichaSortGroup(aTime);
-      const bGroup = getFichaSortGroup(bTime);
+      const aGroup = getFichaSortGroup(a);
+      const bGroup = getFichaSortGroup(b);
       if (aGroup !== bGroup) return aGroup - bGroup;
       if (aGroup === 0) return aTime - bTime;
       if (aGroup === 1) return bTime - aTime;
@@ -8121,15 +8791,16 @@
       return date ? date.getTime() : null;
     }
 
-    function getFichaSortGroup(time) {
-      if (!time) return 2;
-      return time >= Date.now() ? 0 : 1;
+    function getFichaSortGroup(ficha) {
+      const end = getFichaEndDateTime(ficha);
+      if (!end) return 2;
+      return end.getTime() >= Date.now() ? 0 : 1;
     }
 
     function getFichaTimelineState(ficha) {
-      const time = getFichaSortTime(ficha);
-      if (!time) return "nodate";
-      return time < Date.now() ? "past" : "upcoming";
+      const end = getFichaEndDateTime(ficha);
+      if (!end) return "nodate";
+      return end.getTime() < Date.now() ? "past" : "upcoming";
     }
 
     function buildFichaCardMeta(ficha) {
@@ -8156,7 +8827,7 @@
 
     function setFichasSearch(value) {
       fichasSearch = value || "";
-      renderFichas();
+      scheduleRender("fichas-search", renderFichas);
     }
 
     function setFichasDateFilter(value) {
@@ -8179,21 +8850,58 @@
 
     function parseFichaDate(value) {
       if (!value) return null;
-      const date = new Date(`${value}T00:00:00`);
+      if (value instanceof Date) {
+        const date = new Date(value);
+        return Number.isNaN(date.getTime()) ? null : date;
+      }
+      const text = String(value).trim();
+      const spanishMatch = text.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      const isoValue = spanishMatch ? `${spanishMatch[3]}-${spanishMatch[2]}-${spanishMatch[1]}` : text.slice(0, 10);
+      const date = new Date(`${isoValue}T00:00:00`);
       return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    function normalizeDateStorageValue(value) {
+      const date = parseFichaDate(value);
+      if (!date) return "";
+      return [
+        String(date.getFullYear()),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
+      ].join("-");
+    }
+
+    function getFichaStartDate(ficha) {
+      return parseFichaDate(ficha?.fecha);
+    }
+
+    function getFichaEndDate(ficha) {
+      return parseFichaDate(ficha?.fechaFin || ficha?.fecha);
     }
 
     function parseFichaDateTime(ficha) {
-      if (!ficha?.fecha) return null;
+      const start = getFichaStartDate(ficha);
+      if (!start) return null;
       const time = /^([01]\d|2[0-3]):[0-5]\d$/.test(ficha.horaLlegada || "") ? ficha.horaLlegada : "00:00";
-      const date = new Date(`${ficha.fecha}T${time}:00`);
-      return Number.isNaN(date.getTime()) ? null : date;
+      start.setHours(Number(time.slice(0, 2)), Number(time.slice(3, 5)), 0, 0);
+      return start;
+    }
+
+    function getFichaEndDateTime(ficha) {
+      const end = getFichaEndDate(ficha);
+      if (!end) return null;
+      end.setHours(23, 59, 59, 999);
+      return end;
     }
 
     function formatHoursUntilBolo(ficha) {
-      const date = parseFichaDateTime(ficha);
-      if (!date) return "Sin fecha";
-      const diffMs = date.getTime() - Date.now();
+      const start = parseFichaDateTime(ficha);
+      const end = getFichaEndDateTime(ficha);
+      if (!start || !end) return "Sin fecha";
+      const now = Date.now();
+      if (now >= start.getTime() && now <= end.getTime()) return "En curso";
+      const target = now < start.getTime() ? start : end;
+      const diffMs = target.getTime() - now;
       const past = diffMs < 0;
       const absHours = Math.abs(Math.round(diffMs / 3600000));
       if (absHours === 0) return "Ahora";
@@ -8209,22 +8917,44 @@
       return `${months} mes${months === 1 ? "" : "es"}`;
     }
 
-    function getFichaMonthNumber(value) {
-      const date = parseFichaDate(value);
-      if (!date) return "";
-      return String(date.getMonth() + 1).padStart(2, "0");
-    }
-
     function getFichaYear(value) {
       const date = parseFichaDate(value);
       return date ? String(date.getFullYear()) : "";
+    }
+
+    function fichaMatchesMonthYear(ficha, month, year) {
+      if (month === "all" && year === "all") return true;
+      const start = getFichaStartDate(ficha);
+      const end = getFichaEndDate(ficha);
+      if (!start || !end) return false;
+      const rangeStart = new Date(start);
+      rangeStart.setHours(0, 0, 0, 0);
+      const rangeEnd = new Date(end);
+      rangeEnd.setHours(23, 59, 59, 999);
+      const filterYear = year === "all" ? null : Number(year);
+      const filterMonth = month === "all" ? null : Number(month) - 1;
+      const firstYear = filterYear ?? rangeStart.getFullYear();
+      const lastYear = filterYear ?? rangeEnd.getFullYear();
+      for (let currentYear = firstYear; currentYear <= lastYear; currentYear += 1) {
+        const periodStart = filterMonth === null
+          ? new Date(currentYear, 0, 1)
+          : new Date(currentYear, filterMonth, 1);
+        const periodEnd = filterMonth === null
+          ? new Date(currentYear, 11, 31, 23, 59, 59, 999)
+          : new Date(currentYear, filterMonth + 1, 0, 23, 59, 59, 999);
+        if (rangeStart <= periodEnd && rangeEnd >= periodStart) return true;
+      }
+      return false;
     }
 
     function renderFichasDateSelectors() {
       const monthSelect = document.getElementById("fichas-month-filter");
       const yearSelect = document.getElementById("fichas-year-filter");
       if (!monthSelect || !yearSelect) return;
-      const years = [...new Set(fichas.map(ficha => getFichaYear(ficha.fecha)).filter(Boolean))].sort((a, b) => b.localeCompare(a));
+      const years = [...new Set(fichas.flatMap(ficha => [
+        getFichaYear(ficha.fecha),
+        getFichaYear(ficha.fechaFin || ficha.fecha)
+      ]).filter(Boolean))].sort((a, b) => b.localeCompare(a));
       if (fichasYearFilter !== "all" && !years.includes(fichasYearFilter)) fichasYearFilter = "all";
       monthSelect.innerHTML = [
         `<option value="all">Todos</option>`,
@@ -8242,14 +8972,41 @@
       yearSelect.value = fichasYearFilter;
     }
 
-    function formatFichaDateParts(value) {
+    function formatDate(value) {
       const date = parseFichaDate(value);
-      if (!date) return { day: "--", month: "Sin fecha", year: "" };
-      const month = date.toLocaleDateString("es-ES", { month: "short" }).replace(".", "");
+      if (!date) return "";
+      return [
+        String(date.getDate()).padStart(2, "0"),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getFullYear())
+      ].join("/");
+    }
+
+    function formatFichaDateRange(ficha) {
+      const start = formatDate(ficha?.fecha);
+      const end = formatDate(ficha?.fechaFin || ficha?.fecha);
+      if (!start) return "";
+      return !end || end === start ? start : `${start} - ${end}`;
+    }
+
+    function formatFichaCardDate(ficha) {
+      const start = getFichaStartDate(ficha);
+      const end = getFichaEndDate(ficha);
+      if (!start || !end) return null;
+      const sameDay = start.getTime() === end.getTime();
+      const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+      const sameYear = start.getFullYear() === end.getFullYear();
+      const monthName = date => date.toLocaleDateString("es-ES", { month: "short" }).replace(".", "").toUpperCase();
       return {
-        day: String(date.getDate()).padStart(2, "0"),
-        month,
-        year: String(date.getFullYear())
+        day: sameDay
+          ? String(start.getDate()).padStart(2, "0")
+          : `${String(start.getDate()).padStart(2, "0")}–${String(end.getDate()).padStart(2, "0")}`,
+        month: sameMonth ? monthName(start) : `${monthName(start)}/${monthName(end)}`,
+        year: sameYear
+          ? String(start.getFullYear())
+          : `${start.getFullYear()}/${end.getFullYear()}`,
+        isRange: !sameDay,
+        crossMonth: !sameMonth
       };
     }
 
@@ -8325,15 +9082,35 @@
             </div>
           </div>
           <div class="detail-print-content">
-            ${buildFichaDetailQuickActions(ficha)}
             <div class="detail-summary">
-              <div class="detail-field"><span>Fecha</span><strong>${escapeHtml(ficha.fecha || "Sin fecha")}</strong></div>
-              <div class="detail-field"><span>Hora de llegada</span><strong>${escapeHtml(ficha.horaLlegada || "Sin hora")}</strong></div>
-              <div class="detail-field"><span>Recinto / ubicación</span><strong>${escapeHtml(ficha.lugar || "Sin ubicación")}</strong></div>
+              <div class="detail-field"><span>Fecha</span><strong>${escapeHtml(formatFichaDateRange(ficha) || "Sin fecha")}</strong></div>
+              <div class="detail-field"><span>Llegada del equipo técnico</span><strong>${escapeHtml(ficha.horaLlegada || "Sin hora")}</strong></div>
+              <div class="detail-field">
+                <span>Recinto / ubicación</span>
+                <div class="detail-field-value">
+                  <strong>${escapeHtml(ficha.lugar || "Sin ubicación")}</strong>
+                  ${ficha.lugar ? `
+                    <a class="detail-field-action" href="${escapeAttr(getGoogleMapsUrl(ficha.lugar))}" target="_blank" rel="noopener" aria-label="Abrir ubicación en Google Maps" title="Abrir ubicación">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </a>
+                  ` : ""}
+                </div>
+              </div>
               <div class="detail-field"><span>Responsable del recinto</span><strong>${escapeHtml(ficha.contactoLugar || "Sin contacto")}</strong></div>
-              <div class="detail-field"><span>Teléfono del recinto</span><strong>${escapeHtml(ficha.telefonoLugar || "Sin teléfono")}</strong></div>
+              <div class="detail-field">
+                <span>Teléfono del recinto</span>
+                <div class="detail-field-value">
+                  <strong>${escapeHtml(ficha.telefonoLugar || "Sin teléfono")}</strong>
+                  ${ficha.telefonoLugar ? `
+                    <a class="detail-field-action" href="${escapeAttr(getPhoneHref(ficha.telefonoLugar))}" aria-label="Llamar a ${escapeAttr(ficha.contactoLugar || "responsable del recinto")}" title="Llamar">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.31 1.84.53 2.8.66A2 2 0 0 1 22 16.92Z"></path></svg>
+                    </a>
+                  ` : ""}
+                </div>
+              </div>
               <div class="detail-field technician-detail-field"><span>Técnicos</span>${buildTechnicianDetailMarkup(ficha.tecnicos || [])}</div>
             </div>
+            ${buildDistancePanelMarkup(ficha)}
             ${ficha.notas ? `<div class="detail-field"><span>Notas generales</span><strong>${escapeHtml(ficha.notas)}</strong></div>` : ""}
             <div class="detail-content-switcher" role="tablist" aria-label="Contenido del bolo">
               <button class="detail-content-tab ${defaultPanel === "material" ? "active" : ""}" type="button" role="tab" aria-selected="${defaultPanel === "material"}" onclick="switchFichaDetailPanel('material', this)">
@@ -8355,10 +9132,6 @@
               ${usedCategories.length ? usedCategories.map(cat => buildFichaDetailSection(ficha, cat, ficha.material?.[cat.id] || [])).join("") : `<div class="detail-empty">Sin material asignado.</div>`}
             </div>
             <div class="detail-content-panel detail-bands-panel ${defaultPanel === "bands" ? "active" : ""}" data-detail-panel="bands" role="tabpanel">
-              <h3 class="detail-content-heading">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-                Bandas / artistas
-              </h3>
               ${buildBandsDetailMarkup(ficha.bandas || [])}
             </div>
           </div>
@@ -8379,26 +9152,88 @@
       });
     }
 
-    function buildFichaDetailQuickActions(ficha) {
-      const actions = [];
-      if (ficha.telefonoLugar) {
-        const callName = ficha.contactoLugar || "responsable";
-        actions.push(`
-          <a class="detail-quick-action" href="${escapeAttr(getPhoneHref(ficha.telefonoLugar))}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.31 1.84.53 2.8.66A2 2 0 0 1 22 16.92Z"></path></svg>
-            Llamar a ${escapeHtml(callName)}
+    function buildDistancePanelMarkup(ficha) {
+      const destination = String(ficha?.lugar || "").trim();
+      const storedDistances = normalizeStoredDistances(ficha?.distancias);
+      const origins = storedDistances.length
+        ? storedDistances.map(item => item.origin)
+        : baseLocations;
+      return `
+        <section class="distance-panel" id="ficha-distance-panel">
+          <div class="distance-panel-head">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18 19 6"></path><circle cx="5" cy="18" r="3"></circle><circle cx="19" cy="6" r="3"></circle><path d="M8 18h4a3 3 0 0 0 3-3V9"></path></svg>
+            <strong>Distancias</strong>
+          </div>
+          ${origins.length && destination ? `
+            <div class="distance-list" id="ficha-distance-content">
+              ${origins.map(origin => {
+                const result = storedDistances.find(item => routeKey(item.origin, item.destination || destination) === routeKey(origin, destination));
+                return buildDistanceRowMarkup(origin, destination, result, result ? "" : "Pendiente");
+              }).join("")}
+            </div>
+          ` : `
+            <div class="distance-message">${!origins.length
+              ? "Configura al menos un punto de salida en Ajustes."
+              : "Este bolo no tiene recinto o ubicación."}</div>
+          `}
+        </section>
+      `;
+    }
+
+    function buildDistanceRowMarkup(origin, destination, result = null, message = "") {
+      const value = result ? formatKilometers(result.kilometers) : (message || "Calculando…");
+      const carTime = result ? formatTravelDuration(result.seconds) : "…";
+      const vanTime = result ? formatTravelDuration(Number(result.seconds || 0) * 1.15) : "…";
+      return `
+        <div class="distance-row">
+          <span class="distance-origin" title="${escapeAttr(origin)}">${escapeHtml(origin)}</span>
+          <div class="distance-metrics">
+            <strong class="distance-value">${escapeHtml(value)}</strong>
+            <span class="distance-time car" title="Tiempo estimado en coche">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 17-1 2"></path><path d="m19 17 1 2"></path><path d="M5 17h14v-5l-2-5H7l-2 5Z"></path><circle cx="7.5" cy="14.5" r="1.5"></circle><circle cx="16.5" cy="14.5" r="1.5"></circle></svg>
+              <span class="distance-car-time">${escapeHtml(carTime)}</span>
+            </span>
+            <span class="distance-time van" title="Tiempo aproximado en furgoneta (+15 %)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v11H3Z"></path><path d="M14 10h4l3 3v4h-7Z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>
+              <span class="distance-van-time">${escapeHtml(vanTime)}</span>
+            </span>
+          </div>
+          <a class="distance-map-button" href="${escapeAttr(getGoogleMapsDirectionsUrl(origin, destination))}" target="_blank" rel="noopener" aria-label="Abrir ruta en Google Maps" title="Abrir ruta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18 19 6"></path><path d="m13 6 6 0 0 6"></path><circle cx="5" cy="18" r="2"></circle></svg>
           </a>
-        `);
-      }
-      if (ficha.lugar) {
-        actions.push(`
-          <a class="detail-quick-action" href="${escapeAttr(getGoogleMapsUrl(ficha.lugar))}" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            Abrir ubicación
-          </a>
-        `);
-      }
-      return actions.length ? `<div class="detail-quick-actions">${actions.join("")}</div>` : "";
+        </div>
+      `;
+    }
+
+    function routeKey(origin, destination) {
+      return normalizeText(`${origin}|${destination}`).replace(/\s+/g, " ").trim();
+    }
+
+    function normalizeStoredDistances(values) {
+      return (Array.isArray(values) ? values : [])
+        .map(item => ({
+          origin: String(item?.origin || "").trim(),
+          destination: String(item?.destination || "").trim(),
+          meters: Number(item?.meters || 0),
+          kilometers: Number(item?.kilometers || 0),
+          seconds: Number(item?.seconds || 0),
+          calculatedAt: String(item?.calculatedAt || "")
+        }))
+        .filter(item => item.origin && item.destination && Number.isFinite(item.kilometers));
+    }
+
+    function formatKilometers(value) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return "—";
+      return `${number.toLocaleString("es-ES", { maximumFractionDigits: 1 })} km`;
+    }
+
+    function formatTravelDuration(seconds) {
+      const totalMinutes = Math.max(0, Math.round(Number(seconds || 0) / 60));
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      if (!hours) return `${minutes} min`;
+      return minutes ? `${hours} h ${minutes} min` : `${hours} h`;
     }
 
     function buildRiderDetailLink(rider, label = "Rider técnico") {
@@ -8415,8 +9250,20 @@
     }
 
     function buildBandsDetailMarkup(bands) {
-      if (!bands.length) return `<div class="detail-empty">No hay bandas o artistas añadidos.</div>`;
-      return `<div class="roadmap-list">${buildBandsRoadmapMarkup(normalizeBands(bands))}</div>`;
+      const normalizedBands = normalizeBands(bands);
+      return `
+        <div class="panel roadmap-panel">
+          <div class="roadmap-head">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"></path><path d="M7 3v6"></path><path d="M17 3v6"></path><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 13h4"></path><path d="M7 17h7"></path></svg>
+            <strong>Hoja de ruta</strong>
+          </div>
+          <div class="roadmap-list">
+            ${normalizedBands.length
+              ? buildBandsRoadmapMarkup(normalizedBands)
+              : `<div class="roadmap-empty">No hay bandas o artistas añadidos.</div>`}
+          </div>
+        </div>
+      `;
     }
 
     function buildFichaDetailSection(ficha, cat, rows) {
@@ -8497,25 +9344,37 @@
     async function printFicha(id) {
       const ficha = fichas.find(f => f.id === id);
       if (!ficha) return;
-      printFichaHtml(ficha);
+      const printScope = await choosePrintScope(ficha);
+      if (!printScope) return;
+      printFichaHtml(ficha, printScope);
     }
 
     async function shareFicha(id) {
       const ficha = fichas.find(f => f.id === id);
       if (!ficha) return;
-      renderPrintArea(ficha);
-      await shareFichaBlob(ficha);
+      const shareScope = await choosePrintScope(ficha, "share");
+      if (!shareScope) return;
+      renderPrintArea(ficha, shareScope);
+      await shareFichaBlob(ficha, { scope: shareScope });
     }
 
-    function renderPrintArea(ficha) {
-      document.getElementById("printArea").innerHTML = buildPrintMarkup(ficha);
+    function renderPrintArea(ficha, scope = "material") {
+      document.getElementById("printArea").innerHTML = buildPrintMarkup(ficha, scope);
     }
 
-    function buildPrintMarkup(ficha) {
+    function buildPrintMarkup(ficha, scope = "material") {
+      const normalizedScope = ["all", "material", "roadmap"].includes(scope) ? scope : "material";
+      const includesMaterial = normalizedScope === "all" || normalizedScope === "material";
+      const includesRoadmap = normalizedScope === "all" || normalizedScope === "roadmap";
+      const documentTitle = normalizedScope === "roadmap"
+        ? "Hoja de ruta del bolo"
+        : normalizedScope === "all"
+          ? "Ficha técnica del bolo"
+          : "Ficha de carga del bolo";
       const printFields = [
         ["Bolo", ficha.nombre],
-        ["Fecha", ficha.fecha],
-        ["Hora llegada", ficha.horaLlegada],
+        ["Fecha", formatFichaDateRange(ficha)],
+        ["Llegada equipo técnico", ficha.horaLlegada],
         ["Recinto / ubicación", ficha.lugar],
         ["Responsable del recinto", ficha.contactoLugar],
         ["Tel. recinto", ficha.telefonoLugar],
@@ -8525,14 +9384,14 @@
         <div class="print-header">
           <img src="pdf-logo.png" alt="SENORP">
           <div class="print-title">
-            <h1>Ficha de carga del bolo</h1>
+            <h1>${documentTitle}</h1>
             ${printFields}
           </div>
         </div>
         ${ficha.notas ? `<div class="print-notes"><b>Notas:</b> ${escapeHtml(ficha.notas)}</div>` : ""}
-        ${(ficha.bandas || []).length ? `<div class="print-notes"><b>Bandas / artistas:</b> ${escapeHtml(ficha.bandas.map(band => band.nombre).join(", "))}</div>` : ""}
-        ${getUsedCategories(ficha).map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("") || `<section class="print-section"><h2>Sin material</h2></section>`}
-        <div class="print-footer">Generado por SENORP &bull; ${new Date().toLocaleDateString("es-ES")}</div>
+        ${includesRoadmap ? printRoadmapSection(ficha.bandas || []) : ""}
+        ${includesMaterial ? (getUsedCategories(ficha).map(cat => printSection(cat, ficha.material?.[cat.id] || [])).join("") || `<section class="print-section"><h2>Sin material</h2></section>`) : ""}
+        <div class="print-footer">Generado por SENORP &bull; ${formatDate(new Date())}</div>
       `;
     }
 
@@ -8598,7 +9457,7 @@
 
     function setInventorySearch(value) {
       inventorySearch = value.trim();
-      renderInventory();
+      scheduleRender("inventory-search", renderInventory);
     }
 
     function inventoryAddButton(tipo) {
@@ -8607,6 +9466,41 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
           <span class="saved-action-label">Añadir</span>
         </button>
+      `;
+    }
+
+    function printRoadmapSection(bands) {
+      const normalizedBands = normalizeBands(bands);
+      if (!normalizedBands.length) {
+        return `<section class="print-section"><h2>Hoja de ruta sin bandas / artistas</h2></section>`;
+      }
+      const rows = normalizedBands.map((band, index) => {
+        const support = [
+          band.tecnicoSonido ? "Téc. sonido" : "",
+          band.tecnicoLuces ? "Téc. luces" : "",
+          band.rider ? "Rider" : ""
+        ].filter(Boolean).join(" · ") || "—";
+        return `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${escapeHtml(band.nombre)}</td>
+            <td>${escapeHtml(band.horaLlegada || "—")}</td>
+            <td>${escapeHtml(band.horaPrueba || "—")}</td>
+            <td>${escapeHtml(band.inicioActuacion || "—")}</td>
+            <td>${escapeHtml(band.duracionActuacion || "—")}</td>
+            <td>${escapeHtml(support)}</td>
+          </tr>
+          ${band.detalles ? `<tr class="print-roadmap-details"><td colspan="7"><b>Detalles:</b> ${escapeHtml(band.detalles)}</td></tr>` : ""}
+        `;
+      }).join("");
+      return `
+        <section class="print-section">
+          <h2>Hoja de ruta · Bandas / artistas</h2>
+          <table class="print-table print-roadmap-table">
+            <thead><tr><th>Orden</th><th>Artista</th><th>Llegada</th><th>Prueba</th><th>Actuación</th><th>Duración</th><th>Técnico / rider</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </section>
       `;
     }
 
@@ -8756,7 +9650,7 @@
         cancelText: "Cancelar"
       });
       if (!ok) return false;
-      return withLoading("Guardando inventario", "Sincronizando cambios con Google Sheets...", async () => {
+      return withLoading("Guardando inventario", async () => {
         DB = normalizeInventory(DB);
         persistInventory({ sync: false });
         await saveInventoryToCloud({ silent: true });
@@ -8849,14 +9743,13 @@
 
     async function syncFromCloud(options = {}) {
       const useLoader = !options.silent;
-      if (useLoader) showLoading("Cargando datos", "Leyendo inventario y bolos desde Google Sheets...");
+      if (useLoader) showLoading("Cargando datos");
       cloudUrl = getConfiguredCloudUrl();
       try {
         if (!cloudUrl) {
           DB = emptyInventory();
           localStorage.removeItem(INVENTORY_KEY);
-          renderCategoryUi();
-          renderInventory();
+          if (currentPage === "inventario") renderInventory();
           updateCount();
           if (!options.silent || options.startup) notify("Google Sheets sin configurar", "No se ha encontrado el enlace en senorp_config.js. El inventario queda vacío.", "warning", 6500);
           return false;
@@ -8871,7 +9764,13 @@
           || Object.prototype.hasOwnProperty.call(data, "technicians");
         cloudSupportsCombinedTechnicians = Number(data.apiVersion || 0) >= 3
           || (Array.isArray(data.capabilities) && data.capabilities.includes("technician-specialties-v2"));
+        cloudSupportsBaseLocations = Number(data.apiVersion || 0) >= 5
+          || (Array.isArray(data.capabilities) && data.capabilities.includes("multiple-base-locations"));
+        cloudSupportsStoredDistances = Number(data.apiVersion || 0) >= 7
+          || (Array.isArray(data.capabilities) && data.capabilities.includes("stored-distances-on-save"));
         DB = normalizeInventory(data.inventory || emptyInventory());
+        baseLocations = normalizeBaseLocations(data.baseLocations || data.baseLocation || data.ubicacionBase || baseLocations);
+        persistBaseLocations();
         const cloudTechnicians = data.tecnicos || data.technicians;
         if (Array.isArray(cloudTechnicians)) {
           technicians = normalizeTechnicians(cloudTechnicians);
@@ -8880,21 +9779,29 @@
         fichas = (Array.isArray(data.bolos) ? data.bolos : []).map(ficha => normalizeBoloFicha({ ...ficha, status: "guardada" }));
         persistFichas();
         localStorage.setItem(INVENTORY_KEY, JSON.stringify(DB));
-        resetForm();
-        renderCategoryUi();
-        renderInventory();
-        renderTechnicianSettings();
-        renderTechnicianSelector();
+        if (currentPage === "nueva") {
+          renderCategoryUi();
+          renderBandsUi();
+          renderTechnicianSelector();
+        }
+        if (currentPage === "fichas") renderFichas();
+        if (currentPage === "inventario") renderInventory();
+        if (currentPage === "configuracion") {
+          renderTechnicianSettings();
+          renderBaseLocationSettings();
+        }
         updateCount();
         if (!supportsTechnicians) {
           notify("Apps Script sin actualizar", "La implementación publicada todavía no admite técnicos. Actualiza google_apps_script_senorp.js y crea una nueva implementación.", "warning", 9000);
+        }
+        if (!cloudSupportsStoredDistances) {
+          notify("Guardado de distancias pendiente", "Publica la versión 7 de google_apps_script_senorp.js para calcular y guardar las rutas dentro de cada bolo.", "warning", 9000);
         }
         if (!options.silent) notify("Datos sincronizados", "Inventario y bolos guardados se han recargado desde Google Sheets.", "success");
         return true;
       } catch (error) {
         DB = readLocalInventory();
-        renderCategoryUi();
-        renderInventory();
+        if (currentPage === "inventario") renderInventory();
         updateCount();
         if (!options.silent || options.startup) notify("No se pudo sincronizar", "Revisa la URL de Apps Script y que esté desplegada con acceso público. Se mantiene el último inventario guardado en este navegador.", "error", 7500);
         return false;
@@ -8920,7 +9827,7 @@
     }
 
     async function forceSaveCloudData() {
-      await withLoading("Guardando datos", "Enviando inventario a Google Sheets...", () => saveInventoryToCloud());
+      await withLoading("Guardando datos", () => saveInventoryToCloud());
       if (cloudUrl) notify("Guardado solicitado", "La app ha enviado el inventario actual a Google Sheets.", "success");
     }
 
@@ -8968,7 +9875,7 @@
       }
 
       try {
-        await withLoading("Guardando técnicos", "Sincronizando la lista con Google Sheets...", () => technicianSyncPromise);
+        await withLoading("Guardando técnicos", () => technicianSyncPromise);
         return technicianSyncedRevision >= requestedRevision;
       } catch (error) {
         console.error("Error guardando técnicos:", error);
@@ -8984,9 +9891,20 @@
       }
       try {
         const riderWarnings = await prepareBandRidersForCloud(ficha);
-        await cloudPost({ action: "saveBolo", bolo: ficha });
+        const data = await cloudPost({
+          action: "saveBolo",
+          bolo: ficha,
+          refreshDistances: Boolean(options.refreshDistances)
+        });
+        if (data?.bolo) {
+          ficha.distancias = normalizeStoredDistances(data.bolo.distancias);
+        }
+        const distanceWarnings = Array.isArray(data?.distanceWarnings) ? data.distanceWarnings : [];
         if (riderWarnings.length && !options.silent) {
           notify("Bolo guardado sin algún rider", riderWarnings.join(" · "), "warning", 6500);
+        }
+        if (distanceWarnings.length && !options.silent) {
+          notify("Bolo guardado con rutas pendientes", distanceWarnings.join(" · "), "warning", 6500);
         }
       } catch (error) {
         console.error("Error guardando bolo:", error);
@@ -8994,7 +9912,10 @@
           const localFileHint = location.protocol === "file:"
             ? " Abre la app desde GitHub Pages o un servidor local http:// para evitar bloqueos de seguridad de Chrome."
             : "";
-          notify("Bolo no sincronizado", `No se pudo guardar en Google Sheets.${localFileHint}`, "error", 7500);
+          const distanceHint = options.refreshDistances
+            ? " No se pudieron calcular o guardar las distancias del trayecto."
+            : "";
+          notify("Bolo no sincronizado", `No se pudo guardar en Google Sheets.${distanceHint}${localFileHint}`, "error", 7500);
         }
         throw error;
       }
@@ -9037,7 +9958,7 @@
       cloudUrl = getConfiguredCloudUrl();
       if (!cloudUrl) return;
       try {
-        await withLoading("Eliminando bolo", "Sincronizando el borrado con Google Sheets...", () => cloudPost({ action: "deleteBolo", id }));
+        await withLoading("Eliminando bolo", () => cloudPost({ action: "deleteBolo", id }));
       } catch (error) {
         notify("Borrado no sincronizado", "No se pudo eliminar el bolo en Google Sheets.", "error");
       }
@@ -9087,10 +10008,9 @@
       }, duration);
     }
 
-    function showLoading(title = "Trabajando", message = "Espera un momento...") {
+    function showLoading(title = "Trabajando") {
       const backdrop = document.getElementById("loadingBackdrop");
       document.getElementById("loadingTitle").textContent = title;
-      document.getElementById("loadingMessage").textContent = message;
       backdrop?.classList.add("active");
       backdrop?.setAttribute("aria-hidden", "false");
     }
@@ -9101,13 +10021,78 @@
       backdrop?.setAttribute("aria-hidden", "true");
     }
 
-    async function withLoading(title, message, task) {
-      showLoading(title, message);
+    async function withLoading(title, task) {
+      showLoading(title);
       try {
         return await task();
       } finally {
         hideLoading();
       }
+    }
+
+    function choosePrintScope(ficha, mode = "print") {
+      return new Promise(resolve => {
+        const backdrop = document.getElementById("dialogBackdrop");
+        const dialog = backdrop.querySelector(".dialog");
+        const titleEl = document.getElementById("dialogTitle");
+        const messageEl = document.getElementById("dialogMessage");
+        const actions = document.getElementById("dialogActions");
+        const hasMaterial = getUsedCategories(ficha).length > 0;
+        const hasRoadmap = normalizeBands(ficha.bandas || []).length > 0;
+
+        const isShare = mode === "share";
+        titleEl.textContent = isShare ? "¿Qué quieres compartir?" : "¿Qué quieres imprimir?";
+        messageEl.textContent = isShare
+          ? "Elige el contenido que tendrá el PDF."
+          : "Elige el contenido que aparecerá en el documento.";
+        dialog.classList.add("print-choice-dialog");
+        actions.classList.add("print-scope-actions");
+        actions.innerHTML = `
+          <button class="print-scope-option" type="button" data-print-scope="all" ${!hasMaterial && !hasRoadmap ? "disabled" : ""}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l3 3v15H5V3h3Z"></path><path d="M8 11h8M8 15h8M8 7h4"></path></svg>
+            <span>Todo</span>
+            <small>Material y hoja de ruta</small>
+          </button>
+          <button class="print-scope-option" type="button" data-print-scope="material" ${hasMaterial ? "" : "disabled"}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Z"></path><path d="m4 7 8 4 8-4M4 7v10l8 4 8-4V7M12 11v10"></path></svg>
+            <span>Ficha de material</span>
+            <small>Solo la carga de material</small>
+          </button>
+          <button class="print-scope-option" type="button" data-print-scope="roadmap" ${hasRoadmap ? "" : "disabled"}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v3M18 3v3M4 9h16"></path><rect x="4" y="5" width="16" height="16" rx="2"></rect><path d="m8 14 2 2 5-5"></path></svg>
+            <span>Hoja de ruta</span>
+            <small>Solo bandas y horarios</small>
+          </button>
+          <button class="btn print-scope-cancel" type="button" data-print-scope="cancel">Cancelar</button>
+        `;
+        openModal(backdrop);
+
+        const close = value => {
+          closeModal(backdrop);
+          dialog.classList.remove("print-choice-dialog");
+          actions.classList.remove("print-scope-actions");
+          actions.removeEventListener("click", onAction);
+          backdrop.removeEventListener("click", onBackdrop);
+          document.removeEventListener("keydown", onKey);
+          resolve(value);
+        };
+        const onAction = event => {
+          const button = event.target.closest("[data-print-scope]");
+          if (!button || button.disabled) return;
+          const scope = button.dataset.printScope;
+          close(scope === "cancel" ? null : scope);
+        };
+        const onBackdrop = event => {
+          if (event.target === backdrop) close(null);
+        };
+        const onKey = event => {
+          if (event.key === "Escape") close(null);
+        };
+
+        actions.addEventListener("click", onAction);
+        backdrop.addEventListener("click", onBackdrop);
+        document.addEventListener("keydown", onKey);
+      });
     }
 
     function confirmDialog({ title, message, confirmText = "Aceptar", cancelText = "Cancelar", discardText = "", danger = false }) {

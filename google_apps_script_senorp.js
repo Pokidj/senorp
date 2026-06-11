@@ -4,13 +4,25 @@ const SHEETS = {
   settings: "Configuracion",
 };
 
+const DATA_CACHE_SECONDS = 120;
+const DATA_CACHE_KEYS = {
+  inventory: "senorp-inventory-v1",
+  bolos: "senorp-bolos-v1",
+  settings: "senorp-settings-v1",
+};
+
 function doGet() {
+  const inventory = readCachedJson(DATA_CACHE_KEYS.inventory, readInventory);
+  const bolos = readCachedJson(DATA_CACHE_KEYS.bolos, readBolos);
+  const settings = readCachedJson(DATA_CACHE_KEYS.settings, readSettingsBundle);
   return jsonResponse({
-    apiVersion: 3,
-    capabilities: ["inventory", "bolos", "technicians", "technician-specialties-v2", "riders"],
-    inventory: readInventory(),
-    bolos: readBolos(),
-    tecnicos: readTechnicians(),
+    apiVersion: 7,
+    capabilities: ["inventory", "bolos", "technicians", "technician-specialties-v2", "riders", "base-location", "multiple-base-locations", "stored-distances-on-save", "server-cache"],
+    inventory,
+    bolos,
+    tecnicos: settings.tecnicos || [],
+    baseLocation: settings.baseLocations?.[0] || "",
+    baseLocations: settings.baseLocations || [],
   });
 }
 
@@ -21,17 +33,32 @@ function doPost(e) {
     const payload = JSON.parse((e && e.postData && e.postData.contents) || "{}");
     if (payload.action === "saveInventory") {
       writeInventory(payload.inventory || {});
+      clearDataCache(DATA_CACHE_KEYS.inventory);
       return jsonResponse({ ok: true });
     }
 
     if (payload.action === "saveBolo") {
-      saveBolo(payload.bolo);
-      return jsonResponse({ ok: true });
+      const bolo = payload.bolo || {};
+      const distanceWarnings = [];
+      if (payload.refreshDistances) {
+        bolo.distancias = calculateStoredDistances(readBaseLocations(), bolo.lugar, distanceWarnings);
+      }
+      saveBolo(bolo);
+      clearDataCache(DATA_CACHE_KEYS.bolos);
+      return jsonResponse({ ok: true, bolo, distanceWarnings });
     }
 
     if (payload.action === "saveTechnicians") {
       writeTechnicians(payload.tecnicos || payload.technicians || []);
+      clearDataCache(DATA_CACHE_KEYS.settings);
       return jsonResponse({ ok: true, tecnicos: readTechnicians() });
+    }
+
+    if (payload.action === "saveBaseLocation") {
+      writeBaseLocations(payload.baseLocations || payload.baseLocation || []);
+      clearDataCache(DATA_CACHE_KEYS.settings);
+      const baseLocations = readBaseLocations();
+      return jsonResponse({ ok: true, baseLocation: baseLocations[0] || "", baseLocations });
     }
 
     if (payload.action === "uploadRider") {
@@ -40,6 +67,7 @@ function doPost(e) {
 
     if (payload.action === "deleteBolo") {
       deleteBolo(payload.id);
+      clearDataCache(DATA_CACHE_KEYS.bolos);
       return jsonResponse({ ok: true });
     }
 
@@ -192,6 +220,28 @@ function readTechnicians() {
   }
 }
 
+function readSettingsBundle() {
+  const sheet = getSheet(SHEETS.settings, ["clave", "json"]);
+  const values = readSheetValues(sheet, 2).slice(1);
+  const settings = { tecnicos: [], baseLocations: [] };
+
+  values.forEach(row => {
+    const key = String(row[0] || "").trim();
+    if (!key) return;
+    try {
+      const parsed = JSON.parse(row[1] || "null");
+      if (key === "tecnicos") settings.tecnicos = normalizeTechnicians(parsed);
+      if (key === "ubicacionBase") {
+        settings.baseLocations = normalizeBaseLocations(Array.isArray(parsed) ? parsed : [parsed]);
+      }
+    } catch (error) {
+      if (key === "ubicacionBase") settings.baseLocations = normalizeBaseLocations([row[1]]);
+    }
+  });
+
+  return settings;
+}
+
 function writeTechnicians(values) {
   const sheet = getSheet(SHEETS.settings, ["clave", "json"]);
   const rows = readSheetValues(sheet, 2);
@@ -203,6 +253,85 @@ function writeTechnicians(values) {
     sheet.appendRow(["tecnicos", json]);
   }
   compactSheetRows(sheet);
+}
+
+function readBaseLocations() {
+  const sheet = getSheet(SHEETS.settings, ["clave", "json"]);
+  const values = readSheetValues(sheet, 2);
+  const row = values.slice(1).find(entry => String(entry[0] || "").trim() === "ubicacionBase");
+  if (!row) return [];
+  try {
+    const parsed = JSON.parse(row[1] || "[]");
+    return normalizeBaseLocations(Array.isArray(parsed) ? parsed : [parsed]);
+  } catch (error) {
+    return normalizeBaseLocations([row[1]]);
+  }
+}
+
+function writeBaseLocations(value) {
+  const sheet = getSheet(SHEETS.settings, ["clave", "json"]);
+  const rows = readSheetValues(sheet, 2);
+  const rowIndex = rows.findIndex((row, index) => index > 0 && String(row[0] || "").trim() === "ubicacionBase");
+  const locations = normalizeBaseLocations(Array.isArray(value) ? value : [value]);
+  const row = ["ubicacionBase", JSON.stringify(locations)];
+  if (rowIndex >= 0) {
+    sheet.getRange(rowIndex + 1, 1, 1, 2).setValues([row]);
+  } else {
+    sheet.appendRow(row);
+  }
+  compactSheetRows(sheet);
+}
+
+function normalizeBaseLocations(values) {
+  const seen = {};
+  return (Array.isArray(values) ? values : [])
+    .map(value => String(value || "").trim())
+    .filter(value => {
+      const key = value.toLocaleLowerCase();
+      if (!key || seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+}
+
+function calculateDrivingDistance(origin, destination) {
+  origin = String(origin || "").trim();
+  destination = String(destination || "").trim();
+  if (!origin) throw new Error("Falta configurar la ubicación base.");
+  if (!destination) throw new Error("El bolo no tiene recinto o ubicación.");
+
+  const directions = Maps.newDirectionFinder()
+    .setOrigin(origin)
+    .setDestination(destination)
+    .setMode(Maps.DirectionFinder.Mode.DRIVING)
+    .getDirections();
+  const route = directions && directions.routes && directions.routes[0];
+  const legs = route && route.legs ? route.legs : [];
+  if (!legs.length) throw new Error("Google Maps no encontró una ruta entre las ubicaciones.");
+
+  const meters = legs.reduce((total, leg) => total + Number(leg.distance && leg.distance.value || 0), 0);
+  const seconds = legs.reduce((total, leg) => total + Number(leg.duration && leg.duration.value || 0), 0);
+  return {
+    origin,
+    destination,
+    meters,
+    kilometers: Math.round(meters / 100) / 10,
+    seconds,
+    calculatedAt: new Date().toISOString(),
+  };
+}
+
+function calculateStoredDistances(origins, destination, warnings) {
+  destination = String(destination || "").trim();
+  if (!destination) return [];
+  return normalizeBaseLocations(origins).map(origin => {
+    try {
+      return calculateDrivingDistance(origin, destination);
+    } catch (error) {
+      warnings.push(`${origin}: ${error && error.message ? error.message : "ruta no disponible"}`);
+      return null;
+    }
+  }).filter(Boolean);
 }
 
 function normalizeTechnicians(values) {
@@ -335,4 +464,32 @@ function jsonResponse(data) {
   return ContentService
     .createTextOutput(JSON.stringify(data))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+function readCachedJson(key, loader) {
+  const cache = CacheService.getScriptCache();
+  try {
+    const cached = cache.get(key);
+    if (cached) return JSON.parse(cached);
+  } catch (error) {
+    console.warn("No se pudo leer la cache: " + error);
+  }
+
+  const value = loader();
+  try {
+    cache.put(key, JSON.stringify(value), DATA_CACHE_SECONDS);
+  } catch (error) {
+    console.warn("No se pudo guardar la cache: " + error);
+  }
+  return value;
+}
+
+function clearDataCache() {
+  const keys = Array.prototype.slice.call(arguments).filter(Boolean);
+  if (!keys.length) return;
+  try {
+    CacheService.getScriptCache().removeAll(keys);
+  } catch (error) {
+    console.warn("No se pudo limpiar la cache: " + error);
+  }
 }
