@@ -1,4 +1,4 @@
-const CACHE_NAME = "senorp-pwa-v55";
+const CACHE_NAME = "senorp-pwa-v58";
 const APP_ASSETS = [
   "./",
   "./index.html",

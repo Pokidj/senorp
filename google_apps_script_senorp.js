@@ -16,8 +16,8 @@ function doGet() {
   const bolos = readCachedJson(DATA_CACHE_KEYS.bolos, readBolos);
   const settings = readCachedJson(DATA_CACHE_KEYS.settings, readSettingsBundle);
   return jsonResponse({
-    apiVersion: 7,
-    capabilities: ["inventory", "bolos", "technicians", "technician-specialties-v2", "riders", "base-location", "multiple-base-locations", "stored-distances-on-save", "server-cache"],
+    apiVersion: 8,
+    capabilities: ["inventory", "bolos", "technicians", "technician-specialties-v2", "riders", "base-location", "multiple-base-locations", "stored-distances-on-save", "stored-departure-time", "server-cache"],
     inventory,
     bolos,
     tecnicos: settings.tecnicos || [],
@@ -41,7 +41,7 @@ function doPost(e) {
       const bolo = payload.bolo || {};
       const distanceWarnings = [];
       if (payload.refreshDistances) {
-        bolo.distancias = calculateStoredDistances(readBaseLocations(), bolo.lugar, distanceWarnings);
+        bolo.distancias = calculateStoredDistances(readBaseLocations(), bolo.lugar, bolo.horaLlegada, distanceWarnings);
       }
       saveBolo(bolo);
       clearDataCache(DATA_CACHE_KEYS.bolos);
@@ -321,12 +321,30 @@ function calculateDrivingDistance(origin, destination) {
   };
 }
 
-function calculateStoredDistances(origins, destination, warnings) {
+function calculateDepartureInfo(arrivalTime, drivingSeconds) {
+  arrivalTime = String(arrivalTime || "").trim();
+  if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(arrivalTime)) return null;
+  const parts = arrivalTime.split(":").map(Number);
+  const vanSeconds = Math.round(Math.max(0, Number(drivingSeconds || 0)) * 1.15);
+  const vanMinutes = Math.ceil(vanSeconds / 60);
+  const rawDeparture = (parts[0] * 60) + parts[1] - vanMinutes;
+  const departureDayOffset = Math.floor(rawDeparture / 1440);
+  const normalized = ((rawDeparture % 1440) + 1440) % 1440;
+  return {
+    vanSeconds,
+    departureTime: String(Math.floor(normalized / 60)).padStart(2, "0") + ":" + String(normalized % 60).padStart(2, "0"),
+    departureDayOffset,
+  };
+}
+
+function calculateStoredDistances(origins, destination, arrivalTime, warnings) {
   destination = String(destination || "").trim();
   if (!destination) return [];
   return normalizeBaseLocations(origins).map(origin => {
     try {
-      return calculateDrivingDistance(origin, destination);
+      const distance = calculateDrivingDistance(origin, destination);
+      const departure = calculateDepartureInfo(arrivalTime, distance.seconds);
+      return departure ? Object.assign(distance, departure) : distance;
     } catch (error) {
       warnings.push(`${origin}: ${error && error.message ? error.message : "ruta no disponible"}`);
       return null;

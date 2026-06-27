@@ -3297,10 +3297,10 @@
 
     .distance-row {
       display: grid;
-      grid-template-columns: minmax(150px, 1fr) auto auto;
+      grid-template-columns: minmax(150px, 1fr) 424px 36px;
       align-items: center;
       gap: 8px;
-      min-height: 42px;
+      min-height: 50px;
       padding: 6px 7px 6px 10px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -3317,16 +3317,26 @@
     }
 
     .distance-value {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 36px;
+      padding: 0 8px;
+      box-sizing: border-box;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
       color: var(--red);
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 950;
       white-space: nowrap;
     }
 
     .distance-metrics {
-      display: flex;
+      display: grid;
+      grid-template-columns: 88px 72px 72px 166px;
       align-items: center;
-      justify-content: flex-end;
       gap: 6px;
       min-width: 0;
     }
@@ -3334,9 +3344,13 @@
     .distance-time {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 5px;
-      min-height: 28px;
-      padding: 4px 7px;
+      width: 100%;
+      height: 36px;
+      min-width: 0;
+      padding: 0 7px;
+      box-sizing: border-box;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       color: var(--muted);
@@ -3361,11 +3375,22 @@
       color: var(--ink);
     }
 
+    .distance-time.departure {
+      color: var(--ok);
+      border-color: color-mix(in srgb, var(--ok) 38%, var(--line));
+      background: color-mix(in srgb, var(--ok) 10%, var(--paper));
+    }
+
+    .distance-time.departure strong {
+      color: inherit;
+      font-size: inherit;
+    }
+
     .distance-map-button {
       display: grid;
       place-items: center;
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       color: var(--ink);
@@ -4672,7 +4697,8 @@
       }
 
       .distance-row {
-        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) 46px;
+        align-items: end;
       }
 
       .distance-origin {
@@ -4680,8 +4706,17 @@
       }
 
       .distance-metrics {
-        justify-content: flex-start;
-        flex-wrap: wrap;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+      }
+
+      .distance-value,
+      .distance-time {
+        height: 42px;
+      }
+
+      .distance-time.departure {
+        font-size: 10px;
       }
 
       .detail-content-tab {
@@ -9172,7 +9207,7 @@
             <div class="distance-list" id="ficha-distance-content">
               ${origins.map(origin => {
                 const result = storedDistances.find(item => routeKey(item.origin, item.destination || destination) === routeKey(origin, destination));
-                return buildDistanceRowMarkup(origin, destination, result, result ? "" : "Pendiente");
+                return buildDistanceRowMarkup(origin, destination, result, result ? "" : "Pendiente", ficha?.horaLlegada);
               }).join("")}
             </div>
           ` : `
@@ -9184,13 +9219,17 @@
       `;
     }
 
-    function buildDistanceRowMarkup(origin, destination, result = null, message = "") {
+    function buildDistanceRowMarkup(origin, destination, result = null, message = "", arrivalTime = "") {
       const value = result ? formatKilometers(result.kilometers) : (message || "Calculando…");
       const carTime = result ? formatTravelDuration(result.seconds) : "…";
-      const vanTime = result ? formatTravelDuration(Number(result.seconds || 0) * 1.15) : "…";
+      const vanSeconds = result ? Number(result.vanSeconds || Number(result.seconds || 0) * 1.15) : 0;
+      const vanTime = result ? formatTravelDuration(vanSeconds) : "…";
+      const departure = result
+        ? getDepartureInfo(arrivalTime, result.seconds, result.departureTime, result.departureDayOffset)
+        : null;
       return `
         <div class="distance-row">
-          <span class="distance-origin" title="${escapeAttr(origin)}">${escapeHtml(origin)}</span>
+          <span class="distance-origin" title="Desde ${escapeAttr(origin)}"><span class="distance-origin-prefix">Desde</span> ${escapeHtml(origin)}</span>
           <div class="distance-metrics">
             <strong class="distance-value">${escapeHtml(value)}</strong>
             <span class="distance-time car" title="Tiempo estimado en coche">
@@ -9201,6 +9240,12 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v11H3Z"></path><path d="M14 10h4l3 3v4h-7Z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>
               <span class="distance-van-time">${escapeHtml(vanTime)}</span>
             </span>
+            ${departure ? `
+              <span class="distance-time departure" title="Hora recomendada de salida en furgoneta">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l-3 2"></path></svg>
+                <strong>Salida ${escapeHtml(departure.label)}</strong>
+              </span>
+            ` : ""}
           </div>
           <a class="distance-map-button" href="${escapeAttr(getGoogleMapsDirectionsUrl(origin, destination))}" target="_blank" rel="noopener" aria-label="Abrir ruta en Google Maps" title="Abrir ruta">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18 19 6"></path><path d="m13 6 6 0 0 6"></path><circle cx="5" cy="18" r="2"></circle></svg>
@@ -9221,6 +9266,9 @@
           meters: Number(item?.meters || 0),
           kilometers: Number(item?.kilometers || 0),
           seconds: Number(item?.seconds || 0),
+          vanSeconds: Number(item?.vanSeconds || 0),
+          departureTime: String(item?.departureTime || ""),
+          departureDayOffset: Number(item?.departureDayOffset || 0),
           calculatedAt: String(item?.calculatedAt || "")
         }))
         .filter(item => item.origin && item.destination && Number.isFinite(item.kilometers));
@@ -9238,6 +9286,29 @@
       const minutes = totalMinutes % 60;
       if (!hours) return `${minutes} min`;
       return minutes ? `${hours} h ${minutes} min` : `${hours} h`;
+    }
+
+    function getDepartureInfo(arrivalTime, drivingSeconds, storedTime = "", storedDayOffset = 0) {
+      if (storedTime && /^([01]\d|2[0-3]):[0-5]\d$/.test(storedTime)) {
+        const dayOffset = Number(storedDayOffset || 0);
+        return {
+          time: storedTime,
+          dayOffset,
+          label: `${storedTime}${dayOffset < 0 ? " · día anterior" : ""}`
+        };
+      }
+      if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(arrivalTime || ""))) return null;
+      const [hours, minutes] = String(arrivalTime).split(":").map(Number);
+      const vanMinutes = Math.max(0, Math.ceil((Number(drivingSeconds || 0) * 1.15) / 60));
+      const rawDeparture = (hours * 60) + minutes - vanMinutes;
+      const dayOffset = Math.floor(rawDeparture / 1440);
+      const normalized = ((rawDeparture % 1440) + 1440) % 1440;
+      const time = `${String(Math.floor(normalized / 60)).padStart(2, "0")}:${String(normalized % 60).padStart(2, "0")}`;
+      return {
+        time,
+        dayOffset,
+        label: `${time}${dayOffset < 0 ? " · día anterior" : ""}`
+      };
     }
 
     function buildRiderDetailLink(rider, label = "Rider técnico") {
